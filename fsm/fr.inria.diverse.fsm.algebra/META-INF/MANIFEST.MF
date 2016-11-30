@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Algebra
+Bundle-SymbolicName: fr.inria.diverse.fsm.algebra
+Bundle-Version: 1.0.0.qualifier
+Export-Package: fr.inria.diverse.fsm.algebra
+Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0"
