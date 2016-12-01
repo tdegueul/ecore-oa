@@ -1,5 +1,8 @@
-package fr.inria.diverse.fsm.algebra
+package fr.inria.diverse.fsm.algebra.programs
 
+import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
+import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
+import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fsm.FSM
 import fsm.FsmFactory
 

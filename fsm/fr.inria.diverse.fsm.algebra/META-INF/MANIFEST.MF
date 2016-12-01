@@ -3,5 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Algebra
 Bundle-SymbolicName: fr.inria.diverse.fsm.algebra
 Bundle-Version: 1.0.0.qualifier
-Export-Package: fr.inria.diverse.fsm.algebra
+Export-Package: fr.inria.diverse.fsm.algebra;uses:="fr.inria.diverse.fsm.algebra.exprs,fsm,fr.inria.diverse.fsm.algebra.abstr",
+ fr.inria.diverse.fsm.algebra.abstr,
+ fr.inria.diverse.fsm.algebra.exprs,
+ fr.inria.diverse.fsm.algebra.impl,
+ fr.inria.diverse.fsm.algebra.programs,
+ fr.inria.diverse.fsm.util
 Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0"

@@ -1,4 +1,4 @@
-package fr.inria.diverse.fsm.algebra
+package fr.inria.diverse.fsm.algebra.abstr
 
 import fsm.FSM
 import fsm.FinalState

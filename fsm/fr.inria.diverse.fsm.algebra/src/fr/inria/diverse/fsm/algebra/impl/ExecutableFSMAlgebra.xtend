@@ -1,5 +1,7 @@
-package fr.inria.diverse.fsm.algebra
+package fr.inria.diverse.fsm.algebra.impl
 
+import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fsm.FSM
 import fsm.FinalState
 import fsm.InitialState
