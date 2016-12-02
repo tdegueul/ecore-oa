@@ -1,6 +1,7 @@
 package fr.inria.diverse.tfsm.algebra.programs
 
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
 import tfsm.FSM
 import tfsm.TfsmFactory
@@ -12,6 +13,8 @@ class Program1 {
 
 	def execute() {
 		println(make(new GraphvizTFSMAlgebra).evalGraph)
+		val made = make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")))
+		made.execute
 	}
 
 	def <E> E make(TFSMAlgebra<E> f) {
@@ -82,6 +85,7 @@ class Program1 {
 			states.addAll(newArrayList(s0, s1))
 			transitions.addAll(newArrayList(ta, tb))
 			initialstate = s0
+			clocks.addAll(newArrayList(xClock, yClock))
 		]
 	}
 

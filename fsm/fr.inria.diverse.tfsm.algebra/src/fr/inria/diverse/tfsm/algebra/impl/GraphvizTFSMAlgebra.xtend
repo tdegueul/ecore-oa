@@ -35,7 +35,8 @@ class GraphvizTFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
 		[
 			val statename = state.name
 			val attrs = if (state.stateguard != null) {
-					newHashMap("label" -> '''"«exp(state.stateguard).evalGraph»"''')
+					val guard = exp(state.stateguard).evalGraph
+					newHashMap("label" -> '''"«guard»"''')
 				} else {
 					newHashMap("label" -> '''""''')
 				}
@@ -66,19 +67,19 @@ class GraphvizTFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
 	}
 
 	override lowerClockConstraint(ClockConstraint clockConstraint) {
-		['''«clockConstraint.threshold» <=«clockConstraint.clock.name»''']
-	}
-
-	override lowerEqualClockConstraint(LowerEqualClockConstraint clockConstraint) {
-		['''«clockConstraint.threshold» <= «clockConstraint.clock.name»''']
-	}
-
-	override upperClockConstaint(UpperClockConstraint clockConstraint) {
 		['''«clockConstraint.threshold» > «clockConstraint.clock.name»''']
 	}
 
-	override upperEqualClockConstraint(UpperEqualClockConstraint clockConstraint) {
+	override lowerEqualClockConstraint(LowerEqualClockConstraint clockConstraint) {
 		['''«clockConstraint.threshold» >= «clockConstraint.clock.name»''']
+	}
+
+	override upperClockConstaint(UpperClockConstraint clockConstraint) {
+		['''«clockConstraint.threshold» < «clockConstraint.clock.name»''']
+	}
+
+	override upperEqualClockConstraint(UpperEqualClockConstraint clockConstraint) {
+		['''«clockConstraint.threshold» <= «clockConstraint.clock.name»''']
 	}
 
 	override clockConstaintOperation(ClockConstraintOperation clockConstraintOperation) {

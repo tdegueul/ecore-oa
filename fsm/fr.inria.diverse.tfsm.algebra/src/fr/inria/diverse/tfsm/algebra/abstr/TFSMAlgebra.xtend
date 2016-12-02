@@ -68,7 +68,7 @@ interface TFSMAlgebra<E> {
 		} else if (eObject instanceof LowerClockConstraint) {
 			lowerClockConstraint(eObject)
 		} else if (eObject instanceof LowerEqualClockConstraint) {
-			lowerClockConstraint(eObject)
+			lowerEqualClockConstraint(eObject)
 		} else if (eObject instanceof UpperClockConstraint) {
 			upperClockConstaint(eObject)
 		} else if (eObject instanceof UpperEqualClockConstraint) {

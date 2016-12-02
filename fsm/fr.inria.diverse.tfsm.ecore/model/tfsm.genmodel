@@ -28,6 +28,7 @@
     </genClasses>
     <genClasses ecoreClass="tfsm.ecore#//Clock">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tfsm.ecore#//Clock/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tfsm.ecore#//Clock/tick"/>
     </genClasses>
     <genClasses ecoreClass="tfsm.ecore#//ClockConstraint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tfsm.ecore#//ClockConstraint/threshold"/>
