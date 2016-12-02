@@ -1,32 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tfsm" nsURI="http://diverse.inria.fr/tfsm" nsPrefix="tfsm">
-  <eClassifiers xsi:type="ecore:EClass" name="FSM">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        eType="#//State" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
-        eType="#//Transition" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedFSM" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//FSM">
     <eStructuralFeatures xsi:type="ecore:EReference" name="clocks" upperBound="-1"
         eType="#//Clock" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="initialstate" lowerBound="1"
-        eType="#//InitialState"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="State">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="incommingtransitions" upperBound="-1"
-        eType="#//Transition" eOpposite="#//Transition/to"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingtransition" upperBound="-1"
-        eType="#//Transition" eOpposite="#//Transition/from"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedState" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//State">
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateguard" eType="#//ClockConstraintOperation"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transition">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="event" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//State"
-        eOpposite="#//State/outgoingtransition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//State"
-        eOpposite="#//State/incommingtransitions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedTransition" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//Transition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="clockresets" upperBound="-1"
         eType="#//ClockReset" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transitionguard" eType="#//ClockConstraintOperation"
@@ -58,6 +41,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//ClockConstraintOperation"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FinalState" eSuperTypes="#//State"/>
-  <eClassifiers xsi:type="ecore:EClass" name="InitialState" eSuperTypes="#//State"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedFinalState" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//FinalState #//TimedState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedInitialState" eSuperTypes="#//TimedState ../../fr.inria.diverse.fsm.model/model/fsm.ecore#//InitialState"/>
 </ecore:EPackage>

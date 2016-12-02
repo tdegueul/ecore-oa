@@ -9,50 +9,20 @@ import tfsm.Clock
 import tfsm.ClockConstraint
 import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
-import tfsm.FSM
-import tfsm.FinalState
-import tfsm.InitialState
 import tfsm.LowerEqualClockConstraint
 import tfsm.OrClockConstraint
-import tfsm.State
-import tfsm.Transition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
+import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
+import tfsm.TimedFSM
+import tfsm.TimedInitialState
+import tfsm.TimedFinalState
+import tfsm.TimedTransition
+import tfsm.TimedState
 
-class GraphvizTFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
+class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
 
 	private GraphvizRep rep = new GraphvizRep
-
-	override fsm(FSM fsm) {
-		[
-			this.rep.name = fsm.name
-			fsm.transitions.forEach[e|exp(e).evalGraph]
-			rep.show
-		]
-	}
-
-	override state(State state) {
-		[
-			val statename = state.name
-			val attrs = if (state.stateguard != null) {
-					val guard = exp(state.stateguard).evalGraph
-					newHashMap("label" -> '''"«guard»"''')
-				} else {
-					newHashMap("label" -> '''""''')
-				}
-
-			this.rep.addNode(statename, attrs)
-			statename
-		]
-	}
-
-	override transition(Transition transition) {
-		[
-			this.rep.edges.
-				add('''«exp(transition.from).evalGraph» -> «exp(transition.to).evalGraph» [label="«transition.event»«IF transition.transitionguard != null»\n«exp(transition.transitionguard).evalGraph»«ENDIF»«IF transition.clockresets != null && !transition.clockresets.empty»\n«FOR reset:transition.clockresets SEPARATOR '\n'»«exp(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
-			""
-		]
-	}
 
 	override clock(Clock clock) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
@@ -98,19 +68,50 @@ class GraphvizTFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	override finalState(FinalState finalState) {
+	override timedFSM(TimedFSM timedFSM) {
 		[
-			val nodename = state(finalState).evalGraph
+			this.rep.name = timedFSM.name
+			timedFSM.transitions.forEach[e|exp(e).evalGraph]
+			rep.show
+		]
+	}
+
+	override timedInitialState(TimedInitialState timedInitialState) {
+		[
+			val nodename = state(timedInitialState).evalGraph
+			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
+			nodename
+		]
+	}
+
+	override timedFinalState(TimedFinalState timedFinalState) {
+		[
+			val nodename = state(timedFinalState).evalGraph
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
 			nodename
 		]
 	}
 
-	override initialState(InitialState initialState) {
+	override timedTransition(TimedTransition timedTransition) {
 		[
-			val nodename = state(initialState).evalGraph
-			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
-			nodename
+			this.rep.edges.
+				add('''«exp(timedTransition.from).evalGraph» -> «exp(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«exp(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«exp(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
+			""
+		]
+	}
+
+	override timedState(TimedState timedState) {
+		[
+			val statename = timedState.name
+			val attrs = if (timedState.stateguard != null) {
+					val guard = exp(timedState.stateguard).evalGraph
+					newHashMap("label" -> '''"«guard»"''')
+				} else {
+					newHashMap("label" -> '''""''')
+				}
+
+			this.rep.addNode(statename, attrs)
+			statename
 		]
 	}
 

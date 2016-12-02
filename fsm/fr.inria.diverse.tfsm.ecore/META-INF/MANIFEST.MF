@@ -11,5 +11,6 @@ Export-Package: tfsm,
  tfsm.impl,
  tfsm.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ fr.inria.diverse.fsm.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy

@@ -3,8 +3,8 @@ package fr.inria.diverse.tfsm.algebra.programs
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
-import tfsm.FSM
 import tfsm.TfsmFactory
+import tfsm.TimedFSM
 
 class Program1 {
 	def static void main(String[] args) {
@@ -13,8 +13,8 @@ class Program1 {
 
 	def execute() {
 		println(make(new GraphvizTFSMAlgebra).evalGraph)
-		val made = make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")))
-		made.execute
+//		val made = make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")))
+//		made.execute
 	}
 
 	def <E> E make(TFSMAlgebra<E> f) {
@@ -23,13 +23,13 @@ class Program1 {
 		return f.exp(exp)
 	}
 
-	def FSM createModel() {
+	def TimedFSM createModel() {
 		val expF = TfsmFactory::eINSTANCE
 
 		val xClock = expF.createClock => [name = "x"]
 		val yClock = expF.createClock => [name = "y"]
 
-		val s0 = expF.createInitialState => [
+		val s0 = expF.createTimedInitialState => [
 			name = "s0"
 			stateguard = expF.createLowerEqualClockConstraint => [
 				threshold = 5
@@ -37,7 +37,7 @@ class Program1 {
 			]
 		]
 
-		val s1 = expF.createFinalState => [
+		val s1 = expF.createTimedFinalState => [
 			name = "s1"
 			stateguard = expF.createAndClockConstraint => [
 				left = expF.createLowerEqualClockConstraint => [
@@ -53,7 +53,7 @@ class Program1 {
 			]
 		]
 
-		val ta = expF.createTransition => [
+		val ta = expF.createTimedTransition => [
 			event = "a"
 			from = s0
 			to = s1
@@ -64,7 +64,7 @@ class Program1 {
 			]
 		]
 
-		val tb = expF.createTransition => [
+		val tb = expF.createTimedTransition => [
 			event = "b"
 			from = s1
 			to = s0
@@ -81,7 +81,7 @@ class Program1 {
 			]
 		]
 
-		return expF.createFSM => [
+		return expF.createTimedFSM => [
 			states.addAll(newArrayList(s0, s1))
 			transitions.addAll(newArrayList(ta, tb))
 			initialstate = s0

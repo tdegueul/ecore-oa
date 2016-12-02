@@ -1,5 +1,6 @@
 package fr.inria.diverse.tfsm.algebra.abstr
 
+import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import org.eclipse.emf.ecore.EObject
 import tfsm.AndClockConstraint
 import tfsm.BinaryClockConstraint
@@ -7,24 +8,28 @@ import tfsm.Clock
 import tfsm.ClockConstraint
 import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
-import tfsm.FSM
+import tfsm.LowerClockConstraint
 import tfsm.LowerEqualClockConstraint
 import tfsm.OrClockConstraint
-import tfsm.State
-import tfsm.Transition
+import tfsm.TimedFSM
+import tfsm.TimedFinalState
+import tfsm.TimedInitialState
+import tfsm.TimedState
+import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import tfsm.LowerClockConstraint
-import tfsm.FinalState
-import tfsm.InitialState
 
-interface TFSMAlgebra<E> {
+interface TFSMAlgebra<E> extends FSMAlgebra<E> {
 
-	def E fsm(FSM fsm)
+	def E timedFSM(TimedFSM timedFSM)
 
-	def E state(State state)
+	def E timedInitialState(TimedInitialState timedInitialState)
 
-	def E transition(Transition transition)
+	def E timedFinalState(TimedFinalState timedFinalState)
+
+	def E timedTransition(TimedTransition timedTransition)
+
+	def E timedState(TimedState timedState)
 
 	def E clock(Clock clock)
 
@@ -48,21 +53,17 @@ interface TFSMAlgebra<E> {
 
 	def E binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
 
-	def E finalState(FinalState finalState)
-
-	def E initialState(InitialState initialState)
-
-	def E exp(EObject eObject) {
-		return if (eObject instanceof FSM) {
-			fsm(eObject)
-		} else if (eObject instanceof FinalState) {
-			finalState(eObject)
-		} else if (eObject instanceof InitialState) {
-			initialState(eObject)
-		} else if (eObject instanceof State) {
-			state(eObject)
-		} else if (eObject instanceof Transition) {
-			transition(eObject)
+	override def E exp(EObject eObject) {
+		return if (eObject instanceof TimedFSM) {
+			timedFSM(eObject)
+		} else if (eObject instanceof TimedFinalState) {
+			timedFinalState(eObject)
+		} else if (eObject instanceof TimedInitialState) {
+			timedInitialState(eObject)
+		} else if (eObject instanceof TimedState) {
+			timedState(eObject)
+		} else if (eObject instanceof TimedTransition) {
+			timedTransition(eObject)
 		} else if (eObject instanceof Clock) {
 			clock(eObject)
 		} else if (eObject instanceof LowerClockConstraint) {
@@ -86,7 +87,7 @@ interface TFSMAlgebra<E> {
 		} else if (eObject instanceof ClockReset) {
 			clockReset(eObject)
 		} else {
-			throw new RuntimeException('''unkown EObject «eObject»''')
+			FSMAlgebra.super.exp(eObject)
 		}
 
 	}
