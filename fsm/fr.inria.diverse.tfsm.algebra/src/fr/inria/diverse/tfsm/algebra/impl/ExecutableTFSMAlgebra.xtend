@@ -3,6 +3,8 @@ package fr.inria.diverse.tfsm.algebra.impl
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import fsm.FSM
+import java.util.List
 import java.util.Map
 import tfsm.AndClockConstraint
 import tfsm.BinaryClockConstraint
@@ -13,19 +15,17 @@ import tfsm.ClockReset
 import tfsm.LowerClockConstraint
 import tfsm.LowerEqualClockConstraint
 import tfsm.OrClockConstraint
+import tfsm.TimedFSM
+import tfsm.TimedFinalState
+import tfsm.TimedInitialState
+import tfsm.TimedState
+import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import tfsm.TimedFSM
-import tfsm.TimedInitialState
-import tfsm.TimedFinalState
-import tfsm.TimedTransition
-import tfsm.TimedState
 
 class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableExp> {
 
 	Map<Integer, String> timedActions
-
-//	State currentState
 
 	Integer time
 
@@ -33,66 +33,6 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 		super(newLinkedList())
 		this.timedActions = timedActions
 	}
-
-//	override fsm(FSM fsm) {
-//		[
-//			this.currentState = fsm.initialstate
-//			this.time = 0
-//			while (this.currentState != null) {
-//				val exp = exp(this.currentState)
-//				exp.execute
-//				fsm.clocks.forEach[e|e.tick = e.tick + 1]
-//				this.time++
-//			}
-//		]
-//
-//	}
-
-//	override state(State state) {
-//		[
-//			val action = this.timedActions.get(this.time)
-//
-//			// action with time in the future.
-//			val futureActions = this.timedActions.filter[p1, p2|p1 >= this.time].size
-//			if (futureActions == 0) {
-//				if (!(this.currentState instanceof FinalState)) {
-//					println("[ERROR] no action available but final state not reached")
-//					this.currentState = null
-//				}
-//			} else if (action != null) {
-//				val nonGardedRes = state.outgoingtransition.filter[e|e.event == action]
-//				val res = nonGardedRes.filter[e|e.transitionguard == null || testGuard(e.transitionguard)]
-//				if (res.size > 1) {
-//					println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
-//					this.currentState = null
-//				} else if (res.size == 1) {
-//					val transition = res.get(
-//						0)
-//					println('''transition (time «this.time»): event «action» - «this.currentState.name» -> «transition.to.name»''')
-//					transition.clockresets.forEach[e|e.clock.tick = 0]
-//					println('''
-//						clocks :
-//						«FOR clock : (state.eContainer as FSM).clocks»
-//							- clock «clock.name» = «clock.tick»
-//						«ENDFOR»
-//					''')
-//					this.currentState = transition.to
-//				}
-//			}
-//			if (!testGuard(this.currentState.stateguard)) {
-//				println('''[ERROR] deadlock! State guard triggered at time «this.time» on state «this.currentState.name»''')
-//				println('''
-//						clocks :
-//						«FOR clock : (state.eContainer as FSM).clocks»
-//							- clock «clock.name» = «clock.tick»
-//						«ENDFOR»
-//					''')
-//				
-//				this.currentState = null
-//			}
-//		]
-//
-//	}
 
 	def boolean testGuard(ClockConstraintOperation operation) {
 		if (operation == null) {
@@ -187,31 +127,74 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 	}
 	
 	override timedFSM(TimedFSM timedFSM) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		[
+			this.currentState = timedFSM.initialstate
+			this.time = 0
+			while (this.currentState != null) {
+				val exp = exp(this.currentState)
+				exp.execute
+				timedFSM.clocks.forEach[e|e.tick = e.tick + 1]
+				this.time++
+			}
+		]
 	}
 	
 	override timedInitialState(TimedInitialState timedInitialState) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		this.timedState(timedInitialState)
 	}
 	
 	override timedFinalState(TimedFinalState timedFinalState) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		this.timedState(timedFinalState)
 	}
 	
 	override timedTransition(TimedTransition timedTransition) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override timedState(TimedState timedState) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override timedState(TimedState state) {
+		[
+			val action = this.timedActions.get(this.time)
+
+			// action with time in the future.
+			val futureActions = this.timedActions.filter[p1, p2|p1 >= this.time].size
+			if (futureActions == 0) {
+				if (!(this.currentState instanceof TimedFinalState)) {
+					println("[ERROR] no action available but final state not reached")
+					this.currentState = null
+				}
+			} else if (action != null) {
+				val  nonGardedRes = state.outgoingtransitions.filter[e|e.event == action]
+				// aweful downcast !!
+				val res0 = nonGardedRes.filter[e|e instanceof TimedTransition && (e as TimedTransition).transitionguard == null || testGuard((e as TimedTransition).transitionguard)]
+				val Iterable<TimedTransition> res = res0.map[e|(e as TimedTransition)]
+				if (res.size > 1) {
+					println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
+					this.currentState = null
+				} else if (res.size == 1) {
+					val transition = res.get(
+						0)
+					println('''transition (time «this.time»): event «action» - «this.currentState.name» -> «transition.to.name»''')
+					transition.clockresets.forEach[e|e.clock.tick = 0]
+					println('''
+						clocks :
+						«FOR clock : (state.eContainer as TimedFSM).clocks»
+							- clock «clock.name» = «clock.tick»
+						«ENDFOR»
+					''')
+					this.currentState = transition.to
+				}
+			}
+			if (!testGuard((this.currentState as TimedState).stateguard)) {
+				println('''[ERROR] deadlock! State guard triggered at time «this.time» on state «this.currentState.name»''')
+				println('''
+						clocks :
+						«FOR clock : (state.eContainer as TimedFSM).clocks»
+							- clock «clock.name» = «clock.tick»
+						«ENDFOR»
+					''')
+				
+				this.currentState = null
+			}
+		]
 	}
-
-//	override finalState(FinalState finalState) {
-//		this.state(finalState)
-//	}
-//
-//	override initialState(InitialState initialState) {
-//		this.state(initialState)
-//	}
-
 }

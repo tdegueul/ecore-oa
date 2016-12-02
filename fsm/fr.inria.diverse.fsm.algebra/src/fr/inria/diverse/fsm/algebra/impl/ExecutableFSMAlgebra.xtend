@@ -13,7 +13,7 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp> {
 
 	private Queue<String> userinput
 
-	State currentState
+	protected State currentState
 
 	new(Queue<String> userinput) {
 		this.userinput = userinput
