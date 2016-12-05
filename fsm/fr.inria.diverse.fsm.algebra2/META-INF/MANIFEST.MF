@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Algebra2
+Bundle-SymbolicName: fr.inria.diverse.fsm.algebra2
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0",
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro
+
