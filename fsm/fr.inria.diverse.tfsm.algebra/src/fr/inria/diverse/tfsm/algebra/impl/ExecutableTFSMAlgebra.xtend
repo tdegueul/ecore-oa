@@ -3,8 +3,6 @@ package fr.inria.diverse.tfsm.algebra.impl
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
-import fsm.FSM
-import java.util.List
 import java.util.Map
 import tfsm.AndClockConstraint
 import tfsm.BinaryClockConstraint
@@ -78,9 +76,6 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 		testGuard(operation.left) || testGuard(operation.right)
 	}
 
-//	override transition(Transition transition) {
-//		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-//	}
 
 	override clock(Clock clock) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")

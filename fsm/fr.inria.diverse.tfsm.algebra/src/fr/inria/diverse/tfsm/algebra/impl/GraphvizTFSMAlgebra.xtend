@@ -1,7 +1,7 @@
 package fr.inria.diverse.tfsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
-import fr.inria.diverse.fsm.util.GraphvizRep
+import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import tfsm.AndClockConstraint
 import tfsm.BinaryClockConstraint
@@ -11,18 +11,17 @@ import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
 import tfsm.LowerEqualClockConstraint
 import tfsm.OrClockConstraint
+import tfsm.TimedFSM
+import tfsm.TimedFinalState
+import tfsm.TimedInitialState
+import tfsm.TimedState
+import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
-import tfsm.TimedFSM
-import tfsm.TimedInitialState
-import tfsm.TimedFinalState
-import tfsm.TimedTransition
-import tfsm.TimedState
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
 
-	private GraphvizRep rep = new GraphvizRep
+//	private GraphvizRep rep = new GraphvizRep
 
 	override clock(Clock clock) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
@@ -69,16 +68,12 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override timedFSM(TimedFSM timedFSM) {
-		[
-			this.rep.name = timedFSM.name
-			timedFSM.transitions.forEach[e|exp(e).evalGraph]
-			rep.show
-		]
+		this.fsm(timedFSM)
 	}
 
 	override timedInitialState(TimedInitialState timedInitialState) {
 		[
-			val nodename = state(timedInitialState).evalGraph
+			val nodename = initialState(timedInitialState).evalGraph
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
 			nodename
 		]
@@ -86,7 +81,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedFinalState(TimedFinalState timedFinalState) {
 		[
-			val nodename = state(timedFinalState).evalGraph
+			val nodename = finalState(timedFinalState).evalGraph
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
 			nodename
 		]
@@ -102,7 +97,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedState(TimedState timedState) {
 		[
-			val statename = timedState.name
+			val statename = this.state(timedState).evalGraph
 			val attrs = if (timedState.stateguard != null) {
 					val guard = exp(timedState.stateguard).evalGraph
 					newHashMap("label" -> '''"«guard»"''')

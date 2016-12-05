@@ -11,7 +11,7 @@ import fsm.Transition
 
 class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp> {
 
-	private GraphvizRep rep = new GraphvizRep;
+	protected GraphvizRep rep = new GraphvizRep;
 
 	override transition(Transition transition) {
 		[
