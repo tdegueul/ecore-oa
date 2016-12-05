@@ -18,8 +18,9 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
+import java.util.EventObject
 
-interface TFSMAlgebra<E> extends FSMAlgebra<E> {
+interface TFSMAlgebra<E,F> extends FSMAlgebra<E> {
 
 	def E timedFSM(TimedFSM timedFSM)
 
@@ -33,27 +34,27 @@ interface TFSMAlgebra<E> extends FSMAlgebra<E> {
 
 	def E clock(Clock clock)
 
-	def E clockConstraint(ClockConstraint clockConstraint)
+	def F clockConstraint(ClockConstraint clockConstraint)
 
 	def E clockReset(ClockReset clockReset)
 
-	def E lowerClockConstraint(ClockConstraint clockConstraint)
+	def F lowerClockConstraint(ClockConstraint clockConstraint)
 
-	def E lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint)
+	def F lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint)
 
-	def E upperClockConstaint(UpperClockConstraint upperClockConstraint)
+	def F upperClockConstaint(UpperClockConstraint upperClockConstraint)
 
-	def E upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint)
+	def F upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint)
 
-	def E clockConstaintOperation(ClockConstraintOperation clockConstraintOperation)
+	def F clockConstaintOperation(ClockConstraintOperation clockConstraintOperation)
 
-	def E andClockConstraint(AndClockConstraint andClockConstraint)
+	def F andClockConstraint(AndClockConstraint andClockConstraint)
 
-	def E orClockConstraint(OrClockConstraint orClockConstraint)
+	def F orClockConstraint(OrClockConstraint orClockConstraint)
 
-	def E binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
+	def F binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
 
-	override def E exp(EObject eObject) {
+	override def E expE(EObject eObject) {
 		return if (eObject instanceof TimedFSM) {
 			timedFSM(eObject)
 		} else if (eObject instanceof TimedFinalState) {
@@ -66,7 +67,16 @@ interface TFSMAlgebra<E> extends FSMAlgebra<E> {
 			timedTransition(eObject)
 		} else if (eObject instanceof Clock) {
 			clock(eObject)
-		} else if (eObject instanceof LowerClockConstraint) {
+		} else if (eObject instanceof ClockReset) {
+			clockReset(eObject)
+		} else {
+			FSMAlgebra.super.expE(eObject)
+		}
+
+	}
+	
+	def F expF(EObject eObject) {
+		if (eObject instanceof LowerClockConstraint) {
 			lowerClockConstraint(eObject)
 		} else if (eObject instanceof LowerEqualClockConstraint) {
 			lowerEqualClockConstraint(eObject)
@@ -84,12 +94,9 @@ interface TFSMAlgebra<E> extends FSMAlgebra<E> {
 			binaryClockConstraint(eObject)
 		} else if (eObject instanceof ClockConstraintOperation) {
 			clockConstaintOperation(eObject)
-		} else if (eObject instanceof ClockReset) {
-			clockReset(eObject)
 		} else {
-			FSMAlgebra.super.exp(eObject)
+			
 		}
-
 	}
 
 }
