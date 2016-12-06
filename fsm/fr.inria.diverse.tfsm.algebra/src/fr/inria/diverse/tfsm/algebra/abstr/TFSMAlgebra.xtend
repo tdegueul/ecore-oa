@@ -18,9 +18,8 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import java.util.EventObject
 
-interface TFSMAlgebra<E,F> extends FSMAlgebra<E> {
+interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 
 	def E timedFSM(TimedFSM timedFSM)
 
@@ -38,7 +37,7 @@ interface TFSMAlgebra<E,F> extends FSMAlgebra<E> {
 
 	def E clockReset(ClockReset clockReset)
 
-	def F lowerClockConstraint(ClockConstraint clockConstraint)
+	def F lowerClockConstraint(LowerClockConstraint clockConstraint)
 
 	def F lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint)
 
@@ -74,7 +73,7 @@ interface TFSMAlgebra<E,F> extends FSMAlgebra<E> {
 		}
 
 	}
-	
+
 	def F expF(EObject eObject) {
 		if (eObject instanceof LowerClockConstraint) {
 			lowerClockConstraint(eObject)
@@ -95,7 +94,7 @@ interface TFSMAlgebra<E,F> extends FSMAlgebra<E> {
 		} else if (eObject instanceof ClockConstraintOperation) {
 			clockConstaintOperation(eObject)
 		} else {
-			
+			throw new RuntimeException('''unkown EObject «eObject»''')
 		}
 	}
 

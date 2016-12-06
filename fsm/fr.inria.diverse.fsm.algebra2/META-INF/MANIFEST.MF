@@ -11,4 +11,9 @@ Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.1",
  fr.inria.diverse.fsm.model.editor;bundle-version="1.0.0",
  fr.inria.diverse.fsm.algebra;bundle-version="1.0.0"
+Export-Package: fr.inria.diverse.fsm.algebra,
+ fr.inria.diverse.fsm.algebra.abstr,
+ fr.inria.diverse.fsm.algebra.exprs,
+ fr.inria.diverse.fsm.algebra.impl,
+ fr.inria.diverse.fsm.algebra.program
 

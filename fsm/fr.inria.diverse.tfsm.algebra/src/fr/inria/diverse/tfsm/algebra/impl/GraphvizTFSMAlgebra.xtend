@@ -9,6 +9,7 @@ import tfsm.Clock
 import tfsm.ClockConstraint
 import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
+import tfsm.LowerClockConstraint
 import tfsm.LowerEqualClockConstraint
 import tfsm.OrClockConstraint
 import tfsm.TimedFSM
@@ -35,7 +36,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		['''«clockReset.clock.name» = 0''']
 	}
 
-	override lowerClockConstraint(ClockConstraint clockConstraint) {
+	override lowerClockConstraint(LowerClockConstraint clockConstraint) {
 		['''«clockConstraint.threshold» > «clockConstraint.clock.name»''']
 	}
 
@@ -90,7 +91,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	override timedTransition(TimedTransition timedTransition) {
 		[
 			this.rep.edges.
-				add('''«expF(timedTransition.from).evalGraph» -> «expF(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«expF(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«expF(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
+				add('''«expE(timedTransition.from).evalGraph» -> «expE(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«expF(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«expE(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}

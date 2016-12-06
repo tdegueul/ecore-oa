@@ -10,8 +10,8 @@ import fsm.Transition
 import java.util.Queue
 
 class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp> {
-
 	private Queue<String> userinput
+
 
 	protected State currentState
 

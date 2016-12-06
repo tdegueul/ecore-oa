@@ -37,7 +37,7 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 		this.finalStateClass = finalStateClass
 	}
 
-	def F fsm(FSM fsm) {
+	def dispatch F fsm(FSM fsm) {
 		Proxy.newProxyInstance(fsmClass.classLoader, #[fsmClass],
 			new InvocationHandler() {
 
@@ -50,7 +50,7 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 			}) as F
 	}
 
-	def T transition(Transition transition) {
+	def dispatch T transition(Transition transition) {
 		Proxy.newProxyInstance(transitionClass.classLoader, #[transitionClass],
 			new InvocationHandler() {
 

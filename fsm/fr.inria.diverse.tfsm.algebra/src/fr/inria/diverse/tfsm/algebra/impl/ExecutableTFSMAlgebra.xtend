@@ -89,7 +89,7 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
-	override lowerClockConstraint(ClockConstraint clockConstraint) {
+	override lowerClockConstraint(LowerClockConstraint clockConstraint) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 

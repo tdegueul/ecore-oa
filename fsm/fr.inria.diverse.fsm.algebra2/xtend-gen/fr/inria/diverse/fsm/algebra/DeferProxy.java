@@ -38,7 +38,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
     this.finalStateClass = finalStateClass;
   }
   
-  public F fsm(final FSM fsm) {
+  protected F _fsm(final FSM fsm) {
     ClassLoader _classLoader = this.fsmClass.getClassLoader();
     Object _newProxyInstance = Proxy.newProxyInstance(_classLoader, new Class[] { this.fsmClass }, 
       new InvocationHandler() {
@@ -64,7 +64,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
     return ((F) _newProxyInstance);
   }
   
-  public T transition(final Transition transition) {
+  protected T _transition(final Transition transition) {
     ClassLoader _classLoader = this.transitionClass.getClassLoader();
     Object _newProxyInstance = Proxy.newProxyInstance(_classLoader, new Class[] { this.transitionClass }, 
       new InvocationHandler() {
@@ -159,6 +159,14 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
         }
       });
     return ((FS) _newProxyInstance);
+  }
+  
+  public F fsm(final FSM fsm) {
+    return _fsm(fsm);
+  }
+  
+  public T transition(final Transition transition) {
+    return _transition(transition);
   }
   
   public S state(final State finalState) {

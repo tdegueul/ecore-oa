@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tfsm:TimedFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tfsm="http://diverse.inria.fr/tfsm" initialstate="//@states.0" name="TFSM1">
+  <states xsi:type="tfsm:TimedInitialState" name="s0" outgoingtransitions="//@transitions.0" incommingtransitions="//@transitions.1">
+    <stateguard xsi:type="tfsm:LowerEqualClockConstraint" threshold="5" clock="//@clocks.1"/>
+  </states>
+  <states xsi:type="tfsm:TimedFinalState" name="s1" outgoingtransitions="//@transitions.1" incommingtransitions="//@transitions.0">
+    <stateguard xsi:type="tfsm:AndClockConstraint">
+      <left xsi:type="tfsm:LowerEqualClockConstraint" threshold="10" clock="//@clocks.1"/>
+      <right xsi:type="tfsm:LowerEqualClockConstraint" threshold="8" clock="//@clocks.0"/>
+    </stateguard>
+  </states>
+  <transitions xsi:type="tfsm:TimedTransition" from="//@states.0" to="//@states.1" event="a">
+    <clockresets clock="//@clocks.1"/>
+    <transitionguard xsi:type="tfsm:UpperEqualClockConstraint" threshold="3" clock="//@clocks.1"/>
+  </transitions>
+  <transitions xsi:type="tfsm:TimedTransition" from="//@states.1" to="//@states.0" event="b">
+    <clockresets clock="//@clocks.0"/>
+    <transitionguard xsi:type="tfsm:AndClockConstraint">
+      <left xsi:type="tfsm:UpperEqualClockConstraint" threshold="4" clock="//@clocks.1"/>
+      <right xsi:type="tfsm:UpperEqualClockConstraint" threshold="6" clock="//@clocks.0"/>
+    </transitionguard>
+  </transitions>
+  <clocks name="x"/>
+  <clocks name="y"/>
+</tfsm:TimedFSM>
