@@ -82,6 +82,7 @@ class Program1 {
 		]
 
 		return expF.createTimedFSM => [
+			name = "TFSM1"
 			states.addAll(newArrayList(s0, s1))
 			transitions.addAll(newArrayList(ta, tb))
 			initialstate = s0

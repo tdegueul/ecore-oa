@@ -21,7 +21,7 @@ class Program1 {
 		val fsmPackage = TfsmPackage.eINSTANCE;
 
 		val resource = resSet.getResource(
-			URI.createURI("/home/mleduc/workspace-gemoc-tuto/fr.inria.diverse.tfsm.algebra2/models/FSM1.tfsm"), true)
+			URI.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra2/models/FSM1.tfsm"), true)
 		resource.contents.
 			head as TimedFSM
 	}

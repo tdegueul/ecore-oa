@@ -30,7 +30,9 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp> {
 	}
 
 	override state(State state) {
-		['''«state.name»''']
+		[
+		'''«state.name»'''
+		]
 	}
 
 	override finalState(FinalState finalState) {

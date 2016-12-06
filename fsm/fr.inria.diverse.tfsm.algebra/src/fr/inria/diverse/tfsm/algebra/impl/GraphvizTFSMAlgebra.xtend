@@ -22,8 +22,6 @@ import tfsm.UpperEqualClockConstraint
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizExp> {
 
-//	private GraphvizRep rep = new GraphvizRep
-
 	override clock(Clock clock) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
@@ -74,7 +72,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedInitialState(TimedInitialState timedInitialState) {
 		[
-			val nodename = initialState(timedInitialState).evalGraph
+			val nodename = timedState(timedInitialState).evalGraph
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
 			nodename
 		]
@@ -82,7 +80,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedFinalState(TimedFinalState timedFinalState) {
 		[
-			val nodename = finalState(timedFinalState).evalGraph
+			val nodename = timedState(timedFinalState).evalGraph
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
 			nodename
 		]

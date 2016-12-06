@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Algebra2
-Bundle-SymbolicName: fr.inria.diverse.tfsm.algebra2
+Bundle-SymbolicName: fr.inria.diverse.tfsm.algebra2;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.tfsm.algebra.abstr
 Require-Bundle: fr.inria.diverse.fsm.algebra2;bundle-version="1.0.0",
