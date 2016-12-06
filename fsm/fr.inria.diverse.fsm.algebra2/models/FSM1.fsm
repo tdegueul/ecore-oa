@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fsm:FSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fsm="http://diverse.inria.fr/fsm" initialstate="//@states.0" name="FSM">
   <states xsi:type="fsm:InitialState" name="initial" outgoingtransitions="//@transitions.0 //@transitions.1"/>
-  <states name="nodea" outgoingtransitions="//@transitions.2" incommingtransitions="//@transitions.0"/>
-  <states name="nodeb" incommingtransitions="//@transitions.1"/>
-  <states xsi:type="fsm:FinalState" name="end" incommingtransitions="//@transitions.2"/>
+  <states name="nodea" outgoingtransitions="//@transitions.2" incommingtransitions="//@transitions.0 //@transitions.4"/>
+  <states name="nodeb" outgoingtransitions="//@transitions.4" incommingtransitions="//@transitions.1 //@transitions.3"/>
+  <states xsi:type="fsm:FinalState" name="end" outgoingtransitions="//@transitions.3" incommingtransitions="//@transitions.2"/>
   <transitions from="//@states.0" to="//@states.1" event="a"/>
   <transitions from="//@states.0" to="//@states.2" event="c"/>
   <transitions from="//@states.1" to="//@states.3" event="b"/>
+  <transitions from="//@states.3" to="//@states.2" event="a"/>
+  <transitions from="//@states.2" to="//@states.1" event="a"/>
 </fsm:FSM>
