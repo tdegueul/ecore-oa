@@ -1,47 +1,35 @@
 package fr.inria.diverse.fsm.algebra.program
 
+import fr.inria.diverse.fsm.algebra.DeferProxy
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
+import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fsm.FSM
-import fsm.FsmFactory
-import fr.inria.diverse.fsm.algebra.DeferProxy
+import fsm.FsmPackage
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
 class Program1 {
 	def FSM createModel() {
-		val expF = FsmFactory::eINSTANCE
 
-		// defines and use XMI instead
-		val initial = expF.createInitialState => [name = "first"]
-		val nodea = expF.createState => [name = "A"]
-		val nodeb = expF.createState => [name = "B"]
-		val end = expF.createFinalState => [name = "last"]
+		val resSet = new ResourceSetImpl();
+		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("fsm", new XMIResourceFactoryImpl());
 
-		val t1 = expF.createTransition => [
-			from = initial
-			to = nodea
-			event = 'a'
-		]
-		val t2 = expF.createTransition => [
-			from = initial
-			to = nodeb
-			event = 'c'
-		]
-		val t3 = expF.createTransition => [
-			from = nodea
-			to = end
-			event = 'b'
-		]
-		return expF.createFSM => [
-			transitions.addAll(newArrayList(t1, t2, t3))
-			initialstate = initial
-		]
+		// do not remove this, needed to load some context. Side effects...
+		val fsmPackage = FsmPackage.eINSTANCE;
+
+		val resource = resSet.getResource(
+			URI.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.fsm.algebra2/models/FSM1.fsm"), true)
+		resource.contents.head as FSM
 	}
 
-	def <T, S, F, IS extends S, FS extends S> F make(FSMAlgebra<T, S, F, IS, FS> f) {
+	def <T, S, F, IS extends S, FS extends S> F make(FSMAlgebra<T, S, F, IS, FS> f, Class<F> fsmClass,
+		Class<T> transitionClass, Class<S> stateClass) {
 		val exp = createModel
 
 		// TODO : rebuild the whole algebra meta-programmatically.
-		val df = new DeferProxy(f)
+		val df = new DeferProxy(f, fsmClass, transitionClass, stateClass)
 		df.fsm(exp)
 	}
 
@@ -50,7 +38,8 @@ class Program1 {
 	}
 
 	def execute() {
-		println(make(new GraphvizFSMAlgebra).evalGraph)
+		val evalAlg = make(new GraphvizFSMAlgebra, typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp))
+		println(evalAlg.evalGraph)
 //		make(new ExecutableFSMAlgebra(newLinkedList('a', 'b'))).execute
 	}
 }

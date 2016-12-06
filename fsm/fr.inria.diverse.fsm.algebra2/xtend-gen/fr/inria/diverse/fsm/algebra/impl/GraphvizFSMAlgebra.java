@@ -53,7 +53,18 @@ public class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizExp, 
   
   @Override
   public GraphvizExp finalState(final String name, final GraphvizExp fsm, final List<GraphvizExp> outgoingtransitions, final List<GraphvizExp> incommingtransitions) {
-    return this.state(name, fsm, outgoingtransitions, incommingtransitions);
+    final GraphvizExp _function = () -> {
+      String _xblockexpression = null;
+      {
+        final GraphvizExp stateRes = this.state(name, fsm, outgoingtransitions, incommingtransitions);
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append(stateRes, "");
+        _builder.append("Final");
+        _xblockexpression = _builder.toString();
+      }
+      return _xblockexpression;
+    };
+    return _function;
   }
   
   @Override

@@ -33,7 +33,7 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizExp, Graphvi
 	override finalState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
 		List<GraphvizExp> incommingtransitions) {
 		// TODO : integrate final state specificity
-		state(name, fsm, outgoingtransitions, incommingtransitions)
+		[val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions) '''«stateRes»Final''']
 	}
 
 	override transition(GraphvizExp from, GraphvizExp to, GraphvizExp fsm, String event) {

@@ -6,6 +6,7 @@ import fsm.State
 import fsm.Transition
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
+import java.lang.reflect.Proxy
 import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -14,69 +15,88 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 
 	FSMAlgebra<T, S, F, IS, FS> concreteAlgebra
 
-	private static class LazyProxy implements InvocationHandler {
+	private static class LazyProxy<T> implements InvocationHandler {
 
-		Object res = null
+		T target
+
+		new(T target) {
+			this.target = target
+		}
 
 		override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			method.invoke(res, args)
+			method.invoke(target, args)
 		}
 
 	}
 
-	Map<URI, LazyProxy> mapUri = newHashMap()
+	Map<URI, F> mapFsm = newHashMap()
+	Map<URI, T> mapTransition = newHashMap()
+	Map<URI, S> mapState = newHashMap()
+	Class<F> fsmClass
+	Class<T> transitionClass
+	Class<S> stateClass
 
-	new(FSMAlgebra<T, S, F, IS, FS> concreteAlgebra) {
+	new(FSMAlgebra<T, S, F, IS, FS> concreteAlgebra, Class<F> fsmClass, Class<T> transitionClass, Class<S> stateClass) {
 		this.concreteAlgebra = concreteAlgebra
+		this.fsmClass = fsmClass
+		this.transitionClass = transitionClass
+		this.stateClass = stateClass
 	}
 
 	def F fsm(FSM fsm) {
-		val stateId = EcoreUtil.getURI(fsm);
-		if (!mapUri.containsKey(stateId)) {
-			mapUri.put(stateId, new LazyProxy)
-		}
-		if (fsm.eContainmentFeature === null || !fsm.eContainmentFeature.containment) {
-			val res = concreteAlgebra.fsm(fsm.states.map[s|this.state(s)], fsm.transitions.map[t|this.transition(t)],
-				this.state(fsm.initialstate), fsm.name)
-			mapUri.get(stateId).res = res
-			res
+		val fsmId = EcoreUtil.getURI(fsm)
+		if (!mapState.containsKey(fsmId)) {
+			mapFsm.put(fsmId,
+				Proxy.newProxyInstance(fsmClass.classLoader, #[fsmClass],
+					new InvocationHandler() {
 
-		} else {
-			mapUri.get(stateId) as F
+						override invoke(Object proxy, Method method, Object[] args) throws Throwable {
+							method.invoke(
+								concreteAlgebra.fsm(fsm.states.map[state], fsm.transitions.map[transition],
+									state(fsm.initialstate), fsm.name), args)
+						}
+
+					}) as F)
 		}
+
+		mapFsm.get(fsmId)
 	}
 
 	def T transition(Transition transition) {
-		val stateId = EcoreUtil.getURI(transition);
-		if (!mapUri.containsKey(stateId)) {
-			mapUri.put(stateId, new LazyProxy)
-		}
-		if (transition.eContainmentFeature === null || !transition.eContainmentFeature.containment) {
-			val res = concreteAlgebra.transition(this.state(transition.from), this.state(transition.to),
-				this.fsm(transition.fsm), transition.event)
-			mapUri.get(stateId).res = res
-			res
+		val transitionId = EcoreUtil.getURI(transition)
+		if (!mapTransition.containsKey(transitionId)) {
+			mapTransition.put(transitionId,
+				Proxy.newProxyInstance(transitionClass.classLoader, #[transitionClass],
+					new InvocationHandler() {
 
-		} else {
-			mapUri.get(stateId) as T
+						override invoke(Object proxy, Method method, Object[] args) throws Throwable {
+							method.invoke(
+								concreteAlgebra.transition(state(transition.from), state(transition.to),
+									fsm(transition.fsm), transition.event), args)
+						}
+
+					}) as T)
 		}
+
+		mapTransition.get(transitionId)
 	}
 
 	def S state(State state) {
-		val stateId = EcoreUtil.getURI(state);
-		if (!mapUri.containsKey(stateId)) {
-			mapUri.put(stateId, new LazyProxy)
-		}
-		if (state.eContainmentFeature === null || !state.eContainmentFeature.containment) {
-			val res = concreteAlgebra.state(state.name, this.fsm(state.fsm), state.outgoingtransitions.map [ ot |
-				this.transition(ot)
-			], state.incommingtransitions.map[itr|this.transition(itr)])
-			mapUri.get(stateId).res = res
-			res
+		val stateId = EcoreUtil.getURI(state)
+		if (!mapTransition.containsKey(stateId)) {
+			mapState.put(stateId,
+				Proxy.newProxyInstance(stateClass.classLoader, #[stateClass], new InvocationHandler() {
 
-		} else {
-			mapUri.get(stateId) as S
+					override invoke(Object proxy, Method method, Object[] args) throws Throwable {
+						method.invoke(concreteAlgebra.state(state.name, fsm(state.fsm), state.outgoingtransitions.map [
+							transition
+						], state.incommingtransitions.map[transition]), args)
+					}
+
+				}) as S)
 		}
+
+		mapState.get(stateId)
 	}
 
 }

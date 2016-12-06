@@ -19,7 +19,7 @@ import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
 
-class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp> {
+class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizExp> {
 
 //	private GraphvizRep rep = new GraphvizRep
 
@@ -56,11 +56,11 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		['''(«exp(andClockConstraint.left).evalGraph» AND «exp(andClockConstraint.right).evalGraph»)''']
+		['''(«expF(andClockConstraint.left).evalGraph» AND «expF(andClockConstraint.right).evalGraph»)''']
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		['''(«exp(orClockConstraint.left).evalGraph» OR «exp(orClockConstraint.right).evalGraph»)''']
+		['''(«expF(orClockConstraint.left).evalGraph» OR «expF(orClockConstraint.right).evalGraph»)''']
 	}
 
 	override binaryClockConstraint(BinaryClockConstraint binaryClockConstraint) {
@@ -90,7 +90,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	override timedTransition(TimedTransition timedTransition) {
 		[
 			this.rep.edges.
-				add('''«exp(timedTransition.from).evalGraph» -> «exp(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«exp(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«exp(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
+				add('''«expF(timedTransition.from).evalGraph» -> «expF(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«expF(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«expF(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}
@@ -99,7 +99,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		[
 			val statename = this.state(timedState).evalGraph
 			val attrs = if (timedState.stateguard != null) {
-					val guard = exp(timedState.stateguard).evalGraph
+					val guard = expF(timedState.stateguard).evalGraph
 					newHashMap("label" -> '''"«guard»"''')
 				} else {
 					newHashMap("label" -> '''""''')

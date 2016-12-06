@@ -61,7 +61,7 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp> {
 				if (this.currentState instanceof FinalState)
 					this.currentState = null
 				else
-					exp(this.currentState).execute
+					expE(this.currentState).execute
 		]
 	}
 

@@ -21,7 +21,7 @@ import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
 
-class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableExp> {
+class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableExp, Boolean> {
 
 	Map<Integer, String> timedActions
 
@@ -126,7 +126,7 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 			this.currentState = timedFSM.initialstate
 			this.time = 0
 			while (this.currentState != null) {
-				val exp = exp(this.currentState)
+				val exp = expE(this.currentState)
 				exp.execute
 				timedFSM.clocks.forEach[e|e.tick = e.tick + 1]
 				this.time++
