@@ -9,6 +9,7 @@ import fsm.FsmPackage
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 
 class Program1 {
 	def FSM createModel() {
@@ -25,11 +26,11 @@ class Program1 {
 	}
 
 	def <T, S, F, IS extends S, FS extends S> F make(FSMAlgebra<T, S, F, IS, FS> f, Class<F> fsmClass,
-		Class<T> transitionClass, Class<S> stateClass) {
+		Class<T> transitionClass, Class<S> stateClass, Class<IS> initialStateClass, Class<FS> finalStateClass) {
 		val exp = createModel
 
 		// TODO : rebuild the whole algebra meta-programmatically.
-		val df = new DeferProxy(f, fsmClass, transitionClass, stateClass)
+		val df = new DeferProxy(f, fsmClass, transitionClass, stateClass, initialStateClass, finalStateClass)
 		df.fsm(exp)
 	}
 
@@ -38,7 +39,8 @@ class Program1 {
 	}
 
 	def execute() {
-		val evalAlg = make(new GraphvizFSMAlgebra, typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp))
+		val evalAlg = make(new GraphvizFSMAlgebra, typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizStateExp),
+			typeof(GraphvizStateExp), typeof(GraphvizStateExp))
 		println(evalAlg.evalGraph)
 //		make(new ExecutableFSMAlgebra(newLinkedList('a', 'b'))).execute
 	}

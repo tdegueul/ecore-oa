@@ -3,6 +3,7 @@ package fr.inria.diverse.fsm.algebra.program;
 import fr.inria.diverse.fsm.algebra.DeferProxy;
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp;
+import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fsm.FSM;
 import fsm.FsmPackage;
@@ -36,11 +37,11 @@ public class Program1 {
     return _xblockexpression;
   }
   
-  public <T extends Object, S extends Object, F extends Object, IS extends S, FS extends S> F make(final FSMAlgebra<T, S, F, IS, FS> f, final Class<F> fsmClass, final Class<T> transitionClass, final Class<S> stateClass) {
+  public <T extends Object, S extends Object, F extends Object, IS extends S, FS extends S> F make(final FSMAlgebra<T, S, F, IS, FS> f, final Class<F> fsmClass, final Class<T> transitionClass, final Class<S> stateClass, final Class<IS> initialStateClass, final Class<FS> finalStateClass) {
     F _xblockexpression = null;
     {
       final FSM exp = this.createModel();
-      final DeferProxy<T, S, F, IS, FS> df = new DeferProxy<T, S, F, IS, FS>(f, fsmClass, transitionClass, stateClass);
+      final DeferProxy<T, S, F, IS, FS> df = new DeferProxy<T, S, F, IS, FS>(f, fsmClass, transitionClass, stateClass, initialStateClass, finalStateClass);
       _xblockexpression = df.fsm(exp);
     }
     return _xblockexpression;
@@ -55,7 +56,8 @@ public class Program1 {
     String _xblockexpression = null;
     {
       GraphvizFSMAlgebra _graphvizFSMAlgebra = new GraphvizFSMAlgebra();
-      final GraphvizExp evalAlg = this.<GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp>make(_graphvizFSMAlgebra, GraphvizExp.class, GraphvizExp.class, GraphvizExp.class);
+      final GraphvizExp evalAlg = this.<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp>make(_graphvizFSMAlgebra, GraphvizExp.class, GraphvizExp.class, GraphvizStateExp.class, 
+        GraphvizStateExp.class, GraphvizStateExp.class);
       String _evalGraph = evalAlg.evalGraph();
       _xblockexpression = InputOutput.<String>println(_evalGraph);
     }

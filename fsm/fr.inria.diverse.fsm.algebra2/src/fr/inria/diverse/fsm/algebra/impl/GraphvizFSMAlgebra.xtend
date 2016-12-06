@@ -2,42 +2,56 @@ package fr.inria.diverse.fsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
+import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import java.util.List
 
-class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
+class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp> {
 
-	override fsm(List<GraphvizExp> states, List<GraphvizExp> transitions, GraphvizExp initialState, String name) {
+	override fsm(List<GraphvizStateExp> states, List<GraphvizExp> transitions, GraphvizStateExp initialState,
+		String name) {
 		[
-			'''digraph «name» {
-			«FOR state : states»
-				«state.evalGraph»
-			«ENDFOR»
-			«FOR transition : transitions»
-				«transition.evalGraph»
-			«ENDFOR»
+
+			val evalStates = states.map[e|e.evalGraph]
+			val evalTransitions = transitions.map[e|e.evalGraph]
+			'''
+			digraph «name» {
+				«FOR state : evalStates»
+					«state.name» «FOR attr:state.attributes.entrySet BEFORE '[' SEPARATOR ', ' AFTER ']'  »«attr.key»="«attr.value»"«ENDFOR»
+				«ENDFOR»
+				«FOR transition : evalTransitions»
+					«transition»
+				«ENDFOR»
 			}'''
 		]
 	}
 
 	override initialState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
 		List<GraphvizExp> incommingtransitions) {
-		state(name, fsm, outgoingtransitions, incommingtransitions)
+		[
+			val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
+			stateRes.attributes.putAll(newHashMap("shape" -> "box", "color" -> "red"))
+			stateRes
+		]
 	}
 
 	override state(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
 		List<GraphvizExp> incommingtransitions) {
-		// TODO : integrate initial state specificity
-		[name]
+		[
+			new GraphvizStateExp.StateData(name)
+		]
 	}
 
 	override finalState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
 		List<GraphvizExp> incommingtransitions) {
-		// TODO : integrate final state specificity
-		[val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions) '''«stateRes»Final''']
+		[
+			val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
+			stateRes.attributes.putAll(newHashMap("shape" -> "box", "color" -> "green"))
+			stateRes
+		]
 	}
 
-	override transition(GraphvizExp from, GraphvizExp to, GraphvizExp fsm, String event) {
-		['''«from.evalGraph» -> «to.evalGraph»''']
+	override transition(GraphvizStateExp from, GraphvizStateExp to, GraphvizExp fsm, String event) {
+		['''«from.evalGraph.name» -> «to.evalGraph.name» [label="«event»"]''']
 	}
 
 }
