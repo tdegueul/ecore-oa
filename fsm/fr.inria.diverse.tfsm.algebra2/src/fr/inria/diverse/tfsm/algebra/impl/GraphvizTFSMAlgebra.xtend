@@ -8,18 +8,18 @@ import java.util.List
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 
-	override timedFsm(List<GraphvizStateExp> states, List<GraphvizExp> transitions, GraphvizStateExp initialState,
-		String name, List<GraphvizExp> clocks) {
+	override timedFsm(List<? extends GraphvizStateExp> states, List<? extends GraphvizExp> transitions, GraphvizStateExp initialState,
+		String name, List<? extends GraphvizExp> clocks) {
 		this.fsm(states, transitions, initialState, name)
 	}
 
-	override timedState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
+	override timedState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
 		this.timedState(name, fsm, outgoingtransitions, incommingtransitions, stateguard)
 	}
 
-	override timedInitialState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
+	override timedInitialState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
 		[
 			val res = this.initialState(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
 			res.attributes.put("xlabel", name)
@@ -28,8 +28,8 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		]
 	}
 
-	override timedFinalState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
+	override timedFinalState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
 		this.finalState(name, fsm, outgoingtransitions, incommingtransitions)
 	}
 
@@ -82,7 +82,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override timedTransition(GraphvizStateExp from, GraphvizStateExp to, GraphvizExp fsm, String event,
-		List<GraphvizExp> clockresets, GraphvizExp transitionguard) {
+		List<? extends GraphvizExp> clockresets, GraphvizExp transitionguard) {
 		[
 			val evaluatedGuard = transitionguard.evalGraph
 			val evaluatedResets = clockresets.

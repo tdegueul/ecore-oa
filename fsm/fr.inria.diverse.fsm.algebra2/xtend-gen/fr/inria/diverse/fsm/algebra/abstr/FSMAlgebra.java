@@ -3,7 +3,7 @@ package fr.inria.diverse.fsm.algebra.abstr;
 import java.util.List;
 
 @SuppressWarnings("all")
-public interface FSMAlgebra<T extends Object, S extends Object, F extends Object, IS extends S, FS extends S> {
+public interface FSMAlgebra<T extends Object, S extends Object, F extends Object, IS extends Object, FS extends Object> {
   public abstract F fsm(final List<? extends S> states, final List<? extends T> transitions, final S initialState, final String name);
   
   public abstract IS initialState(final String name, final F fsm, final List<? extends T> outgoingtransitions, final List<? extends T> incommingtransitions);

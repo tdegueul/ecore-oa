@@ -4,22 +4,19 @@ import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import java.util.List
 
 // For TimedInitialState and TimedFinalState it has been arbitrarily defined that the "main" class to inherit from what TimedState
-interface TFSMAlgebra<T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, 
-TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, 
-CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, 
-ACC extends BCC, OCC extends BCC> extends FSMAlgebra<T, S, F, IS, FS> {
+interface TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> extends FSMAlgebra<T, S, F, IS, FS> {
 
-	def TF timedFsm(List<S> states, List<T> transitions, S initialState, String name, List<C> clocks)
+	def TF timedFsm(List<? extends S> states, List<? extends T> transitions, S initialState, String name, List<? extends C> clocks)
 
-	def TS timedState(String name, F fsm, List<T> outgoingtransitions, List<T> incommingtransitions, CCO stateguard)
+	def TS timedState(String name, F fsm, List<? extends T> outgoingtransitions, List<? extends T> incommingtransitions, CCO stateguard)
 
-	def TIS timedInitialState(String name, F fsm, List<T> outgoingtransitions, List<T> incommingtransitions,
+	def TIS timedInitialState(String name, F fsm, List<? extends T> outgoingtransitions, List<? extends T> incommingtransitions,
 		CCO stateguard)
 
-	def TFS timedFinalState(String name, F fsm, List<T> outgoingtransitions, List<T> incommingtransitions,
+	def TFS timedFinalState(String name, F fsm, List<? extends T> outgoingtransitions, List<? extends T> incommingtransitions,
 		CCO stateguard)
 
-	def TT timedTransition(S from, S to, F fsm, String event, List<CR> clockresets, CCO transitionguard)
+	def TT timedTransition(S from, S to, F fsm, String event, List<? extends CR> clockresets, CCO transitionguard)
 
 	def C clock(String name, Integer tick)
 

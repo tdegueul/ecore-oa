@@ -40,17 +40,16 @@ ExecutableGuardExp> { // OCC extends BCC
 		this.timedActions = userinput
 	}
 
-	override timedFsm(List<ExecutableStateExp> states, List<ExecutableTransitionExp> transitions,
-		ExecutableStateExp initialState, String name, List<ExecutableClockExp> clocks) {
-//		this.fsm(states, transitions, initialState, name)
+	override timedFsm(List<? extends ExecutableStateExp> states, List<? extends ExecutableTransitionExp> transitions,
+		ExecutableStateExp initialState, String name, List<? extends ExecutableClockExp> clocks) {
 		[
 			(initialState as ExecutableTimedStateExp).executeWithTime.value.apply(false).apply(0).execute
 		]
 	}
 
 	override ExecutableTimedStateExp timedState(String name, ExecutableExp fsm,
-		List<ExecutableTransitionExp> outgoingtransitions, List<ExecutableTransitionExp> incommingtransitions,
-		ExecutableGuardExp stateguard) {
+		List<? extends ExecutableTransitionExp> outgoingtransitions,
+		List<? extends ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
 		new ExecutableTimedStateExp {
 
 			override executeWithTime() {
@@ -124,18 +123,20 @@ ExecutableGuardExp> { // OCC extends BCC
 		}
 	}
 
-	override timedInitialState(String name, ExecutableExp fsm, List<ExecutableTransitionExp> outgoingtransitions,
-		List<ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
+	override timedInitialState(String name, ExecutableExp fsm,
+		List<? extends ExecutableTransitionExp> outgoingtransitions,
+		List<? extends ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
 		this.timedState(name, fsm, outgoingtransitions, incommingtransitions, stateguard)
 	}
 
-	override timedFinalState(String stateName, ExecutableExp fsm, List<ExecutableTransitionExp> outgoingtransitions,
-		List<ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
+	override timedFinalState(String stateName, ExecutableExp fsm,
+		List<? extends ExecutableTransitionExp> outgoingtransitions,
+		List<? extends ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
 	override timedTransition(ExecutableStateExp from, ExecutableStateExp to, ExecutableExp fsm, String eventName,
-		List<ExecutableExp> clockresets, ExecutableGuardExp transitionguard) {
+		List<? extends ExecutableExp> clockresets, ExecutableGuardExp transitionguard) {
 		new ExecutableTimedTransitionExp {
 
 			override executeWithTime(Integer time) {
