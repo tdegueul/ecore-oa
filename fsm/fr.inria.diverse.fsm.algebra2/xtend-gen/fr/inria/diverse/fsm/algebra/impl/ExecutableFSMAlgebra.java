@@ -24,7 +24,7 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
   }
   
   @Override
-  public ExecutableExp fsm(final List<ExecutableStateExp> states, final List<ExecutableTransitionExp> transitions, final ExecutableStateExp initialState, final String name) {
+  public ExecutableExp fsm(final List<? extends ExecutableStateExp> states, final List<? extends ExecutableTransitionExp> transitions, final ExecutableStateExp initialState, final String name) {
     final ExecutableExp _function = () -> {
       Pair<String, Function1<? super Boolean, ? extends ExecutableExp>> _execute = initialState.execute();
       Function1<? super Boolean, ? extends ExecutableExp> _value = _execute.getValue();
@@ -35,7 +35,7 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
   }
   
   @Override
-  public ExecutableStateExp initialState(final String name, final ExecutableExp fsm, final List<ExecutableTransitionExp> outgoingtransitions, final List<ExecutableTransitionExp> incommingtransitions) {
+  public ExecutableStateExp initialState(final String name, final ExecutableExp fsm, final List<? extends ExecutableTransitionExp> outgoingtransitions, final List<? extends ExecutableTransitionExp> incommingtransitions) {
     final ExecutableStateExp _function = () -> {
       ExecutableStateExp _state = this.state(name, fsm, outgoingtransitions, incommingtransitions);
       Pair<String, Function1<? super Boolean, ? extends ExecutableExp>> _execute = _state.execute();
@@ -46,7 +46,7 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
   }
   
   @Override
-  public ExecutableStateExp state(final String name, final ExecutableExp fsm, final List<ExecutableTransitionExp> outgoingtransitions, final List<ExecutableTransitionExp> incommingtransitions) {
+  public ExecutableStateExp state(final String name, final ExecutableExp fsm, final List<? extends ExecutableTransitionExp> outgoingtransitions, final List<? extends ExecutableTransitionExp> incommingtransitions) {
     final ExecutableStateExp _function = () -> {
       Pair<String, Function1<? super Boolean, ? extends ExecutableExp>> _xblockexpression = null;
       {
@@ -62,7 +62,7 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
               final Function1<ExecutableTransitionExp, Pair<String, ExecutableExp>> _function_3 = (ExecutableTransitionExp it) -> {
                 return it.execute();
               };
-              final List<Pair<String, ExecutableExp>> executedTransitions = ListExtensions.<ExecutableTransitionExp, Pair<String, ExecutableExp>>map(outgoingtransitions, _function_3);
+              final List<Pair<String, ExecutableExp>> executedTransitions = ListExtensions.map(outgoingtransitions, _function_3);
               final Function1<Pair<String, ExecutableExp>, Boolean> _function_4 = (Pair<String, ExecutableExp> e) -> {
                 String _key = e.getKey();
                 return Boolean.valueOf(Objects.equal(_key, action));
@@ -101,7 +101,7 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
   }
   
   @Override
-  public ExecutableStateExp finalState(final String name, final ExecutableExp fsm, final List<ExecutableTransitionExp> outgoingtransitions, final List<ExecutableTransitionExp> incommingtransitions) {
+  public ExecutableStateExp finalState(final String name, final ExecutableExp fsm, final List<? extends ExecutableTransitionExp> outgoingtransitions, final List<? extends ExecutableTransitionExp> incommingtransitions) {
     final ExecutableStateExp _function = () -> {
       Pair<String, Function1<? super Boolean, ? extends ExecutableExp>> _xblockexpression = null;
       {

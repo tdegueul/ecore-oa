@@ -1,15 +1,23 @@
 package fr.inria.diverse.tfsm.algebra.program
 
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransitionExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import fr.inria.diverse.tfsm.algebra.TimedDeferProxy
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import tfsm.TfsmPackage
 import tfsm.TimedFSM
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableGuardExp
 
 class Program1 {
 	def TimedFSM createModel() {
@@ -72,8 +80,26 @@ class Program1 {
 			typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp),
 			typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp), typeof(GraphvizExp))
 		println(evalAlg.evalGraph)
-//		make(new ExecutableFSMAlgebra(newLinkedList('a', 'b', 'a', 'a', 'b')), typeof(ExecutableExp),
-//			typeof(ExecutableTransitionExp), typeof(ExecutableStateExp), typeof(ExecutableStateExp),
-//			typeof(ExecutableStateExp)).execute
+		make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")), typeof(ExecutableTransitionExp), // T
+		typeof(ExecutableStateExp), // S
+		typeof(ExecutableExp), // F
+		typeof(ExecutableStateExp), // IS extends S 
+		typeof(ExecutableStateExp), // FS extends S
+		typeof(ExecutableExp), // TF extends F
+		typeof(ExecutableTimedStateExp), // TS extends S
+		typeof(ExecutableTimedStateExp), //TIS extends TS
+		typeof(ExecutableTimedStateExp), // TFS extends TS
+		typeof(ExecutableTimedTransitionExp), // TT extends T
+		typeof(ExecutableClockExp), // C
+		typeof(ExecutableGuardExp), // CCO
+		typeof(ExecutableGuardExp), // CC extends CCO
+		typeof(ExecutableExp), // CR
+		typeof(ExecutableGuardExp), // LCC extends CC
+		typeof(ExecutableGuardExp), //LECC EXTENDS CC
+		typeof(ExecutableGuardExp), // UCC extends CC
+		typeof(ExecutableGuardExp), // UECC EXTENDS CC
+		typeof(ExecutableGuardExp), // BCC extends CCO
+		typeof(ExecutableGuardExp), // ACC extends BCC
+		typeof(ExecutableGuardExp)).execute
 	}
 }

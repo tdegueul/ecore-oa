@@ -31,7 +31,7 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 		super(newLinkedList())
 		this.timedActions = timedActions
 	}
-
+	
 	def boolean testGuard(ClockConstraintOperation operation) {
 		if (operation == null) {
 			true

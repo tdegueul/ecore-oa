@@ -16,18 +16,18 @@ import org.eclipse.xtext.xbase.lib.Pair;
 @SuppressWarnings("all")
 public class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp> {
   @Override
-  public GraphvizExp fsm(final List<GraphvizStateExp> states, final List<GraphvizExp> transitions, final GraphvizStateExp initialState, final String name) {
+  public GraphvizExp fsm(final List<? extends GraphvizStateExp> states, final List<? extends GraphvizExp> transitions, final GraphvizStateExp initialState, final String name) {
     final GraphvizExp _function = () -> {
       String _xblockexpression = null;
       {
         final Function1<GraphvizStateExp, GraphvizStateExp.StateData> _function_1 = (GraphvizStateExp e) -> {
           return e.evalGraph();
         };
-        final List<GraphvizStateExp.StateData> evalStates = ListExtensions.<GraphvizStateExp, GraphvizStateExp.StateData>map(states, _function_1);
+        final List<GraphvizStateExp.StateData> evalStates = ListExtensions.map(states, _function_1);
         final Function1<GraphvizExp, String> _function_2 = (GraphvizExp e) -> {
           return e.evalGraph();
         };
-        final List<String> evalTransitions = ListExtensions.<GraphvizExp, String>map(transitions, _function_2);
+        final List<String> evalTransitions = ListExtensions.map(transitions, _function_2);
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("digraph ");
         _builder.append(name, "");
@@ -78,7 +78,7 @@ public class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizState
   }
   
   @Override
-  public GraphvizStateExp initialState(final String name, final GraphvizExp fsm, final List<GraphvizExp> outgoingtransitions, final List<GraphvizExp> incommingtransitions) {
+  public GraphvizStateExp initialState(final String name, final GraphvizExp fsm, final List<? extends GraphvizExp> outgoingtransitions, final List<? extends GraphvizExp> incommingtransitions) {
     final GraphvizStateExp _function = () -> {
       GraphvizStateExp.StateData _xblockexpression = null;
       {
@@ -96,7 +96,7 @@ public class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizState
   }
   
   @Override
-  public GraphvizStateExp state(final String name, final GraphvizExp fsm, final List<GraphvizExp> outgoingtransitions, final List<GraphvizExp> incommingtransitions) {
+  public GraphvizStateExp state(final String name, final GraphvizExp fsm, final List<? extends GraphvizExp> outgoingtransitions, final List<? extends GraphvizExp> incommingtransitions) {
     final GraphvizStateExp _function = () -> {
       return new GraphvizStateExp.StateData(name);
     };
@@ -104,7 +104,7 @@ public class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizState
   }
   
   @Override
-  public GraphvizStateExp finalState(final String name, final GraphvizExp fsm, final List<GraphvizExp> outgoingtransitions, final List<GraphvizExp> incommingtransitions) {
+  public GraphvizStateExp finalState(final String name, final GraphvizExp fsm, final List<? extends GraphvizExp> outgoingtransitions, final List<? extends GraphvizExp> incommingtransitions) {
     final GraphvizStateExp _function = () -> {
       GraphvizStateExp.StateData _xblockexpression = null;
       {

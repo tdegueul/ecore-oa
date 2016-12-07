@@ -7,7 +7,7 @@ import java.util.List
 
 class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp> {
 
-	override fsm(List<GraphvizStateExp> states, List<GraphvizExp> transitions, GraphvizStateExp initialState,
+	override fsm(List<? extends GraphvizStateExp> states, List<? extends GraphvizExp> transitions, GraphvizStateExp initialState,
 		String name) {
 		[
 
@@ -25,8 +25,8 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizStateExp, Gr
 		]
 	}
 
-	override initialState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions) {
+	override initialState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions) {
 		[
 			val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
 			stateRes.attributes.putAll(newHashMap("shape" -> "box", "color" -> "red"))
@@ -34,15 +34,15 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizStateExp, Gr
 		]
 	}
 
-	override state(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions) {
+	override state(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions) {
 		[
 			new GraphvizStateExp.StateData(name)
 		]
 	}
 
-	override finalState(String name, GraphvizExp fsm, List<GraphvizExp> outgoingtransitions,
-		List<GraphvizExp> incommingtransitions) {
+	override finalState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+		List<? extends GraphvizExp> incommingtransitions) {
 		[
 			val stateRes = state(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
 			stateRes.attributes.putAll(newHashMap("shape" -> "box", "color" -> "green"))

@@ -2,10 +2,10 @@ package fr.inria.diverse.fsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransitionExp
 import java.util.List
 import java.util.Queue
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp
 
 class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, ExecutableStateExp, ExecutableExp, ExecutableStateExp, ExecutableStateExp> {
 
@@ -15,7 +15,7 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, Execut
 		this.userinput = userinput
 	}
 
-	override fsm(List<ExecutableStateExp> states, List<ExecutableTransitionExp> transitions,
+	override fsm(List<? extends ExecutableStateExp> states, List<? extends ExecutableTransitionExp> transitions,
 		ExecutableStateExp initialState, String name) {
 		[
 			initialState.execute.value.apply(false).execute
@@ -23,15 +23,15 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, Execut
 	}
 
 	override ExecutableStateExp initialState(String name, ExecutableExp fsm,
-		List<ExecutableTransitionExp> outgoingtransitions, List<ExecutableTransitionExp> incommingtransitions) {
+		List<? extends ExecutableTransitionExp> outgoingtransitions, List<? extends ExecutableTransitionExp> incommingtransitions) {
 		[
 			name -> this.state(name, fsm, outgoingtransitions, incommingtransitions).execute.value
 
 		]
 	}
 
-	override ExecutableStateExp state(String name, ExecutableExp fsm, List<ExecutableTransitionExp> outgoingtransitions,
-		List<ExecutableTransitionExp> incommingtransitions) {
+	override ExecutableStateExp state(String name, ExecutableExp fsm, List<? extends ExecutableTransitionExp> outgoingtransitions,
+		List<? extends ExecutableTransitionExp> incommingtransitions) {
 		[
 
 			val (Boolean)=>ExecutableExp effect = [ boolean isFinal |
@@ -59,7 +59,7 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, Execut
 	}
 
 	override ExecutableStateExp finalState(String name, ExecutableExp fsm,
-		List<ExecutableTransitionExp> outgoingtransitions, List<ExecutableTransitionExp> incommingtransitions) {
+		List<? extends ExecutableTransitionExp> outgoingtransitions, List<? extends ExecutableTransitionExp> incommingtransitions) {
 		[
 			val (Boolean)=>ExecutableExp effect = [ Boolean isFinal |
 				[

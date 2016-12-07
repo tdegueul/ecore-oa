@@ -58,32 +58,18 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 	Class<OCC> orClockConstraintClass
 
 	Class<BCC> binaryClockConstraintClass
-	
+
 	Class<CR> clockResetClass
 
 	new(
 		TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
-		Class<T> transitionClass,
-		Class<S> stateClass,
-		Class<F> fsmClass,
-		Class<IS> initialStateClass,
-		Class<FS> finalStateClass,
-		Class<TF> timedFsmClass,
-		Class<TS> timedStateClass,
-		Class<TIS> timedInitalStateClass,
-		Class<TFS> timedFinalStateClass,
-		Class<TT> timedTransitionClass,
-		Class<C> clockClass,
-		Class<CCO> clockConstraintOperationClass,
-		Class<CC> clockConstraintClass,
-		Class<CR> clockResetClass,
-		Class<LCC> lowerClockConstraintClass,
-		Class<LECC> lowerEqualClockConstraintClass,
-		Class<UCC> upperClockConstraintClass,
-		Class<UECC> upperEqualClockConstraintClass,
-		Class<BCC> binaryClockConstraintClass,
-		Class<ACC> andClockConstraintClass,
-		Class<OCC> orClockConstraintClass) {
+		Class<T> transitionClass, Class<S> stateClass, Class<F> fsmClass, Class<IS> initialStateClass,
+		Class<FS> finalStateClass, Class<TF> timedFsmClass, Class<TS> timedStateClass, Class<TIS> timedInitalStateClass,
+		Class<TFS> timedFinalStateClass, Class<TT> timedTransitionClass, Class<C> clockClass,
+		Class<CCO> clockConstraintOperationClass, Class<CC> clockConstraintClass, Class<CR> clockResetClass,
+		Class<LCC> lowerClockConstraintClass, Class<LECC> lowerEqualClockConstraintClass,
+		Class<UCC> upperClockConstraintClass, Class<UECC> upperEqualClockConstraintClass,
+		Class<BCC> binaryClockConstraintClass, Class<ACC> andClockConstraintClass, Class<OCC> orClockConstraintClass) {
 		super(concreteAlgebra, fsmClass, transitionClass, stateClass, initialStateClass, finalStateClass)
 		this.concreteAlgebra = concreteAlgebra
 		this.timedFsmClass = timedFsmClass
@@ -98,7 +84,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 
 		this.clockConstraintOperationClass = clockConstraintOperationClass
 
-this.clockResetClass = clockResetClass
+		this.clockResetClass = clockResetClass
 
 		this.timedTransitionClass = timedTransitionClass
 
@@ -170,12 +156,12 @@ this.clockResetClass = clockResetClass
 			new InvocationHandler() {
 
 				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.timedInitialState(timedInitalState.name,
-							fsm(timedInitalState.fsm), timedInitalState.outgoingtransitions.map [
-								transition
-							], timedInitalState.incommingtransitions.map[transition],
-							clockConstraintOperation(timedInitalState.stateguard)), args)
+					val ca = concreteAlgebra.timedInitialState(timedInitalState.name,
+						fsm(timedInitalState.fsm), timedInitalState.outgoingtransitions.map [
+							transition
+						], timedInitalState.incommingtransitions.map[transition],
+						clockConstraintOperation(timedInitalState.stateguard))
+					method.invoke(ca, args)
 				}
 
 			}) as TIS
@@ -242,15 +228,13 @@ this.clockResetClass = clockResetClass
 	}
 
 	def dispatch CR clockResets(ClockReset clockReset) {
-		Proxy.newProxyInstance(clockResetClass.classLoader, #[clockResetClass],
-			new InvocationHandler() {
+		Proxy.newProxyInstance(clockResetClass.classLoader, #[clockResetClass], new InvocationHandler() {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.clockReset(clock(clockReset.clock)), args)
-				}
+			override invoke(Object proxy, Method method, Object[] args) throws Throwable {
+				method.invoke(concreteAlgebra.clockReset(clock(clockReset.clock)), args)
+			}
 
-			}) as CR
+		}) as CR
 	}
 
 	def dispatch LCC clockConstraintOperation(LowerClockConstraint lowerClockConstraint) {

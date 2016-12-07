@@ -1,5 +1,5 @@
 package fr.inria.diverse.fsm.algebra.exprs
 
-interface ExecutableStateExp {
+interface ExecutableStateExp  {
 	def Pair<String, (Boolean) => ExecutableExp> execute();
 }
