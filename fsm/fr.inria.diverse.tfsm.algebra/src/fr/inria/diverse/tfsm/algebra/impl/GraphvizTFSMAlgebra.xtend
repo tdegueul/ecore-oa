@@ -55,11 +55,11 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		['''(«expF(andClockConstraint.left).evalGraph» AND «expF(andClockConstraint.right).evalGraph»)''']
+		['''(«$F(andClockConstraint.left).evalGraph» AND «$F(andClockConstraint.right).evalGraph»)''']
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		['''(«expF(orClockConstraint.left).evalGraph» OR «expF(orClockConstraint.right).evalGraph»)''']
+		['''(«$F(orClockConstraint.left).evalGraph» OR «$F(orClockConstraint.right).evalGraph»)''']
 	}
 
 	override binaryClockConstraint(BinaryClockConstraint binaryClockConstraint) {
@@ -89,7 +89,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	override timedTransition(TimedTransition timedTransition) {
 		[
 			this.rep.edges.
-				add('''«expE(timedTransition.from).evalGraph» -> «expE(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«expF(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«expE(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
+				add('''«$E(timedTransition.from).evalGraph» -> «$E(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$F(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$E(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}
@@ -98,7 +98,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		[
 			val statename = this.state(timedState).evalGraph
 			val attrs = if (timedState.stateguard != null) {
-					val guard = expF(timedState.stateguard).evalGraph
+					val guard = $F(timedState.stateguard).evalGraph
 					newHashMap("label" -> '''"«guard»"''')
 				} else {
 					newHashMap("label" -> '''""''')

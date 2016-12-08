@@ -3,8 +3,8 @@ package fr.inria.diverse.tfsm.algebra.impl
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import java.util.List
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 

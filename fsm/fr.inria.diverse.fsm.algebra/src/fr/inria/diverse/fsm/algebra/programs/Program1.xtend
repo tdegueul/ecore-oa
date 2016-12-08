@@ -39,7 +39,7 @@ class Program1 {
 	def <E> E make(FSMAlgebra<E> f) {
 		val exp = createModel
 
-		return f.expE(exp)
+		return f.$E(exp)
 	}
 
 	def static void main(String[] args) {

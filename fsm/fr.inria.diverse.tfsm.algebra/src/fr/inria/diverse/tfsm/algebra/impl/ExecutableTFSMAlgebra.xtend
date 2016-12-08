@@ -126,7 +126,7 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 			this.currentState = timedFSM.initialstate
 			this.time = 0
 			while (this.currentState != null) {
-				val exp = expE(this.currentState)
+				val exp = $E(this.currentState)
 				exp.execute
 				timedFSM.clocks.forEach[e|e.tick = e.tick + 1]
 				this.time++

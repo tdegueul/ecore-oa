@@ -18,7 +18,7 @@ interface FSMAlgebra<E> {
 
 	def E fsm(FSM fsm)
 
-	def E expE(EObject eObject) {
+	def E $E(EObject eObject) {
 		return if (eObject instanceof Transition) {
 			val tmp = transition(eObject)
 			tmp

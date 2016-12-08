@@ -1,7 +1,6 @@
 package fr.inria.diverse.tfsm.algebra
 
 import fr.inria.diverse.fsm.algebra.DeferProxy
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fsm.FSM
 import fsm.State
 import fsm.Transition
@@ -24,6 +23,7 @@ import tfsm.UpperEqualClockConstraint
 import tfsm.AndClockConstraint
 import tfsm.OrClockConstraint
 import tfsm.BinaryClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, ACC extends BCC, OCC extends BCC> extends DeferProxy<T, S, F, IS, FS> {
 

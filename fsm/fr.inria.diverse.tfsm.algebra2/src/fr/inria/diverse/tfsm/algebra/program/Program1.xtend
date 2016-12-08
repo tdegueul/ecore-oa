@@ -5,7 +5,6 @@ import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransitionExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import fr.inria.diverse.tfsm.algebra.TimedDeferProxy
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
 import org.eclipse.emf.common.util.URI
@@ -18,6 +17,7 @@ import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableGuardExp
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class Program1 {
 	def TimedFSM createModel() {

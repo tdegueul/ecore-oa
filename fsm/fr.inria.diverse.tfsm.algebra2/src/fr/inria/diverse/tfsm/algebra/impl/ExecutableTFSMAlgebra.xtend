@@ -4,13 +4,13 @@ import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransitionExp
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableGuardExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
 import java.util.List
 import java.util.Map
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableTransitionExp, // T
 ExecutableStateExp, // S

@@ -20,7 +20,7 @@ class Program1 {
 	def <E,F> E make(TFSMAlgebra<E,F> f) {
 		val exp = createModel
 
-		return f.expE(exp)
+		return f.$E(exp)
 	}
 
 	def TimedFSM createModel() {

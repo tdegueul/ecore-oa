@@ -16,7 +16,7 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp> {
 	override fsm(FSM fsm) {
 		[
 			this.rep.name = fsm.name
-			fsm.transitions.forEach[e|expE(e).evalGraph]
+			fsm.transitions.forEach[e|$E(e).evalGraph]
 			rep.show
 		]
 	}
@@ -24,7 +24,7 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp> {
 	override transition(Transition transition) {
 		[
 			this.rep.edges.
-				add('''«expE(transition.from).evalGraph» -> «expE(transition.to).evalGraph» [label=«transition.event»]''')
+				add('''«$E(transition.from).evalGraph» -> «$E(transition.to).evalGraph» [label=«transition.event»]''')
 			""
 		]
 	}

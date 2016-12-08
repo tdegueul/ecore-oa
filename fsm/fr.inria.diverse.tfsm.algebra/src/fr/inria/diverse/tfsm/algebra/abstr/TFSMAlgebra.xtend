@@ -53,7 +53,7 @@ interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 
 	def F binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
 
-	override def E expE(EObject eObject) {
+	override def E $E(EObject eObject) {
 		return if (eObject instanceof TimedFSM) {
 			timedFSM(eObject)
 		} else if (eObject instanceof TimedFinalState) {
@@ -69,12 +69,12 @@ interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 		} else if (eObject instanceof ClockReset) {
 			clockReset(eObject)
 		} else {
-			FSMAlgebra.super.expE(eObject)
+			FSMAlgebra.super.$E(eObject)
 		}
 
 	}
 
-	def F expF(EObject eObject) {
+	def F $F(EObject eObject) {
 		if (eObject instanceof LowerClockConstraint) {
 			lowerClockConstraint(eObject)
 		} else if (eObject instanceof LowerEqualClockConstraint) {
