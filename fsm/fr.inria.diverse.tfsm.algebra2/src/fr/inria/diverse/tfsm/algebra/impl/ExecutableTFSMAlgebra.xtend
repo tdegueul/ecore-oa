@@ -4,13 +4,14 @@ import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransitionExp
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableGuardExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp
+import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp.ExecutableTimedStateData
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
 import java.util.List
 import java.util.Map
-import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableTransitionExp, // T
 ExecutableStateExp, // S
@@ -43,84 +44,97 @@ ExecutableGuardExp> { // OCC extends BCC
 	override timedFsm(List<? extends ExecutableStateExp> states, List<? extends ExecutableTransitionExp> transitions,
 		ExecutableStateExp initialState, String name, List<? extends ExecutableClockExp> clocks) {
 		[
-			(initialState as ExecutableTimedStateExp).executeWithTime.value.apply(false).apply(0).execute
+			val e1 = (initialState as ExecutableTimedStateExp).execute
+			e1.time = 0
+			e1.final = false
+			e1.execute().execute
 		]
 	}
 
-	override ExecutableTimedStateExp timedState(String name, ExecutableExp fsm,
+	override ExecutableTimedStateExp timedState(String stateName, ExecutableExp fsm,
 		List<? extends ExecutableTransitionExp> outgoingtransitions,
 		List<? extends ExecutableTransitionExp> incommingtransitions, ExecutableGuardExp stateguard) {
-		new ExecutableTimedStateExp {
+		[
+			new ExecutableTimedStateData {
 
-			override executeWithTime() {
-				val Pair<String, (Boolean)=>(Integer)=>ExecutableExp> ret = name ->
-					[ isFinal |
-						[ time |
-							new ExecutableExp {
-								override def execute() {
-									var timeb = time;
-									while (!execute(timeb)) {
-										timeb++
+				var Integer ctime
+
+				Boolean isFinal = false
+
+				override setTime(Integer time) {
+					this.ctime = time;
+				}
+
+				override name() {
+					stateName
+				}
+
+				override setFinal(Boolean isFinal) {
+					this.isFinal = isFinal
+				}
+
+				override execute() {
+					new ExecutableExp {
+
+						override execute() {
+
+							while (!executeB()) {
+								ctime++
+							}
+						}
+
+						def boolean executeB() {
+							val action = timedActions.get(ctime)
+							val futureActions = timedActions.filter[p1, p2|p1 >= ctime].size
+							val res = if (futureActions == 0) {
+									if (!isFinal) {
+										println("[ERROR] no action available but final state not reached")
 									}
-								}
-
-								def boolean execute(Integer time) {
-									val action = timedActions.get(time)
-									val futureActions = timedActions.filter[p1, p2|p1 >= time].size
-									val res = if (futureActions == 0) {
-											if (!isFinal) {
-												println("[ERROR] no action available but final state not reached")
-											}
-											true
-										} else if (action != null) {
-											// FIXME : ugly downcast !
-											val timedOutgoingTransitions = outgoingtransitions.map [ e |
-												e as ExecutableTimedTransitionExp
-											]
-											val executedWithTimeOutgoingTransitions = timedOutgoingTransitions.map [ a |
-												a.executeWithTime(time)
-											]
-											val nonGardedRes = executedWithTimeOutgoingTransitions.filter [ e |
-												e.event == action
-											]
-											val res = nonGardedRes.filter[e|e.guard]
-											if (res.size >
-												1) {
-												println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
-												true
-											} else if (res.size ==
-												1) {
-												println('''transition (time «time»): event «action» - «name» -> «res.head.event»''')
-												res.head.execute
-												true
-											} else {
-												false
-											}
-										}
-
-									// test state guard !
-									val res2 = res && if (stateguard != null && !isFinal && ! stateguard.execute) {
+									true
+								} else if (action != null) {
+									// FIXME : ugly downcast !
+									val timedOutgoingTransitions = outgoingtransitions.map [ e |
+										e as ExecutableTimedTransitionExp
+									]
+//									val executedWithTimeOutgoingTransitions = timedOutgoingTransitions.map [ a |
+//										a.time = ctime
+//										a.execute
+//									]
+									val nonGardedRes = timedOutgoingTransitions.filter [ e |
+										e.event == action
+									]
+									val res = nonGardedRes.filter[e|e.guard]
+									if (res.size >
+										1) {
+										println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
+										true
+									} else if (res.size ==
+										1) {
+										println('''transition (time «ctime»): event «action» - «name» -> «res.head.event»''')
+										val h = res.head
+										h.time = ctime
+										h.execute
 										true
 									} else {
 										false
 									}
-
-									res2
 								}
 
+							// test state guard !
+							val res2 = res && if (stateguard != null && !isFinal && ! stateguard.execute) {
+								true
+							} else {
+								false
 							}
-						]
 
-					]
+							res2
+						}
 
-				ret
+					}
+				}
+
 			}
-
-			override execute() {
-				throw new UnsupportedOperationException("TODO: auto-generated method stub")
-			}
-
-		}
+		]
 	}
 
 	override timedInitialState(String name, ExecutableExp fsm,
@@ -139,26 +153,28 @@ ExecutableGuardExp> { // OCC extends BCC
 		List<? extends ExecutableExp> clockresets, ExecutableGuardExp transitionguard) {
 		new ExecutableTimedTransitionExp {
 
-			override executeWithTime(Integer time) {
-				new fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp.TimedTransitionData {
-
-					override event() {
-						eventName
-					}
-
-					override guard() {
-						transitionguard.execute
-					}
-
-					override execute() {
-						(to as ExecutableTimedStateExp).executeWithTime.value.apply(false).apply(time + 1).execute
-					}
-
-				}
-			}
+			var Integer ctime
 
 			override execute() {
-				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+				val e1 = to.execute
+
+				if (e1 instanceof ExecutableTimedStateData) {
+					e1.setTime(ctime + 1)
+				}
+
+				e1.execute
+			}
+
+			override guard() {
+				transitionguard.execute
+			}
+
+			override event() {
+				eventName
+			}
+
+			override setTime(Integer time) {
+				this.ctime = time
 			}
 
 		}

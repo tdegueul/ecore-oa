@@ -9,8 +9,49 @@ import fsm.Transition
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
+import java.util.Map
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EObject
 
 class DeferProxy<T, S, F, IS extends S, FS extends S> {
+
+	abstract static class InvocHandlerPus<Z> implements InvocationHandler {
+		abstract def Z initialize()
+
+		Z initialized
+
+		override invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			val target = if (initialized == null) {
+					initialized = initialize()
+				} else {
+					initialized
+				}
+			method.invoke(target, args)
+		}
+
+	}
+
+	interface GetMe<X> {
+		def X get()
+	}
+
+	protected def <X, Y extends EObject> X init(GetMe<X> param, Y elem) {
+		val uri = EcoreUtil.getURI(elem)
+		if (!mapObj.containsKey(uri)) {
+			val proxy = Proxy.newProxyInstance(fsmClass.classLoader, #[fsmClass], new InvocHandlerPus {
+
+				override initialize() {
+					param.get
+				}
+
+			})
+
+			mapObj.put(uri, proxy)
+		}
+
+		mapObj.get(uri) as X
+	}
 
 	FSMAlgebra<T, S, F, IS, FS> concreteAlgebra
 
@@ -20,6 +61,7 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 	Class<S> stateClass
 	Class<IS> initialStateClass
 	Class<FS> finalStateClass
+	protected Map<URI, Object> mapObj = newHashMap()
 
 	new(
 		FSMAlgebra<T, S, F, IS, FS> concreteAlgebra,
@@ -38,71 +80,61 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 	}
 
 	def dispatch F fsm(FSM fsm) {
-		Proxy.newProxyInstance(fsmClass.classLoader, #[fsmClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<F> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.fsm(fsm.states.map[state], fsm.transitions.map[transition],
-							state(fsm.initialstate), fsm.name), args)
+				override get() {
+					concreteAlgebra.fsm(fsm.states.map[state], fsm.transitions.map[transition], state(fsm.initialstate),
+						fsm.name)
 				}
-
-			}) as F
+			}, fsm)
 	}
 
 	def dispatch T transition(Transition transition) {
-		Proxy.newProxyInstance(transitionClass.classLoader, #[transitionClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<T> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.transition(state(transition.from), state(transition.to), fsm(transition.fsm),
-							transition.event), args)
+				override get() {
+					concreteAlgebra.transition(state(transition.from), state(transition.to), fsm(transition.fsm),
+						transition.event)
 				}
-
-			}) as T
+			}, transition)
 	}
 
 	def dispatch S state(State state) {
-		Proxy.newProxyInstance(stateClass.classLoader, #[stateClass], new InvocationHandler() {
+		init(new GetMe<S> {
 
-			override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				method.invoke(concreteAlgebra.state(state.name, fsm(state.fsm), state.outgoingtransitions.map [
+			override get() {
+				concreteAlgebra.state(state.name, fsm(state.fsm), state.outgoingtransitions.map [
 					transition
-				], state.incommingtransitions.map[transition]), args)
+				], state.incommingtransitions.map[transition])
 			}
-
-		}) as S
+		}, state)
 	}
 
 	def dispatch IS state(InitialState initialState) {
-		Proxy.newProxyInstance(initialStateClass.classLoader, #[initialStateClass],
-			new InvocationHandler() {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.initialState(initialState.name, fsm(initialState.fsm), initialState.
-							outgoingtransitions.map [
-								transition
-							], initialState.incommingtransitions.map[transition]), args)
+		init(
+			new GetMe<IS> {
+
+				override get() {
+					concreteAlgebra.initialState(initialState.name, fsm(initialState.fsm), initialState.
+						outgoingtransitions.map [
+							transition
+						], initialState.incommingtransitions.map[transition])
 				}
-
-			}) as IS
+			}, initialState)
 	}
 
 	def dispatch FS state(FinalState finalState) {
-		Proxy.newProxyInstance(finalStateClass.classLoader, #[finalStateClass],
-			new InvocationHandler() {
+		init(new GetMe<FS> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.finalState(finalState.name, fsm(finalState.fsm), finalState.outgoingtransitions.
-							map [
-								transition
-							], finalState.incommingtransitions.map[transition]), args)
-				}
-
-			}) as FS
+			override get() {
+				concreteAlgebra.finalState(finalState.name, fsm(finalState.fsm), finalState.outgoingtransitions.map [
+					transition
+				], finalState.incommingtransitions.map[transition])
+			}
+		}, finalState)
 	}
 
 }

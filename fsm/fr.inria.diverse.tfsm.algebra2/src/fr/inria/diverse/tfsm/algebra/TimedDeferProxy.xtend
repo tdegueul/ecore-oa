@@ -1,29 +1,28 @@
 package fr.inria.diverse.tfsm.algebra
 
 import fr.inria.diverse.fsm.algebra.DeferProxy
+import fr.inria.diverse.fsm.algebra.DeferProxy.GetMe
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fsm.FSM
 import fsm.State
 import fsm.Transition
-import java.lang.reflect.InvocationHandler
-import java.lang.reflect.Method
-import java.lang.reflect.Proxy
+import tfsm.AndClockConstraint
+import tfsm.BinaryClockConstraint
 import tfsm.Clock
+import tfsm.ClockConstraint
 import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
+import tfsm.LowerClockConstraint
+import tfsm.LowerEqualClockConstraint
+import tfsm.OrClockConstraint
 import tfsm.TimedFSM
 import tfsm.TimedFinalState
 import tfsm.TimedInitialState
 import tfsm.TimedState
 import tfsm.TimedTransition
-import tfsm.ClockConstraint
-import tfsm.LowerClockConstraint
-import tfsm.LowerEqualClockConstraint
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import tfsm.AndClockConstraint
-import tfsm.OrClockConstraint
-import tfsm.BinaryClockConstraint
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import java.util.List
 
 class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, ACC extends BCC, OCC extends BCC> extends DeferProxy<T, S, F, IS, FS> {
 
@@ -110,26 +109,25 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 	}
 
 	def dispatch TF fsm(TimedFSM timedFsm) {
+		init(new GetMe<TF> {
 
-		Proxy.newProxyInstance(timedFsmClass.classLoader, #[timedFsmClass], new InvocationHandler() {
-
-			override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				method.invoke(concreteAlgebra.timedFsm(timedFsm.states.map[state], timedFsm.transitions.map [
-					transition
-				], state(timedFsm.initialstate), timedFsm.name, timedFsm.clocks.map[clock]), args)
+			override get() {
+				val List<S> v1 = timedFsm.states.map[state]
+				val List<T> v2 = timedFsm.transitions.map[transition]
+				val S v3 = state(timedFsm.initialstate)
+				val List<C> v5 = timedFsm.clocks.map[clock]
+				val res = concreteAlgebra.timedFsm(v1, v2, v3, timedFsm.name, v5)
+				res
 			}
 
-		}) as TF
+		}, timedFsm)
 	}
 
 	def dispatch C clock(Clock clock) {
-		Proxy.newProxyInstance(clockClass.classLoader, #[clockClass], new InvocationHandler() {
+		init(new GetMe<C> {
 
-			override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				method.invoke(concreteAlgebra.clock(clock.name, clock.tick), args)
-			}
-
-		}) as C
+			override get() { concreteAlgebra.clock(clock.name, clock.tick) }
+		}, clock)
 	}
 
 	override def dispatch S state(State state) {
@@ -137,61 +135,49 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 	}
 
 	def dispatch TS state(TimedState timedState) {
-		Proxy.newProxyInstance(timedStateClass.classLoader, #[timedStateClass],
-			new InvocationHandler() {
+		init(new GetMe<TS> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke( // TESTFIXME : it should be a timeFsm instead of fsm but TimedFSM is not able to define a containement relation with TimedStates since ecore does not allow inheritance overloading?
-					concreteAlgebra.timedState(timedState.name, fsm(timedState.fsm), timedState.outgoingtransitions.map [
-						transition
-					], timedState.incommingtransitions.map[transition],
-						clockConstraintOperation(timedState.stateguard)), args)
-				}
-
-			}) as TS
+			override get() {
+				concreteAlgebra.timedState(timedState.name, fsm(timedState.fsm), timedState.outgoingtransitions.map [
+					transition
+				], timedState.incommingtransitions.map[transition], clockConstraintOperation(timedState.stateguard))
+			}
+		}, timedState)
 	}
 
 	def dispatch TIS state(TimedInitialState timedInitalState) {
-		Proxy.newProxyInstance(timedInitalStateClass.classLoader, #[timedInitalStateClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<TIS> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					val ca = concreteAlgebra.timedInitialState(timedInitalState.name,
+				override get() {
+					concreteAlgebra.timedInitialState(timedInitalState.name,
 						fsm(timedInitalState.fsm), timedInitalState.outgoingtransitions.map [
 							transition
 						], timedInitalState.incommingtransitions.map[transition],
 						clockConstraintOperation(timedInitalState.stateguard))
-					method.invoke(ca, args)
 				}
-
-			}) as TIS
+			}, timedInitalState)
 	}
 
 	def dispatch TFS state(TimedFinalState timedFinalState) {
-		Proxy.newProxyInstance(timedFinalStateClass.classLoader, #[timedFinalStateClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<TFS> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.timedInitialState(timedFinalState.name,
-							fsm(timedFinalState.fsm), timedFinalState.outgoingtransitions.map [
-								transition
-							], timedFinalState.incommingtransitions.map[transition],
-							clockConstraintOperation(timedFinalState.stateguard)), args)
+				override get() {
+					concreteAlgebra.timedFinalState(timedFinalState.name, fsm(timedFinalState.fsm), timedFinalState.
+						outgoingtransitions.map [
+							transition
+						], timedFinalState.incommingtransitions.map[transition],
+						clockConstraintOperation(timedFinalState.stateguard))
 				}
-
-			}) as TFS
+			}, timedFinalState)
 	}
 
 	def dispatch CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
-		Proxy.newProxyInstance(clockConstraintOperationClass.classLoader, #[clockConstraintOperationClass],
-			new InvocationHandler() {
+		init(new GetMe<CCO> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(concreteAlgebra.clockConstraintOperation(), args)
-				}
-
-			}) as CCO
+			override get() { concreteAlgebra.clockConstraintOperation() }
+		}, clockConstraintOperation)
 	}
 
 	override def dispatch T transition(Transition transition) {
@@ -199,132 +185,104 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 	}
 
 	def dispatch TT transition(TimedTransition timedTransition) {
-		Proxy.newProxyInstance(timedTransitionClass.classLoader, #[timedTransitionClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<TT> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.timedTransition(state(timedTransition.from), state(timedTransition.to),
-							fsm(timedTransition.fsm), timedTransition.event, timedTransition.clockresets.map [
-								clockResets
-							], clockConstraintOperation(timedTransition.transitionguard)), args)
+				override get() {
+					concreteAlgebra.timedTransition(state(timedTransition.from), state(timedTransition.to),
+						fsm(timedTransition.fsm), timedTransition.event, timedTransition.clockresets.map [
+							clockResets
+						], clockConstraintOperation(timedTransition.transitionguard))
 				}
-
-			}) as TT
+			}, timedTransition)
 	}
 
 	/* NOTE: we might have to generate a method for each level of inheritance of a object in the metamodel. e.g clockConstraintOperation and clockContraint for ClockConstraint since ClockConstraint inherits from ClockConstraintOperation 
 	 * and everything must have a dispatch in order to be niherited later !*/
 	def dispatch CC clockConstraintOperation(ClockConstraint clockConstraint) {
-		Proxy.newProxyInstance(clockConstraintClass.classLoader, #[clockConstraintClass],
-			new InvocationHandler() {
+		init(new GetMe<CC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.clockConstraint(clockConstraint.threshold, clock(clockConstraint.clock)), args)
-				}
-
-			}) as CC
+			override get() { concreteAlgebra.clockConstraint(clockConstraint.threshold, clock(clockConstraint.clock)) }
+		}, clockConstraint)
 	}
 
 	def dispatch CR clockResets(ClockReset clockReset) {
-		Proxy.newProxyInstance(clockResetClass.classLoader, #[clockResetClass], new InvocationHandler() {
+		init(new GetMe<CR> {
 
-			override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				method.invoke(concreteAlgebra.clockReset(clock(clockReset.clock)), args)
-			}
-
-		}) as CR
+			override get() { concreteAlgebra.clockReset(clock(clockReset.clock)) }
+		}, clockReset)
 	}
 
 	def dispatch LCC clockConstraintOperation(LowerClockConstraint lowerClockConstraint) {
-		Proxy.newProxyInstance(lowerClockConstraintClass.classLoader, #[lowerClockConstraintClass],
-			new InvocationHandler() {
+		init(new GetMe<LCC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.lowerClockConstraint(lowerClockConstraint.threshold,
-							clock(lowerClockConstraint.clock)), args)
-				}
-
-			}) as LCC
+			override get() {
+				concreteAlgebra.lowerClockConstraint(lowerClockConstraint.threshold, clock(lowerClockConstraint.clock))
+			}
+		}, lowerClockConstraint)
 	}
 
 	def dispatch LECC clockConstraintOperation(LowerEqualClockConstraint lowerEqualClockConstraint) {
-		Proxy.newProxyInstance(lowerEqualClockConstraintClass.classLoader, #[lowerEqualClockConstraintClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<LECC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.lowerEqualClockConstraint(lowerEqualClockConstraint.threshold,
-							clock(lowerEqualClockConstraint.clock)), args)
+				override get() {
+					concreteAlgebra.lowerEqualClockConstraint(lowerEqualClockConstraint.threshold,
+						clock(lowerEqualClockConstraint.clock))
 				}
-
-			}) as LECC
+			}, lowerEqualClockConstraint)
 	}
 
 	def dispatch UCC clockConstraintOperation(UpperClockConstraint upperClockConstraint) {
-		Proxy.newProxyInstance(upperClockConstraintClass.classLoader, #[upperClockConstraintClass],
-			new InvocationHandler() {
+		init(new GetMe<UCC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.upperClockConstraint(upperClockConstraint.threshold,
-							clock(upperClockConstraint.clock)), args)
-				}
-
-			}) as UCC
+			override get() {
+				concreteAlgebra.upperClockConstraint(upperClockConstraint.threshold, clock(upperClockConstraint.clock))
+			}
+		}, upperClockConstraint)
 	}
 
 	def dispatch UECC clockConstraintOperation(UpperEqualClockConstraint upperEqualClockConstraint) {
-		Proxy.newProxyInstance(upperEqualClockConstraintClass.classLoader, #[upperEqualClockConstraintClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<UECC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.upperEqualClockConstraint(upperEqualClockConstraint.threshold,
-							clock(upperEqualClockConstraint.clock)), args)
+				override get() {
+					concreteAlgebra.upperEqualClockConstraint(upperEqualClockConstraint.threshold,
+						clock(upperEqualClockConstraint.clock))
 				}
-
-			}) as UECC
+			}, upperEqualClockConstraint)
 	}
 
 	def dispatch ACC clockConstraintOperation(AndClockConstraint andClockConstraint) {
-		Proxy.newProxyInstance(andClockConstraintClass.classLoader, #[andClockConstraintClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<ACC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.andClockConstraint(clockConstraintOperation(andClockConstraint.left),
-							clockConstraintOperation(andClockConstraint.right)), args)
+				override get() {
+					concreteAlgebra.andClockConstraint(clockConstraintOperation(andClockConstraint.left),
+						clockConstraintOperation(andClockConstraint.right))
 				}
-
-			}) as ACC
+			}, andClockConstraint)
 	}
 
 	def dispatch OCC clockConstraintOperation(OrClockConstraint orClockConstraint) {
-		Proxy.newProxyInstance(orClockConstraintClass.classLoader, #[orClockConstraintClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<OCC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.orClockConstraint(clockConstraintOperation(orClockConstraint.left),
-							clockConstraintOperation(orClockConstraint.right)), args)
+				override get() {
+					concreteAlgebra.orClockConstraint(clockConstraintOperation(orClockConstraint.left),
+						clockConstraintOperation(orClockConstraint.right))
 				}
-
-			}) as OCC
+			}, orClockConstraint)
 	}
 
 	def dispatch BCC clockConstraintOperation(BinaryClockConstraint binaryClockConstraint) {
-		Proxy.newProxyInstance(binaryClockConstraintClass.classLoader, #[binaryClockConstraintClass],
-			new InvocationHandler() {
+		init(
+			new GetMe<BCC> {
 
-				override invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					method.invoke(
-						concreteAlgebra.binaryClockConstraint(clockConstraintOperation(binaryClockConstraint.left),
-							clockConstraintOperation(binaryClockConstraint.right)), args)
+				override get() {
+					concreteAlgebra.binaryClockConstraint(clockConstraintOperation(binaryClockConstraint.left),
+						clockConstraintOperation(binaryClockConstraint.right))
 				}
-
-			}) as BCC
+			}, binaryClockConstraint)
 	}
 }

@@ -66,7 +66,8 @@ class Program1 {
 			timedTransitionClass, clockClass, clockConstraintOperationClass, clockConstraintClass, clockReset,
 			lowerClockConstraintClass, lowerEqualClockConstraintClass, upperClockConstraintClass,
 			upperEqualClockConstraintClass, binaryClockConstraintClass, andClockConstraintClass, orClockConstraintClass)
-		df.fsm(exp) as TF // FIXME cast shouldn't be there!
+		val ret = df.fsm(exp) as TF // FIXME cast shouldn't be there!
+		ret
 	}
 
 	def static void main(String[] args) {

@@ -3,8 +3,8 @@ package fr.inria.diverse.tfsm.algebra.impl
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
-import java.util.List
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
+import java.util.List
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 
@@ -13,12 +13,17 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		this.fsm(states, transitions, initialState, name)
 	}
 
-	override timedState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+	override GraphvizStateExp timedState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
 		List<? extends GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
-		this.timedState(name, fsm, outgoingtransitions, incommingtransitions, stateguard)
+		[
+			val res = this.state(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
+//			res.attributes.put("xlabel", name)
+//			res.attributes.put("label", stateguard.evalGraph)
+			res
+		]
 	}
 
-	override timedInitialState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
+	override GraphvizStateExp timedInitialState(String name, GraphvizExp fsm, List<? extends GraphvizExp> outgoingtransitions,
 		List<? extends GraphvizExp> incommingtransitions, GraphvizExp stateguard) {
 		[
 			val res = this.initialState(name, fsm, outgoingtransitions, incommingtransitions).evalGraph
