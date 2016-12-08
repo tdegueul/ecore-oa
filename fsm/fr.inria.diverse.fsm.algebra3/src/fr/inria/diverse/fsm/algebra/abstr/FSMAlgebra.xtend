@@ -23,7 +23,7 @@ interface FSMAlgebra<T, S, F> {
 			val tmp = transition(transition)
 			tmp
 		} else {
-			throw new RuntimeException('''unkown EObject «transition»''')
+			throw new RuntimeException('''unkown Transition «transition»''')
 		}
 	}
 
@@ -35,7 +35,7 @@ interface FSMAlgebra<T, S, F> {
 		} else if (state instanceof State) {
 			state(state)
 		} else {
-			throw new RuntimeException('''unkown EObject «state»''')
+			throw new RuntimeException('''unkown State «state»''')
 		}
 	}
 
@@ -43,7 +43,7 @@ interface FSMAlgebra<T, S, F> {
 		return if (fsm instanceof FSM) {
 			fsm(fsm)
 		} else {
-			throw new RuntimeException('''unkown EObject «fsm»''')
+			throw new RuntimeException('''unkown FSM «fsm»''')
 		}
 	}
 

@@ -2,7 +2,6 @@ package fr.inria.diverse.tfsm.algebra
 
 import fr.inria.diverse.fsm.algebra.DeferProxy
 import fr.inria.diverse.fsm.algebra.DeferProxy.GetMe
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import fsm.FSM
 import fsm.State
 import fsm.Transition
@@ -23,10 +22,11 @@ import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
 import java.util.List
+import fr.inria.diverse.tfsm.algebra.abstr.upperClockConstraint
 
 class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, ACC extends BCC, OCC extends BCC> extends DeferProxy<T, S, F, IS, FS> {
 
-	TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra
+	upperClockConstraint<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra
 
 	Class<TF> timedFsmClass
 
@@ -61,7 +61,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 	Class<CR> clockResetClass
 
 	new(
-		TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
+		upperClockConstraint<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
 		Class<T> transitionClass, Class<S> stateClass, Class<F> fsmClass, Class<IS> initialStateClass,
 		Class<FS> finalStateClass, Class<TF> timedFsmClass, Class<TS> timedStateClass, Class<TIS> timedInitalStateClass,
 		Class<TFS> timedFinalStateClass, Class<TT> timedTransitionClass, Class<C> clockClass,

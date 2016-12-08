@@ -41,11 +41,11 @@ interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 
 	def F lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint)
 
-	def F upperClockConstaint(UpperClockConstraint upperClockConstraint)
+	def F upperClockConstraint(UpperClockConstraint upperClockConstraint)
 
 	def F upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint)
 
-	def F clockConstaintOperation(ClockConstraintOperation clockConstraintOperation)
+	def F clockConstraintOperation(ClockConstraintOperation clockConstraintOperation)
 
 	def F andClockConstraint(AndClockConstraint andClockConstraint)
 
@@ -80,7 +80,7 @@ interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 		} else if (eObject instanceof LowerEqualClockConstraint) {
 			lowerEqualClockConstraint(eObject)
 		} else if (eObject instanceof UpperClockConstraint) {
-			upperClockConstaint(eObject)
+			upperClockConstraint(eObject)
 		} else if (eObject instanceof UpperEqualClockConstraint) {
 			upperEqualClockConstraint(eObject)
 		} else if (eObject instanceof ClockConstraint) {
@@ -92,7 +92,7 @@ interface TFSMAlgebra<E, F> extends FSMAlgebra<E> {
 		} else if (eObject instanceof BinaryClockConstraint) {
 			binaryClockConstraint(eObject)
 		} else if (eObject instanceof ClockConstraintOperation) {
-			clockConstaintOperation(eObject)
+			clockConstraintOperation(eObject)
 		} else {
 			throw new RuntimeException('''unkown EObject «eObject»''')
 		}

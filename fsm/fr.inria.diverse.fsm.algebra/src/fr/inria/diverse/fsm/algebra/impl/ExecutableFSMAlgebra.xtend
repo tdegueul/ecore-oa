@@ -47,7 +47,7 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp> {
 	}
 
 	override finalState(FinalState finalState) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		this.state(finalState)
 	}
 
 	override initialState(InitialState initialState) {

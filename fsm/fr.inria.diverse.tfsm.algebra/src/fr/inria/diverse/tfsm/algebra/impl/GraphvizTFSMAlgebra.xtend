@@ -42,7 +42,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		['''«clockConstraint.threshold» >= «clockConstraint.clock.name»''']
 	}
 
-	override upperClockConstaint(UpperClockConstraint clockConstraint) {
+	override upperClockConstraint(UpperClockConstraint clockConstraint) {
 		['''«clockConstraint.threshold» < «clockConstraint.clock.name»''']
 	}
 
@@ -50,7 +50,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		['''«clockConstraint.threshold» <= «clockConstraint.clock.name»''']
 	}
 
-	override clockConstaintOperation(ClockConstraintOperation clockConstraintOperation) {
+	override clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
