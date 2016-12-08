@@ -79,8 +79,8 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
                 boolean _equals_1 = (_length == 1);
                 if (_equals_1) {
                   ExecutableTransitionExp _head = IterableExtensions.head(transitions);
-                  _head.execute();
-                  this.execute();
+                  ExecutableExp _execute = _head.execute();
+                  _execute.execute();
                 } else {
                   StringConcatenation _builder = new StringConcatenation();
                   _builder.append("[ERROR] non deterministic: ");
@@ -125,7 +125,24 @@ public class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp,
       
       @Override
       public ExecutableExp execute() {
-        return this.execute();
+        ExecutableExp _xblockexpression = null;
+        {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("transition : event ");
+          _builder.append(eventName, "");
+          _builder.append(" - ");
+          ExecutableStateExp.ExecutableStateData _execute = from.execute();
+          String _name = _execute.name();
+          _builder.append(_name, "");
+          _builder.append(" -> ");
+          ExecutableStateExp.ExecutableStateData _execute_1 = to.execute();
+          String _name_1 = _execute_1.name();
+          _builder.append(_name_1, "");
+          InputOutput.<String>println(_builder.toString());
+          ExecutableStateExp.ExecutableStateData _execute_2 = to.execute();
+          _xblockexpression = _execute_2.execute();
+        }
+        return _xblockexpression;
       }
     };
   }

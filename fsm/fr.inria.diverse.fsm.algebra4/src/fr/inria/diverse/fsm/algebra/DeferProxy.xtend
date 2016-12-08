@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EObject
 
-class DeferProxy<T, S, F, IS extends S, FS extends S> {
+class DeferProxy<T, S, F> {
 
 	abstract static class InvocHandlerPus<Z> implements InvocationHandler {
 		abstract def Z initialize()
@@ -53,30 +53,24 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 		mapObj.get(uri) as X
 	}
 
-	FSMAlgebra<T, S, F, IS, FS> concreteAlgebra
+	FSMAlgebra<T, S, F> concreteAlgebra
 
 	// ugly, must get rid of this flatten stuff
 	Class<F> fsmClass
 	Class<T> transitionClass
 	Class<S> stateClass
-	Class<IS> initialStateClass
-	Class<FS> finalStateClass
 	protected Map<URI, Object> mapObj = newHashMap()
 
 	new(
-		FSMAlgebra<T, S, F, IS, FS> concreteAlgebra,
+		FSMAlgebra<T, S, F> concreteAlgebra,
 		Class<F> fsmClass,
 		Class<T> transitionClass,
-		Class<S> stateClass,
-		Class<IS> initialStateClass,
-		Class<FS> finalStateClass
+		Class<S> stateClass
 	) {
 		this.concreteAlgebra = concreteAlgebra
 		this.fsmClass = fsmClass
 		this.transitionClass = transitionClass
 		this.stateClass = stateClass
-		this.initialStateClass = initialStateClass
-		this.finalStateClass = finalStateClass
 	}
 
 	def dispatch F fsm(FSM fsm) {
@@ -112,29 +106,25 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 		}, state, stateClass)
 	}
 
-	def dispatch IS state(InitialState initialState) {
-
-		init(
-			new GetMe<IS> {
-
-				override get() {
-					concreteAlgebra.initialState(initialState.name, fsm(initialState.fsm), initialState.
-						outgoingtransitions.map [
-							transition
-						], initialState.incommingtransitions.map[transition])
-				}
-			}, initialState, initialStateClass)
-	}
-
-	def dispatch FS state(FinalState finalState) {
-		init(new GetMe<FS> {
+	def dispatch S state(InitialState state) {
+		init(new GetMe<S> {
 
 			override get() {
-				concreteAlgebra.finalState(finalState.name, fsm(finalState.fsm), finalState.outgoingtransitions.map [
+				concreteAlgebra.initialState(state.name, fsm(state.fsm), state.outgoingtransitions.map [
 					transition
-				], finalState.incommingtransitions.map[transition])
+				], state.incommingtransitions.map[transition])
 			}
-		}, finalState, finalStateClass)
+		}, state, stateClass)
 	}
 
+	def dispatch S state(FinalState state) {
+		init(new GetMe<S> {
+
+			override get() {
+				concreteAlgebra.finalState(state.name, fsm(state.fsm), state.outgoingtransitions.map [
+					transition
+				], state.incommingtransitions.map[transition])
+			}
+		}, state, stateClass)
+	}
 }

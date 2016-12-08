@@ -51,15 +51,15 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
     public abstract X get();
   }
   
-  protected <X extends Object, Y extends EObject> X init(final DeferProxy.GetMe<X> param, final Y elem) {
+  protected <X extends Object, Y extends EObject> X init(final DeferProxy.GetMe<X> param, final Y elem, final Class<X> clazz) {
     X _xblockexpression = null;
     {
       final URI uri = EcoreUtil.getURI(elem);
       boolean _containsKey = this.mapObj.containsKey(uri);
       boolean _not = (!_containsKey);
       if (_not) {
-        ClassLoader _classLoader = this.fsmClass.getClassLoader();
-        final Object proxy = Proxy.newProxyInstance(_classLoader, new Class[] { this.fsmClass }, new DeferProxy.InvocHandlerPus() {
+        ClassLoader _classLoader = clazz.getClassLoader();
+        final Object proxy = Proxy.newProxyInstance(_classLoader, new Class[] { clazz }, new DeferProxy.InvocHandlerPus() {
           @Override
           public Object initialize() {
             return param.get();
@@ -116,7 +116,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
           String _name = fsm.getName();
           return DeferProxy.this.concreteAlgebra.fsm(_map, _map_1, _state, _name);
         }
-      }, fsm);
+      }, fsm, this.fsmClass);
   }
   
   protected T _transition(final Transition transition) {
@@ -133,7 +133,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
           String _event = transition.getEvent();
           return DeferProxy.this.concreteAlgebra.transition(_state, _state_1, _fsm_1, _event);
         }
-      }, transition);
+      }, transition, this.transitionClass);
   }
   
   protected S _state(final State state) {
@@ -155,7 +155,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
         List<T> _map_1 = ListExtensions.<Transition, T>map(_incommingtransitions, _function_1);
         return DeferProxy.this.concreteAlgebra.state(_name, _fsm_1, _map, _map_1);
       }
-    }, state);
+    }, state, this.stateClass);
   }
   
   protected IS _state(final InitialState initialState) {
@@ -178,7 +178,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
           List<T> _map_1 = ListExtensions.<Transition, T>map(_incommingtransitions, _function_1);
           return DeferProxy.this.concreteAlgebra.initialState(_name, _fsm_1, _map, _map_1);
         }
-      }, initialState);
+      }, initialState, this.initialStateClass);
   }
   
   protected FS _state(final FinalState finalState) {
@@ -200,7 +200,7 @@ public class DeferProxy<T extends Object, S extends Object, F extends Object, IS
         List<T> _map_1 = ListExtensions.<Transition, T>map(_incommingtransitions, _function_1);
         return DeferProxy.this.concreteAlgebra.finalState(_name, _fsm_1, _map, _map_1);
       }
-    }, finalState);
+    }, finalState, this.finalStateClass);
   }
   
   public F fsm(final FSM fsm) {

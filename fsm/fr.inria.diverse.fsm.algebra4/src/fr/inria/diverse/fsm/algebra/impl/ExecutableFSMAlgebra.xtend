@@ -8,7 +8,7 @@ import java.util.List
 import java.util.Queue
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableStateExp.ExecutableStateData
 
-class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, ExecutableStateExp, ExecutableExp, ExecutableStateExp, ExecutableStateExp> {
+class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, ExecutableStateExp, ExecutableExp> {
 
 	private Queue<String> userinput
 
@@ -57,7 +57,6 @@ class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableTransitionExp, Execut
 									if (transitions.empty) {
 										println("[ERROR] deadlock!")
 									} else if (transitions.length == 1) {
-
 										transitions.head.execute.
 											execute
 									} else {

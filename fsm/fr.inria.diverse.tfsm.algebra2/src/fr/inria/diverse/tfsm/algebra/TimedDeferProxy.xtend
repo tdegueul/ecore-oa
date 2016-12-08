@@ -120,14 +120,14 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 				res
 			}
 
-		}, timedFsm)
+		}, timedFsm, timedFsmClass)
 	}
 
 	def dispatch C clock(Clock clock) {
 		init(new GetMe<C> {
 
 			override get() { concreteAlgebra.clock(clock.name, clock.tick) }
-		}, clock)
+		}, clock, clockClass)
 	}
 
 	override def dispatch S state(State state) {
@@ -142,7 +142,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					transition
 				], timedState.incommingtransitions.map[transition], clockConstraintOperation(timedState.stateguard))
 			}
-		}, timedState)
+		}, timedState, timedStateClass)
 	}
 
 	def dispatch TIS state(TimedInitialState timedInitalState) {
@@ -156,7 +156,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 						], timedInitalState.incommingtransitions.map[transition],
 						clockConstraintOperation(timedInitalState.stateguard))
 				}
-			}, timedInitalState)
+			}, timedInitalState, timedInitalStateClass)
 	}
 
 	def dispatch TFS state(TimedFinalState timedFinalState) {
@@ -170,14 +170,14 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 						], timedFinalState.incommingtransitions.map[transition],
 						clockConstraintOperation(timedFinalState.stateguard))
 				}
-			}, timedFinalState)
+			}, timedFinalState, timedFinalStateClass)
 	}
 
 	def dispatch CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
 		init(new GetMe<CCO> {
 
 			override get() { concreteAlgebra.clockConstraintOperation() }
-		}, clockConstraintOperation)
+		}, clockConstraintOperation, clockConstraintOperationClass)
 	}
 
 	override def dispatch T transition(Transition transition) {
@@ -194,7 +194,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 							clockResets
 						], clockConstraintOperation(timedTransition.transitionguard))
 				}
-			}, timedTransition)
+			}, timedTransition, timedTransitionClass)
 	}
 
 	/* NOTE: we might have to generate a method for each level of inheritance of a object in the metamodel. e.g clockConstraintOperation and clockContraint for ClockConstraint since ClockConstraint inherits from ClockConstraintOperation 
@@ -203,14 +203,14 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 		init(new GetMe<CC> {
 
 			override get() { concreteAlgebra.clockConstraint(clockConstraint.threshold, clock(clockConstraint.clock)) }
-		}, clockConstraint)
+		}, clockConstraint, clockConstraintClass)
 	}
 
 	def dispatch CR clockResets(ClockReset clockReset) {
 		init(new GetMe<CR> {
 
 			override get() { concreteAlgebra.clockReset(clock(clockReset.clock)) }
-		}, clockReset)
+		}, clockReset, clockResetClass)
 	}
 
 	def dispatch LCC clockConstraintOperation(LowerClockConstraint lowerClockConstraint) {
@@ -219,7 +219,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 			override get() {
 				concreteAlgebra.lowerClockConstraint(lowerClockConstraint.threshold, clock(lowerClockConstraint.clock))
 			}
-		}, lowerClockConstraint)
+		}, lowerClockConstraint, lowerClockConstraintClass)
 	}
 
 	def dispatch LECC clockConstraintOperation(LowerEqualClockConstraint lowerEqualClockConstraint) {
@@ -230,7 +230,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					concreteAlgebra.lowerEqualClockConstraint(lowerEqualClockConstraint.threshold,
 						clock(lowerEqualClockConstraint.clock))
 				}
-			}, lowerEqualClockConstraint)
+			}, lowerEqualClockConstraint, lowerEqualClockConstraintClass)
 	}
 
 	def dispatch UCC clockConstraintOperation(UpperClockConstraint upperClockConstraint) {
@@ -239,7 +239,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 			override get() {
 				concreteAlgebra.upperClockConstraint(upperClockConstraint.threshold, clock(upperClockConstraint.clock))
 			}
-		}, upperClockConstraint)
+		}, upperClockConstraint, upperClockConstraintClass)
 	}
 
 	def dispatch UECC clockConstraintOperation(UpperEqualClockConstraint upperEqualClockConstraint) {
@@ -250,7 +250,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					concreteAlgebra.upperEqualClockConstraint(upperEqualClockConstraint.threshold,
 						clock(upperEqualClockConstraint.clock))
 				}
-			}, upperEqualClockConstraint)
+			}, upperEqualClockConstraint, upperEqualClockConstraintClass)
 	}
 
 	def dispatch ACC clockConstraintOperation(AndClockConstraint andClockConstraint) {
@@ -261,7 +261,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					concreteAlgebra.andClockConstraint(clockConstraintOperation(andClockConstraint.left),
 						clockConstraintOperation(andClockConstraint.right))
 				}
-			}, andClockConstraint)
+			}, andClockConstraint, andClockConstraintClass)
 	}
 
 	def dispatch OCC clockConstraintOperation(OrClockConstraint orClockConstraint) {
@@ -272,7 +272,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					concreteAlgebra.orClockConstraint(clockConstraintOperation(orClockConstraint.left),
 						clockConstraintOperation(orClockConstraint.right))
 				}
-			}, orClockConstraint)
+			}, orClockConstraint, orClockConstraintClass)
 	}
 
 	def dispatch BCC clockConstraintOperation(BinaryClockConstraint binaryClockConstraint) {
@@ -283,6 +283,6 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 					concreteAlgebra.binaryClockConstraint(clockConstraintOperation(binaryClockConstraint.left),
 						clockConstraintOperation(binaryClockConstraint.right))
 				}
-			}, binaryClockConstraint)
+			}, binaryClockConstraint, binaryClockConstraintClass)
 	}
 }
