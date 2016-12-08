@@ -56,9 +56,9 @@ class DeferProxy<T, S, F> {
 	FSMAlgebra<T, S, F> concreteAlgebra
 
 	// ugly, must get rid of this flatten stuff
-	Class<F> fsmClass
-	Class<T> transitionClass
-	Class<S> stateClass
+	protected Class<F> fsmClass
+	protected Class<T> transitionClass
+	protected Class<S> stateClass
 	protected Map<URI, Object> mapObj = newHashMap()
 
 	new(

@@ -9,4 +9,9 @@ Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0",
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.1"
+Export-Package: fr.inria.diverse.fsm.algebra,
+ fr.inria.diverse.fsm.algebra.abstr,
+ fr.inria.diverse.fsm.algebra.exprs,
+ fr.inria.diverse.fsm.algebra.impl,
+ fr.inria.diverse.fsm.algebra.program
 

@@ -34,4 +34,6 @@
     * Reusing the existing code is not always efficient (cf Graphviz impls)
     * no explicit definition of the type returned by a subpart of the model (e.g. the ClockConstraints in TFSM can be defined as another algebra which returns booleans).
 
-      ​
+# TODO
+  * Removing the setFinal mess which should be an implemenation detail
+  * Checking for useless and dangerous type-cast

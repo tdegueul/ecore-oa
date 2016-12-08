@@ -4,9 +4,9 @@ import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
 import fr.inria.diverse.fsm.algebra.exprs.GraphvizStateExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import java.util.List
-import fr.inria.diverse.tfsm.algebra.abstr.upperClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
-class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements upperClockConstraint<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
+class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizStateExp, GraphvizStateExp, GraphvizStateExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 
 	override timedFsm(List<? extends GraphvizStateExp> states, List<? extends GraphvizExp> transitions, GraphvizStateExp initialState,
 		String name, List<? extends GraphvizExp> clocks) {

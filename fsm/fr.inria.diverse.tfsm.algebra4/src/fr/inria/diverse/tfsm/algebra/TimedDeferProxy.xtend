@@ -24,92 +24,42 @@ import tfsm.UpperEqualClockConstraint
 import java.util.List
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
-class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, ACC extends BCC, OCC extends BCC> extends DeferProxy<T, S, F, IS, FS> {
+class TimedDeferProxy<T, S, F, C, CCO, CR> extends DeferProxy<T, S, F> {
 
-	TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra
-
-	Class<TF> timedFsmClass
+	TFSMAlgebra<T, S, F, C, CCO, CR> concreteAlgebra
 
 	Class<C> clockClass
 
-	Class<TS> timedStateClass
-
-	Class<TIS> timedInitalStateClass
-
-	Class<TFS> timedFinalStateClass
-
 	Class<CCO> clockConstraintOperationClass
-
-	Class<TT> timedTransitionClass
-
-	Class<CC> clockConstraintClass
-
-	Class<LCC> lowerClockConstraintClass
-
-	Class<LECC> lowerEqualClockConstraintClass
-
-	Class<UCC> upperClockConstraintClass
-
-	Class<UECC> upperEqualClockConstraintClass
-
-	Class<ACC> andClockConstraintClass
-
-	Class<OCC> orClockConstraintClass
-
-	Class<BCC> binaryClockConstraintClass
 
 	Class<CR> clockResetClass
 
 	new(
-		TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
-		Class<T> transitionClass, Class<S> stateClass, Class<F> fsmClass, Class<IS> initialStateClass,
-		Class<FS> finalStateClass, Class<TF> timedFsmClass, Class<TS> timedStateClass, Class<TIS> timedInitalStateClass,
-		Class<TFS> timedFinalStateClass, Class<TT> timedTransitionClass, Class<C> clockClass,
-		Class<CCO> clockConstraintOperationClass, Class<CC> clockConstraintClass, Class<CR> clockResetClass,
-		Class<LCC> lowerClockConstraintClass, Class<LECC> lowerEqualClockConstraintClass,
-		Class<UCC> upperClockConstraintClass, Class<UECC> upperEqualClockConstraintClass,
-		Class<BCC> binaryClockConstraintClass, Class<ACC> andClockConstraintClass, Class<OCC> orClockConstraintClass) {
-		super(concreteAlgebra, fsmClass, transitionClass, stateClass, initialStateClass, finalStateClass)
+		TFSMAlgebra<T, S, F, C, CCO, CR> concreteAlgebra,
+		Class<T> transitionClass,
+		Class<S> stateClass,
+		Class<F> fsmClass,
+		Class<C> clockClass,
+		Class<CCO> clockConstraintOperationClass,
+		Class<CR> clockResetClass
+	) {
+		super(concreteAlgebra, fsmClass, transitionClass, stateClass)
 		this.concreteAlgebra = concreteAlgebra
-		this.timedFsmClass = timedFsmClass
 
 		this.clockClass = clockClass
-
-		this.timedStateClass = timedStateClass
-
-		this.timedInitalStateClass = timedInitalStateClass
-
-		this.timedFinalStateClass = timedFinalStateClass
 
 		this.clockConstraintOperationClass = clockConstraintOperationClass
 
 		this.clockResetClass = clockResetClass
 
-		this.timedTransitionClass = timedTransitionClass
-
-		this.clockConstraintClass = clockConstraintClass
-
-		this.lowerClockConstraintClass = lowerClockConstraintClass
-
-		this.lowerEqualClockConstraintClass = lowerEqualClockConstraintClass
-
-		this.upperClockConstraintClass = upperClockConstraintClass
-
-		this.upperEqualClockConstraintClass = upperEqualClockConstraintClass
-
-		this.andClockConstraintClass = andClockConstraintClass
-
-		this.orClockConstraintClass = orClockConstraintClass
-
-		this.binaryClockConstraintClass = binaryClockConstraintClass
 	}
 
 	override def dispatch F fsm(FSM fsm) {
 		super.fsm(fsm)
 	}
 
-	def dispatch TF fsm(TimedFSM timedFsm) {
-		init(new GetMe<TF> {
+	def dispatch F fsm(TimedFSM timedFsm) {
+		init(new GetMe<F> {
 
 			override get() {
 				val List<S> v1 = timedFsm.states.map[state]
@@ -119,8 +69,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 				val res = concreteAlgebra.timedFsm(v1, v2, v3, timedFsm.name, v5)
 				res
 			}
-
-		}, timedFsm, timedFsmClass)
+		}, timedFsm, fsmClass)
 	}
 
 	def dispatch C clock(Clock clock) {
@@ -134,20 +83,20 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 		super.state(state)
 	}
 
-	def dispatch TS state(TimedState timedState) {
-		init(new GetMe<TS> {
+	def dispatch S state(TimedState timedState) {
+		init(new GetMe<S> {
 
 			override get() {
 				concreteAlgebra.timedState(timedState.name, fsm(timedState.fsm), timedState.outgoingtransitions.map [
 					transition
 				], timedState.incommingtransitions.map[transition], clockConstraintOperation(timedState.stateguard))
 			}
-		}, timedState, timedStateClass)
+		}, timedState, stateClass)
 	}
 
-	def dispatch TIS state(TimedInitialState timedInitalState) {
+	def dispatch S state(TimedInitialState timedInitalState) {
 		init(
-			new GetMe<TIS> {
+			new GetMe<S> {
 
 				override get() {
 					concreteAlgebra.timedInitialState(timedInitalState.name,
@@ -156,12 +105,12 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 						], timedInitalState.incommingtransitions.map[transition],
 						clockConstraintOperation(timedInitalState.stateguard))
 				}
-			}, timedInitalState, timedInitalStateClass)
+			}, timedInitalState, stateClass)
 	}
 
-	def dispatch TFS state(TimedFinalState timedFinalState) {
+	def dispatch S state(TimedFinalState timedFinalState) {
 		init(
-			new GetMe<TFS> {
+			new GetMe<S> {
 
 				override get() {
 					concreteAlgebra.timedFinalState(timedFinalState.name, fsm(timedFinalState.fsm), timedFinalState.
@@ -170,7 +119,7 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 						], timedFinalState.incommingtransitions.map[transition],
 						clockConstraintOperation(timedFinalState.stateguard))
 				}
-			}, timedFinalState, timedFinalStateClass)
+			}, timedFinalState, stateClass)
 	}
 
 	def dispatch CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
@@ -184,9 +133,9 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 		super.transition(transition)
 	}
 
-	def dispatch TT transition(TimedTransition timedTransition) {
+	def dispatch T transition(TimedTransition timedTransition) {
 		init(
-			new GetMe<TT> {
+			new GetMe<T> {
 
 				override get() {
 					concreteAlgebra.timedTransition(state(timedTransition.from), state(timedTransition.to),
@@ -194,16 +143,16 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 							clockResets
 						], clockConstraintOperation(timedTransition.transitionguard))
 				}
-			}, timedTransition, timedTransitionClass)
+			}, timedTransition, transitionClass)
 	}
 
 	/* NOTE: we might have to generate a method for each level of inheritance of a object in the metamodel. e.g clockConstraintOperation and clockContraint for ClockConstraint since ClockConstraint inherits from ClockConstraintOperation 
 	 * and everything must have a dispatch in order to be niherited later !*/
-	def dispatch CC clockConstraintOperation(ClockConstraint clockConstraint) {
-		init(new GetMe<CC> {
+	def dispatch CCO clockConstraintOperation(ClockConstraint clockConstraint) {
+		init(new GetMe<CCO> {
 
 			override get() { concreteAlgebra.clockConstraint(clockConstraint.threshold, clock(clockConstraint.clock)) }
-		}, clockConstraint, clockConstraintClass)
+		}, clockConstraint, clockConstraintOperationClass)
 	}
 
 	def dispatch CR clockResets(ClockReset clockReset) {
@@ -213,76 +162,76 @@ class TimedDeferProxy<T, S, F, IS extends S, FS extends S, TF extends F, TS exte
 		}, clockReset, clockResetClass)
 	}
 
-	def dispatch LCC clockConstraintOperation(LowerClockConstraint lowerClockConstraint) {
-		init(new GetMe<LCC> {
+	def dispatch CCO clockConstraintOperation(LowerClockConstraint lowerClockConstraint) {
+		init(new GetMe<CCO> {
 
 			override get() {
 				concreteAlgebra.lowerClockConstraint(lowerClockConstraint.threshold, clock(lowerClockConstraint.clock))
 			}
-		}, lowerClockConstraint, lowerClockConstraintClass)
+		}, lowerClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch LECC clockConstraintOperation(LowerEqualClockConstraint lowerEqualClockConstraint) {
+	def dispatch CCO clockConstraintOperation(LowerEqualClockConstraint lowerEqualClockConstraint) {
 		init(
-			new GetMe<LECC> {
+			new GetMe<CCO> {
 
 				override get() {
 					concreteAlgebra.lowerEqualClockConstraint(lowerEqualClockConstraint.threshold,
 						clock(lowerEqualClockConstraint.clock))
 				}
-			}, lowerEqualClockConstraint, lowerEqualClockConstraintClass)
+			}, lowerEqualClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch UCC clockConstraintOperation(UpperClockConstraint upperClockConstraint) {
-		init(new GetMe<UCC> {
+	def dispatch CCO clockConstraintOperation(UpperClockConstraint upperClockConstraint) {
+		init(new GetMe<CCO> {
 
 			override get() {
 				concreteAlgebra.upperClockConstraint(upperClockConstraint.threshold, clock(upperClockConstraint.clock))
 			}
-		}, upperClockConstraint, upperClockConstraintClass)
+		}, upperClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch UECC clockConstraintOperation(UpperEqualClockConstraint upperEqualClockConstraint) {
+	def dispatch CCO clockConstraintOperation(UpperEqualClockConstraint upperEqualClockConstraint) {
 		init(
-			new GetMe<UECC> {
+			new GetMe<CCO> {
 
 				override get() {
 					concreteAlgebra.upperEqualClockConstraint(upperEqualClockConstraint.threshold,
 						clock(upperEqualClockConstraint.clock))
 				}
-			}, upperEqualClockConstraint, upperEqualClockConstraintClass)
+			}, upperEqualClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch ACC clockConstraintOperation(AndClockConstraint andClockConstraint) {
+	def dispatch CCO clockConstraintOperation(AndClockConstraint andClockConstraint) {
 		init(
-			new GetMe<ACC> {
+			new GetMe<CCO> {
 
 				override get() {
 					concreteAlgebra.andClockConstraint(clockConstraintOperation(andClockConstraint.left),
 						clockConstraintOperation(andClockConstraint.right))
 				}
-			}, andClockConstraint, andClockConstraintClass)
+			}, andClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch OCC clockConstraintOperation(OrClockConstraint orClockConstraint) {
+	def dispatch CCO clockConstraintOperation(OrClockConstraint orClockConstraint) {
 		init(
-			new GetMe<OCC> {
+			new GetMe<CCO> {
 
 				override get() {
 					concreteAlgebra.orClockConstraint(clockConstraintOperation(orClockConstraint.left),
 						clockConstraintOperation(orClockConstraint.right))
 				}
-			}, orClockConstraint, orClockConstraintClass)
+			}, orClockConstraint, clockConstraintOperationClass)
 	}
 
-	def dispatch BCC clockConstraintOperation(BinaryClockConstraint binaryClockConstraint) {
+	def dispatch CCO clockConstraintOperation(BinaryClockConstraint binaryClockConstraint) {
 		init(
-			new GetMe<BCC> {
+			new GetMe<CCO> {
 
 				override get() {
 					concreteAlgebra.binaryClockConstraint(clockConstraintOperation(binaryClockConstraint.left),
 						clockConstraintOperation(binaryClockConstraint.right))
 				}
-			}, binaryClockConstraint, binaryClockConstraintClass)
+			}, binaryClockConstraint, clockConstraintOperationClass)
 	}
 }

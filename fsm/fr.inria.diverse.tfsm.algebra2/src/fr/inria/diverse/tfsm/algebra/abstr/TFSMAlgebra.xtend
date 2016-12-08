@@ -4,7 +4,7 @@ import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import java.util.List
 
 // For TimedInitialState and TimedFinalState it has been arbitrarily defined that the "main" class to inherit from what TimedState
-interface upperClockConstraint<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> extends FSMAlgebra<T, S, F, IS, FS> {
+interface TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> extends FSMAlgebra<T, S, F, IS, FS> {
 
 	def TF timedFsm(List<? extends S> states, List<? extends T> transitions, S initialState, String name, List<? extends C> clocks)
 

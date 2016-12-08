@@ -17,7 +17,7 @@ import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableClockExp
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableGuardExp
-import fr.inria.diverse.tfsm.algebra.abstr.upperClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
 class Program1 {
 	def TimedFSM createModel() {
@@ -35,7 +35,7 @@ class Program1 {
 	}
 
 	def <T, S, F, IS extends S, FS extends S, TF extends F, TS extends S, TIS extends TS, TFS extends TS, TT extends T, C, CCO, CC extends CCO, CR, LCC extends CC, LECC extends CC, UCC extends CC, UECC extends CC, BCC extends CCO, ACC extends BCC, OCC extends BCC> TF make(
-		upperClockConstraint<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
+		TFSMAlgebra<T, S, F, IS, FS, TF, TS, TIS, TFS, TT, C, CCO, CC, CR, LCC, LECC, UCC, UECC, BCC, ACC, OCC> concreteAlgebra,
 		Class<T> transitionClass,
 		Class<S> stateClass,
 		Class<F> fsmClass,
@@ -66,8 +66,7 @@ class Program1 {
 			timedTransitionClass, clockClass, clockConstraintOperationClass, clockConstraintClass, clockReset,
 			lowerClockConstraintClass, lowerEqualClockConstraintClass, upperClockConstraintClass,
 			upperEqualClockConstraintClass, binaryClockConstraintClass, andClockConstraintClass, orClockConstraintClass)
-		val ret = df.fsm(exp) as TF // FIXME cast shouldn't be there!
-		ret
+		df.fsm(exp) as TF // FIXME cast shouldn't be there!
 	}
 
 	def static void main(String[] args) {

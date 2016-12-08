@@ -11,9 +11,9 @@ import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedStateExp.ExecutableTim
 import fr.inria.diverse.tfsm.algebra.exprs.ExecutableTimedTransitionExp
 import java.util.List
 import java.util.Map
-import fr.inria.diverse.tfsm.algebra.abstr.upperClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 
-class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements upperClockConstraint<ExecutableTransitionExp, // T
+class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<ExecutableTransitionExp, // T
 ExecutableStateExp, // S
 ExecutableExp, // F
 ExecutableStateExp, // IS extends S 
