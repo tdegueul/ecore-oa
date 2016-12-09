@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ExpEcoreAlgebra
+Bundle-SymbolicName: ExpEcoreAlgebra
+Bundle-Version: 1.0.0.qualifier
+Export-Package: test
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.11.2"
