@@ -96,10 +96,6 @@ ExecutableGuardExp> { // OCC extends BCC
 									val timedOutgoingTransitions = outgoingtransitions.map [ e |
 										e as ExecutableTimedTransitionExp
 									]
-//									val executedWithTimeOutgoingTransitions = timedOutgoingTransitions.map [ a |
-//										a.time = ctime
-//										a.execute
-//									]
 									val nonGardedRes = timedOutgoingTransitions.filter [ e |
 										e.event == action
 									]

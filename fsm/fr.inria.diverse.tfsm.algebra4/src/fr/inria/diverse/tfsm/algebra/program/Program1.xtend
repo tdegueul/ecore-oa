@@ -44,7 +44,6 @@ class Program1 {
 	) {
 		val TimedFSM exp = createModel
 
-		// TODO : rebuild the whole algebra meta-programmatically.
 		val df = new TimedDeferProxy(
 			concreteAlgebra,
 			transitionClass,
@@ -54,7 +53,7 @@ class Program1 {
 			clockConstraintOperationClass,
 			clockReset
 		)
-		df.fsm(exp) as F // FIXME cast shouldn't be there!
+		df.fsm(exp)
 	}
 
 	def static void main(String[] args) {

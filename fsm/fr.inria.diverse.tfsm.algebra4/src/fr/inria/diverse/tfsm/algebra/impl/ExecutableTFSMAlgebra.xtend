@@ -17,7 +17,6 @@ class ExecutableTFSMAlgebra /*extends ExecutableFSMAlgebra*/ implements TFSMAlge
 	private ExecutableFSMAlgebra delegatedAlgebra = new ExecutableFSMAlgebra(newLinkedList())
 
 	new(Map<Integer, String> userinput) {
-//		super(newLinkedList())
 		this.timedActions = userinput
 	}
 
@@ -26,7 +25,6 @@ class ExecutableTFSMAlgebra /*extends ExecutableFSMAlgebra*/ implements TFSMAlge
 		List<? extends ExecutableClockExp> clocks) {
 		[
 			val e1 = initialState.execute
-//			e1.time = 0
 			if (e1 instanceof ExecutableTimedStateData) {
 				e1.time = 0
 			}
@@ -80,11 +78,8 @@ class ExecutableTFSMAlgebra /*extends ExecutableFSMAlgebra*/ implements TFSMAlge
 										e.event == action
 									]
 
-									// FIXME : still some awkward downcasts
 									val executed = nonGardedRes.map [ e |
-//										if (e instanceof ExecutableTimedTransitionExp)
-// FIXME : this is not possible since java does not allow Proxy casting except on declared interface. Should we allow the Delegate to specify sub-interfaces t the initialization ?
-										(e as ExecutableTimedTransitionExp).time = ctime;
+										e.time = ctime;
 										e.execute
 									]
 
@@ -96,7 +91,6 @@ class ExecutableTFSMAlgebra /*extends ExecutableFSMAlgebra*/ implements TFSMAlge
 										println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
 										true
 									} else if (res.size == 1) {
-//										println('''transition (time «ctime»): event «action» - «name» -> «res.head.event»''')
 										val h = res.head
 										if (h instanceof ExecutableTimedTransitionExp) {
 											h.time = ctime

@@ -38,6 +38,8 @@ class DeferProxy<T, S, F, IS extends S, FS extends S> {
 
 	protected def <X, Y extends EObject> X init(GetMe<X> param, Y elem, Class<X> clazz) {
 		val uri = EcoreUtil.getURI(elem)
+		
+		// only on proxy by object instance in the model
 		if (!mapObj.containsKey(uri)) {
 			val proxy = Proxy.newProxyInstance(clazz.classLoader, #[clazz], new InvocHandlerPus {
 

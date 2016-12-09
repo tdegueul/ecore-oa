@@ -66,7 +66,7 @@ class Program1 {
 			timedTransitionClass, clockClass, clockConstraintOperationClass, clockConstraintClass, clockReset,
 			lowerClockConstraintClass, lowerEqualClockConstraintClass, upperClockConstraintClass,
 			upperEqualClockConstraintClass, binaryClockConstraintClass, andClockConstraintClass, orClockConstraintClass)
-		df.fsm(exp) as TF // FIXME cast shouldn't be there!
+		df.fsm(exp) as TF
 	}
 
 	def static void main(String[] args) {
@@ -87,7 +87,7 @@ class Program1 {
 		typeof(ExecutableStateExp), // FS extends S
 		typeof(ExecutableExp), // TF extends F
 		typeof(ExecutableTimedStateExp), // TS extends S
-		typeof(ExecutableTimedStateExp), //TIS extends TS
+		typeof(ExecutableTimedStateExp), // TIS extends TS
 		typeof(ExecutableTimedStateExp), // TFS extends TS
 		typeof(ExecutableTimedTransitionExp), // TT extends T
 		typeof(ExecutableClockExp), // C
@@ -95,7 +95,7 @@ class Program1 {
 		typeof(ExecutableGuardExp), // CC extends CCO
 		typeof(ExecutableExp), // CR
 		typeof(ExecutableGuardExp), // LCC extends CC
-		typeof(ExecutableGuardExp), //LECC EXTENDS CC
+		typeof(ExecutableGuardExp), // LECC EXTENDS CC
 		typeof(ExecutableGuardExp), // UCC extends CC
 		typeof(ExecutableGuardExp), // UECC EXTENDS CC
 		typeof(ExecutableGuardExp), // BCC extends CCO
