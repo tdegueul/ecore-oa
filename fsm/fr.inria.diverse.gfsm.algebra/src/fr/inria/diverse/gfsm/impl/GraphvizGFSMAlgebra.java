@@ -28,46 +28,57 @@ public class GraphvizGFSMAlgebra extends GraphvizFSMAlgebra
 
 	private final PrettyPrintExpressionAlgebra ppea = new PrettyPrintExpressionAlgebra();
 
+	@Override
 	public GraphvizExp intVarRef(final IntVarRef intVarRef) {
 		return ppea.intVarRef(intVarRef);
 	}
 
+	@Override
 	public GraphvizExp intNeg(final IntNeg intNeg) {
 		return ppea.intNeg(intNeg);
 	}
 
+	@Override
 	public GraphvizExp intAdd(final IntAdd intAdd) {
 		return ppea.intAdd(intAdd);
 	}
 
+	@Override
 	public GraphvizExp intMult(final IntMult mult) {
 		return ppea.intMult(mult);
 	}
 
+	@Override
 	public GraphvizExp constExpr(final ConstExpr constExpr) {
 		return ppea.constExpr(constExpr);
 	}
 
+	@Override
 	public GraphvizExp intVarAssign(final IntVarAssign intVarAssign) {
 		return ppea.intVarAssign(intVarAssign);
 	}
 
+	@Override
 	public GraphvizExp intBlock(final IntBlock intBlock) {
 		return ppea.intBlock(intBlock);
 	}
 
+	@Override
 	public GraphvizExp booleanEqual(final BooleanEqual booleanEqual) {
 		return ppea.booleanEqual(booleanEqual);
 	}
 
+	@Override
 	public GraphvizExp booleanAnd(final BooleanAnd booleanAnd) {
 		return ppea.booleanAnd(booleanAnd);
 	}
 
+	@Override
 	public GraphvizExp booleanOr(final BooleanOr booleanOr) {
 		return ppea.booleanOr(booleanOr);
 	}
 
+	@Override
 	public GraphvizExp booleanGreaterThan(final BooleanGreaterThan booleanGreaterThan) {
 		return ppea.booleanGreaterThan(booleanGreaterThan);
 	}

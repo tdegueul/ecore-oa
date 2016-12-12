@@ -11,7 +11,7 @@ import java.util.Queue
 
 class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp> {
 
-	private Queue<String> userinput
+	protected Queue<String> userinput
 
 	protected State currentState
 

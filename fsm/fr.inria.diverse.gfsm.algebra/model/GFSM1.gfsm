@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gfsm:GFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression" xmlns:fsm="http://diverse.inria.fr/fsm" xmlns:gfsm="http://diverse.inria.fr/gfsm">
+<gfsm:GFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression" xmlns:fsm="http://diverse.inria.fr/fsm" xmlns:gfsm="http://diverse.inria.fr/gfsm" initialstate="//@states.0" name="GFSM1">
   <states xsi:type="gfsm:GInitialState" name="i" outgoingtransitions="//@transitions.0">
     <inExpression xsi:type="fr.inria.diverse.expression.model:IntBlock">
       <operations name="a">

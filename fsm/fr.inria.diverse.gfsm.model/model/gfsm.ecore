@@ -18,7 +18,7 @@
         eType="ecore:EClass ../../fr.inria.diverse.expression.model/model/expression.ecore#//IntOperation"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GInitialState" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//State #//GState"/>
-  <eClassifiers xsi:type="ecore:EClass" name="GFinalState" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//State #//GState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GInitialState" eSuperTypes="#//GState ../../fr.inria.diverse.fsm.model/model/fsm.ecore#//InitialState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GFinalState" eSuperTypes="#//GState ../../fr.inria.diverse.fsm.model/model/fsm.ecore#//FinalState"/>
   <eClassifiers xsi:type="ecore:EClass" name="GFSM" eSuperTypes="../../fr.inria.diverse.fsm.model/model/fsm.ecore#//FSM"/>
 </ecore:EPackage>

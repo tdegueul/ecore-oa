@@ -36,4 +36,8 @@
 
 # TODO
   * Removing the setFinal mess which should be an implemenation detail
-  * Checking for useless and dangerous type-cast
+  * GFSM:
+    * Replacing class by interface for the OA implementations -> easier reuse.
+    * Every state must be passed as parameter and/or directly stored in the model.
+  * Idea for slicing: Generating a limited interface according to the selected classes and delegating to the original model's OA methods.
+  * Trying to deal with generic types in ecore models (for BooleanOperations for example). 
