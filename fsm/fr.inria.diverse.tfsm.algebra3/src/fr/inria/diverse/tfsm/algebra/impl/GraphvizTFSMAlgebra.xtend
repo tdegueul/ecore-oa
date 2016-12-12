@@ -20,7 +20,11 @@ import fr.inria.diverse.algebras.expressions.GraphvizExp
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 
 	override timedFSM(TimedFSM timedFSM) {
-		this.fsm(timedFSM)
+		[
+			this.rep.name = timedFSM.name
+			timedFSM.transitions.forEach[e|$T(e).result]
+			rep.show
+		]
 	}
 
 	override timedInitialState(TimedInitialState timedInitialState) {

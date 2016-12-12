@@ -14,7 +14,7 @@ class GraphvizRep {
 		'''
 			digraph «name» {
 				«FOR node : nodes.entrySet»
-					«node.key» «IF !node.value.empty»[«FOR attr:node.value.entrySet SEPARATOR ','»«attr.key»=«attr.value» «ENDFOR»]«ENDIF»
+					«node.key» «IF !node.value.empty»[«FOR attr:node.value.entrySet SEPARATOR ','»«attr.key»="«attr.value»" «ENDFOR»]«ENDIF»
 				«ENDFOR»
 				«FOR edge : edges»
 					«edge»

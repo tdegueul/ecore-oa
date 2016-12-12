@@ -2,9 +2,10 @@ package fr.inria.diverse.gfsm.abstr;
 
 import fr.inria.diverse.expression.algebra.abstr.ExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
-import fsm.FinalState;
+import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
+import gfsm.GFSM;
 import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
@@ -18,6 +19,8 @@ public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, E
 	S gInitialState(GInitialState gInitialState);
 
 	S gFinalState(GFinalState gFinalState);
+
+	F gFSM(GFSM gfsm);
 
 	@Override
 	default T $T(Transition transition) {
@@ -41,6 +44,17 @@ public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, E
 			ret = gState((GState) state);
 		} else {
 			ret = FSMAlgebra.super.$S(state);
+		}
+		return ret;
+	}
+
+	@Override
+	default F $F(FSM fsm) {
+		final F ret;
+		if (fsm instanceof GFSM) {
+			ret = gFSM((GFSM) fsm);
+		} else {
+			ret = FSMAlgebra.super.$F(fsm);
 		}
 		return ret;
 	}

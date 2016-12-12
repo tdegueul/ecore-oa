@@ -7,17 +7,11 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: expression,
- expression.impl,
- expression.util,
- fsm,
- fsm.impl,
- fsm.util,
- gfsm,
+Export-Package: gfsm,
  gfsm.impl,
  gfsm.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- fr.inria.diverse.expression.model;bundle-version="0.1.0",
- fr.inria.diverse.fsm.model;bundle-version="0.1.0"
+ fr.inria.diverse.expression.model;bundle-version="0.1.0";visibility:=reexport,
+ fr.inria.diverse.fsm.model;bundle-version="0.1.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
