@@ -69,9 +69,12 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 					this.currentState = null
 				}
 			} else if (action != null) {
-				val  nonGardedRes = state.outgoingtransitions.filter[e|e.event == action]
+				val nonGardedRes = state.outgoingtransitions.filter[e|e.event == action]
 				// aweful downcast !!
-				val res0 = nonGardedRes.filter[e|e instanceof TimedTransition && (e as TimedTransition).transitionguard == null || $CCO((e as TimedTransition).transitionguard)]
+				val res0 = nonGardedRes.filter [e|
+					e instanceof TimedTransition && (e as TimedTransition).transitionguard == null ||
+						$CCO((e as TimedTransition).transitionguard)
+				]
 				val Iterable<TimedTransition> res = res0.map[e|(e as TimedTransition)]
 				if (res.size > 1) {
 					println('''[ERROR] non deterministic: «res.length» outgoing transitions matches event «action»''')
@@ -90,62 +93,53 @@ class ExecutableTFSMAlgebra extends ExecutableFSMAlgebra implements TFSMAlgebra<
 					this.currentState = transition.to
 				}
 			}
-			if (!$CCO((this.currentState as TimedState).stateguard)) {
-				println('''[ERROR] deadlock! State guard triggered at time «this.time» on state «this.currentState.name»''')
-				println('''
-						clocks :
-						«FOR clock : (state.eContainer as TimedFSM).clocks»
-							- clock «clock.name» = «clock.tick»
-						«ENDFOR»
-					''')
-				
-				this.currentState = null
+			if (!$CCO(
+				(this.currentState as TimedState).
+					stateguard)) {
+						println('''[ERROR] deadlock! State guard triggered at time «this.time» on state «this.currentState.name»''')
+						println('''
+							clocks :
+							«FOR clock : (state.eContainer as TimedFSM).clocks»
+								- clock «clock.name» = «clock.tick»
+							«ENDFOR»
+						''')
+
+						this.currentState = null
+					}
+				]
 			}
-		]
-	}
 
-	override clock(Clock clock) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+			override clock(Clock clock) {
+				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+			}
 
-	override clockConstraint(ClockConstraint clockConstraint) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+			override clockReset(ClockReset clockReset) {
+				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+			}
 
-	override clockReset(ClockReset clockReset) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+			override lowerClockConstraint(LowerClockConstraint clockConstraint) {
+				clockConstraint.clock.tick < clockConstraint.threshold
+			}
 
-	override lowerClockConstraint(LowerClockConstraint clockConstraint) {
-		clockConstraint.clock.tick < clockConstraint.threshold
-	}
+			override lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint) {
+				lowerEqualClockConstraint.clock.tick <= lowerEqualClockConstraint.threshold
+			}
 
-	override lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint) {
-		lowerEqualClockConstraint.clock.tick <= lowerEqualClockConstraint.threshold
-	}
+			override upperClockConstraint(UpperClockConstraint upperClockConstraint) {
+				upperClockConstraint.clock.tick > upperClockConstraint.threshold
+			}
 
-	override upperClockConstraint(UpperClockConstraint upperClockConstraint) {
-		upperClockConstraint.clock.tick > upperClockConstraint.threshold
-	}
+			override upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint) {
+				upperEqualClockConstraint.clock.tick >= upperEqualClockConstraint.threshold
+			}
 
-	override upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint) {
-		upperEqualClockConstraint.clock.tick >= upperEqualClockConstraint.threshold
-	}
+			override andClockConstraint(AndClockConstraint andClockConstraint) {
+				$CCO(andClockConstraint.left) && $CCO(andClockConstraint.right)
+			}
 
-	override clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+			override orClockConstraint(OrClockConstraint orClockConstraint) {
+				$CCO(orClockConstraint.left) || $CCO(orClockConstraint.right)
+			}
 
-	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		$CCO(andClockConstraint.left) && $CCO(andClockConstraint.right)
-	}
-
-	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		$CCO(orClockConstraint.left) || $CCO(orClockConstraint.right)
-	}
-
-	override binaryClockConstraint(BinaryClockConstraint binaryClockConstraint) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
-}
+		}
+		

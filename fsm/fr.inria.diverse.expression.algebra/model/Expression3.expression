@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fr.inria.diverse.expression.model:BooleanAnd xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression">
+  <boolExpression1 xsi:type="fr.inria.diverse.expression.model:BooleanEqual">
+    <expression2 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
+    <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="b"/>
+  </boolExpression1>
+  <boolExpression2 xsi:type="fr.inria.diverse.expression.model:BooleanGreaterThan">
+    <expression1 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="3"/>
+    <expression2 xsi:type="fr.inria.diverse.expression.model:IntNeg">
+      <expression xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="4"/>
+    </expression2>
+  </boolExpression2>
+</fr.inria.diverse.expression.model:BooleanAnd>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="expression" nsURI="http://inria.fr/expression" nsPrefix="fr.inria.diverse.expression.model">
+  <eClassifiers xsi:type="ecore:EClass" name="IntBinaryExpression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntAdd" eSuperTypes="#//IntBinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntMult" eSuperTypes="#//IntBinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntNeg"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntVarRef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstExpr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntOperation" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntVarAssign" eSuperTypes="#//IntOperation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntBlock" eSuperTypes="#//IntOperation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//IntVarAssign" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanEqual" eSuperTypes="#//BooleanCompareExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanOr" eSuperTypes="#//BooleanBinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanAnd" eSuperTypes="#//BooleanBinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanGreaterThan" eSuperTypes="#//BooleanCompareExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanBinaryExpression" abstract="true"
+      eSuperTypes="#//BooleanExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolExpression1" lowerBound="1"
+        eType="#//BooleanExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolExpression2" lowerBound="1"
+        eType="#//BooleanCompareExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCompareExpression" abstract="true"
+      eSuperTypes="#//BooleanExpression"/>
+</ecore:EPackage>

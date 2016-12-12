@@ -12,7 +12,7 @@ class Program1 {
 	}
 
 	def execute() {
-		println(make(new GraphvizTFSMAlgebra).evalGraph)
+		println(make(new GraphvizTFSMAlgebra).result)
 		val made = make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")))
 		made.execute
 	}

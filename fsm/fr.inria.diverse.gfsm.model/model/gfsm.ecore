@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gfsm" nsURI="http://diverse.inria.fr/gfsm" nsPrefix="gfsm">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    <details key="expression" value="../../fr.inria.diverse.expression.model/model/expression.ecore#/"/>
+    <details key="fsm" value="../../fr.inria.diverse.fsm.model/model/fsm.ecore#/"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="GTransition" eSuperTypes="fsm.ecore#//Transition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" lowerBound="1" eType="ecore:EClass expression.ecore#//BooleanExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GState" eSuperTypes="fsm.ecore#//State">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inExpression" lowerBound="1"
+        eType="ecore:EClass expression.ecore#//IntOperation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outExpression" lowerBound="1"
+        eType="ecore:EClass expression.ecore#//IntOperation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GInitialState" eSuperTypes="fsm.ecore#//InitialState #//GState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GFinalState" eSuperTypes="fsm.ecore#//FinalState #//GState"/>
+</ecore:EPackage>

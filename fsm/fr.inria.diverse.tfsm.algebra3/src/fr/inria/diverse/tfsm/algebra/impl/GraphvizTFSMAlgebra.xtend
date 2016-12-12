@@ -2,23 +2,20 @@ package fr.inria.diverse.tfsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
-import fr.inria.diverse.fsm.algebra.exprs.GraphvizExp
-import tfsm.TimedFSM
-import tfsm.TimedInitialState
-import tfsm.TimedFinalState
-import tfsm.TimedTransition
-import tfsm.TimedState
+import tfsm.AndClockConstraint
 import tfsm.Clock
-import tfsm.ClockConstraint
 import tfsm.ClockReset
 import tfsm.LowerClockConstraint
 import tfsm.LowerEqualClockConstraint
+import tfsm.OrClockConstraint
+import tfsm.TimedFSM
+import tfsm.TimedFinalState
+import tfsm.TimedInitialState
+import tfsm.TimedState
+import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import tfsm.ClockConstraintOperation
-import tfsm.AndClockConstraint
-import tfsm.OrClockConstraint
-import tfsm.BinaryClockConstraint
+import fr.inria.diverse.algebras.expressions.GraphvizExp
 
 class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
 
@@ -28,7 +25,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedInitialState(TimedInitialState timedInitialState) {
 		[
-			val nodename = timedState(timedInitialState).evalGraph
+			val nodename = timedState(timedInitialState).result
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
 			nodename
 		]
@@ -36,7 +33,7 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 
 	override timedFinalState(TimedFinalState timedFinalState) {
 		[
-			val nodename = timedState(timedFinalState).evalGraph
+			val nodename = timedState(timedFinalState).result
 			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
 			nodename
 		]
@@ -45,16 +42,16 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	override timedTransition(TimedTransition timedTransition) {
 		[
 			this.rep.edges.
-				add('''«$S(timedTransition.from).evalGraph» -> «$S(timedTransition.to).evalGraph» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$CCO(timedTransition.transitionguard).evalGraph»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$CR(reset).evalGraph»«ENDFOR»«ENDIF»"]''')
+				add('''«$S(timedTransition.from).result» -> «$S(timedTransition.to).result» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$CCO(timedTransition.transitionguard).result»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$CR(reset).result»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}
 
 	override timedState(TimedState timedState) {
 		[
-			val statename = this.state(timedState).evalGraph
+			val statename = this.state(timedState).result
 			val attrs = if (timedState.stateguard != null) {
-					val guard = $CCO(timedState.stateguard).evalGraph
+					val guard = $CCO(timedState.stateguard).result
 					newHashMap("label" -> '''"«guard»"''')
 				} else {
 					newHashMap("label" -> '''""''')
@@ -66,10 +63,6 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override clock(Clock clock) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
-	override clockConstraint(ClockConstraint clockConstraint) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
@@ -93,21 +86,13 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 		['''«upperEqualClockConstraint.threshold» <= «upperEqualClockConstraint.clock.name»''']
 	}
 
-	override clockConstraintOperation(ClockConstraintOperation clockConstraintOperation) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		['''(«$CCO(andClockConstraint.left).evalGraph» AND «$CCO(andClockConstraint.right).evalGraph»)''']
+		['''(«$CCO(andClockConstraint.left).result» AND «$CCO(andClockConstraint.right).result»)''']
 
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		['''(«$CCO(orClockConstraint.left).evalGraph» OR «$CCO(orClockConstraint.right).evalGraph»)''']
-	}
-
-	override binaryClockConstraint(BinaryClockConstraint binaryClockConstraint) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		['''(«$CCO(orClockConstraint.left).result» OR «$CCO(orClockConstraint.right).result»)''']
 	}
 
 }

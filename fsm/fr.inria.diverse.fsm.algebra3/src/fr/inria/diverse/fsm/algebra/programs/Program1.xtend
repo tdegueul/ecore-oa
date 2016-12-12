@@ -47,7 +47,7 @@ class Program1 {
 	}
 
 	def execute() {
-		println(make(new GraphvizFSMAlgebra).evalGraph)
+		println(make(new GraphvizFSMAlgebra).result)
 		make(new ExecutableFSMAlgebra(newLinkedList('a', 'b'))).execute
 	}
 

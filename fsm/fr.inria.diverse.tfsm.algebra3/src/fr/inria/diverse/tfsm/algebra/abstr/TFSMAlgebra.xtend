@@ -35,8 +35,7 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	def C clock(Clock clock)
 
-	def CCO clockConstraint(ClockConstraint clockConstraint)
-
+//	def CCO clockConstraint(ClockConstraint clockConstraint)
 	def CR clockReset(ClockReset clockReset)
 
 	def CCO lowerClockConstraint(LowerClockConstraint clockConstraint)
@@ -47,14 +46,12 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	def CCO upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint)
 
-	def CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation)
-
+//	def CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation)
 	def CCO andClockConstraint(AndClockConstraint andClockConstraint)
 
 	def CCO orClockConstraint(OrClockConstraint orClockConstraint)
 
-	def CCO binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
-
+//	def CCO binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
 // T,S,F,C, CC, CR
 	override def T $T(Transition transition) {
 		return if (transition instanceof TimedTransition) {
@@ -114,16 +111,10 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 			upperClockConstraint(clockConstraint)
 		} else if (clockConstraint instanceof UpperEqualClockConstraint) {
 			upperEqualClockConstraint(clockConstraint)
-		} else if (clockConstraint instanceof ClockConstraint) {
-			clockConstraint(clockConstraint)
 		} else if (clockConstraint instanceof AndClockConstraint) {
 			andClockConstraint(clockConstraint)
 		} else if (clockConstraint instanceof OrClockConstraint) {
 			orClockConstraint(clockConstraint)
-		} else if (clockConstraint instanceof BinaryClockConstraint) {
-			binaryClockConstraint(clockConstraint)
-		} else if (clockConstraint instanceof ClockConstraintOperation) {
-			clockConstraintOperation(clockConstraint)
 		} else {
 			throw new RuntimeException('''unkown ClockConstraint «clockConstraint»''')
 		}

@@ -5,7 +5,6 @@ import fsm.FinalState
 import fsm.InitialState
 import fsm.State
 import fsm.Transition
-import org.eclipse.emf.ecore.EObject
 
 interface FSMAlgebra<T, S, F> {
 	def T transition(Transition transition)

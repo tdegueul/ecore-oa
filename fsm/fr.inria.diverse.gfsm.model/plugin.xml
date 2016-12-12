@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated gfsm -->
+      <package
+            uri="http://diverse.inria.fr/gfsm"
+            class="gfsm.GfsmPackage"
+            genModel="model/gfsm.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated gfsm -->
+      <package
+            uri="http://diverse.inria.fr/fsm"
+            class="fsm.FsmPackage"
+            genModel="model/gfsm.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated gfsm -->
+      <package
+            uri="http://inria.fr/expression"
+            class="expression.ExpressionPackage"
+            genModel="model/gfsm.genmodel"/>
+   </extension>
+
+</plugin>

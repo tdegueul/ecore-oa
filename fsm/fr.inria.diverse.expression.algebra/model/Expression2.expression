@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fr.inria.diverse.expression.model:IntBlock xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression">
+  <operations name="a">
+    <expression xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="2"/>
+  </operations>
+  <operations name="b">
+    <expression xsi:type="fr.inria.diverse.expression.model:IntMult">
+      <expression2 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
+      <expression1 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="30"/>
+    </expression>
+  </operations>
+  <operations name="c">
+    <expression xsi:type="fr.inria.diverse.expression.model:IntAdd">
+      <expression2 xsi:type="fr.inria.diverse.expression.model:IntNeg">
+        <expression xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
+      </expression2>
+      <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="b"/>
+    </expression>
+  </operations>
+</fr.inria.diverse.expression.model:IntBlock>

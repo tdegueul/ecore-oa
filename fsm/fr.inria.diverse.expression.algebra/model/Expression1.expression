@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fr.inria.diverse.expression.model:IntAdd xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression">
+  <expression2 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="10"/>
+  <expression1 xsi:type="fr.inria.diverse.expression.model:IntMult">
+    <expression2 xsi:type="fr.inria.diverse.expression.model:IntNeg">
+      <expression xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="7"/>
+    </expression2>
+    <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
+  </expression1>
+</fr.inria.diverse.expression.model:IntAdd>
