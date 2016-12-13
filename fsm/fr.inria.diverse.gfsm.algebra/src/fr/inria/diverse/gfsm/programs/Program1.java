@@ -73,7 +73,8 @@ public class Program1 {
 		}, progName).execute();
 	}
 
-	private <T, S, F, IE, BE, IO> F make(final GFSMAlgebra<T, S, F, IE, BE, IO> graphvizGFSMAlgebra, final String progName) {
+	private <T, S, F, IE, BE, IO> F make(final GFSMAlgebra<T, S, F, IE, BE, IO> graphvizGFSMAlgebra,
+			final String progName) {
 		final GFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$F(model);
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gfsm:GFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression" xmlns:fsm="http://diverse.inria.fr/fsm" xmlns:gfsm="http://diverse.inria.fr/gfsm" initialstate="//@states.0" name="GFSM1">
+<gfsm:GFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fr.inria.diverse.expression.model="http://inria.fr/expression" xmlns:gfsm="http://diverse.inria.fr/gfsm" initialstate="//@states.0" name="GFSM1">
   <states xsi:type="gfsm:GInitialState" name="i" outgoingtransitions="//@transitions.0">
     <inExpression xsi:type="fr.inria.diverse.expression.model:IntBlock">
       <operations name="a">
@@ -16,11 +16,18 @@
       </expression>
     </outExpression>
   </states>
-  <states xsi:type="fsm:FinalState" name="f" incommingtransitions="//@transitions.0"/>
+  <states xsi:type="gfsm:GFinalState" name="f" incommingtransitions="//@transitions.0">
+    <inExpression xsi:type="fr.inria.diverse.expression.model:IntVarAssign" name="c">
+      <expression xsi:type="fr.inria.diverse.expression.model:IntAdd">
+        <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="c"/>
+        <expression2 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="1"/>
+      </expression>
+    </inExpression>
+  </states>
   <transitions xsi:type="gfsm:GTransition" from="//@states.0" to="//@states.1" event="t1">
     <guard xsi:type="fr.inria.diverse.expression.model:BooleanEqual">
       <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="b"/>
-      <expression2 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="9000"/>
+      <expression2 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="1"/>
     </guard>
   </transitions>
 </gfsm:GFSM>

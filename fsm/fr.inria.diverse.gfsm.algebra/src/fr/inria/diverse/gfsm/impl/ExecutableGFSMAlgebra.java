@@ -2,6 +2,7 @@ package fr.inria.diverse.gfsm.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
@@ -10,6 +11,7 @@ import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
 import fr.inria.diverse.gfsm.abstr.GFSMAlgebra;
+import fsm.State;
 import fsm.Transition;
 import gfsm.GFSM;
 import gfsm.GFinalState;
@@ -42,8 +44,9 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 				final List<Transition> res = gState.getOutgoingtransitions().stream().filter(t -> {
 					final boolean ret;
 					if (t instanceof GTransition) {
-						ret = ExecutableGFSMAlgebra.this.$BE(((GTransition) t).getGuard()).result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
-								() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
+						ret = ExecutableGFSMAlgebra.this.$BE(((GTransition) t).getGuard())
+								.result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
+										() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
 					} else {
 						ret = false;
 					}
@@ -53,6 +56,12 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 				if (res.size() == 1) {
 					System.out.println("transition: event " + action + " - " + gState.getName() + " -> "
 							+ res.get(0).getTo().getName());
+					this._printCtx();
+					this._processOutExpression(this.getCurrentState());
+					this._printCtx();
+					this.setCurrentState(res.get(0).getTo());
+					this._processInExpression(this.getCurrentState());
+					this._printCtx();
 				} else if (res.size() > 1) {
 					System.out.println("[ERROR] Non deterministic " + res.size()
 							+ " outgoing transitions matches event " + action);
@@ -64,6 +73,13 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 			}
 
 		};
+	}
+
+	public default void _printCtx() {
+		System.out.println("Context : ");
+		for (final Entry<String, Integer> e : this.getCtx().entrySet()) {
+			System.out.println(e.getKey() + ": " + e.getValue());
+		}
 	}
 
 	@Override
@@ -81,9 +97,23 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 
 		return () -> {
 			this.setCurrentState(gfsm.getInitialstate());
+			this._processInExpression(this.getCurrentState());
 			while (this.getCurrentState() != null) {
 				this.$S(this.getCurrentState()).execute();
 			}
 		};
+	}
+
+	public default void _processOutExpression(final State currentState) {
+		if (currentState instanceof GState) {
+			this.$IO(((GState) this.getCurrentState()).getOutExpression()).eval(this.getCtx());
+		}
+	}
+
+	public default void _processInExpression(final State currentState) {
+		if (currentState instanceof GState) {
+
+			this.$IO(((GState) this.getCurrentState()).getInExpression()).eval(this.getCtx());
+		}
 	}
 }
