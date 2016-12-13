@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="abstractvalues" nsURI="http://diverse.inria.fr/abstractvalues"
+    nsPrefix="abstractvalues">
+  <eClassifiers xsi:type="ecore:EClass" name="ConstExpression">
+    <eTypeParameters name="E"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value">
+      <eGenericType eTypeParameter="#//ConstExpression/E"/>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//Expression">
+      <eTypeArguments eTypeParameter="#//ConstExpression/E"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VarRefExpression">
+    <eTypeParameters name="E"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eGenericSuperTypes eClassifier="#//Expression">
+      <eTypeArguments eTypeParameter="#//VarRefExpression/E"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true">
+    <eTypeParameters name="E"/>
+  </eClassifiers>
+</ecore:EPackage>

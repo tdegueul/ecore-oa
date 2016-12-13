@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Algebra
+Bundle-SymbolicName: fr.inria.diverse.abstractvalues.algebra
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: fr.inria.diverse.abstractvalues.model;bundle-version="0.1.0";visibility:=reexport
+Export-Package: fr.inria.diverse.abstractvalues.algebra.abstr,
+ fr.inria.diverse.abstractvalues.algebra.impl,
+ fr.inria.diverse.abstractvalues.algebra.operation

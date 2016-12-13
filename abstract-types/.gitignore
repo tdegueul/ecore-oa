@@ -1,0 +1,6 @@
+.*.xtendbin
+*.model/src/
+**/xtend-gen/
+/*.edit/
+/*.editor/
+/*.tests/

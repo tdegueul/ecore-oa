@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Algebra
+Bundle-SymbolicName: fr.inria.diverse.concretecompare.algebra
+Bundle-Version: 1.0.0.qualifier
+Export-Package: fr.inria.diverse.concretecompare.algebra.abstr
+Require-Bundle: fr.inria.diverse.abstractcompare.algebra;bundle-version="1.0.0",
+ fr.inria.diverse.abstractvalues.algebra;bundle-version="1.0.0"

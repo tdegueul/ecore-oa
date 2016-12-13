@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="concretecompare" nsURI="http://diverse.inria.fr/concretecompare"
+    nsPrefix="concretecompare">
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionCompare">
+    <eTypeParameters name="H"/>
+    <eGenericSuperTypes eClassifier="ecore:EClass ../../fr.inria.diverse.abstractcompare.model/model/abstractcompare.ecore#//AbstractCompare">
+      <eTypeArguments eClassifier="ecore:EClass ../../fr.inria.diverse.abstractvalues.model/model/abstractvalues.ecore#//Expression">
+        <eTypeArguments/>
+      </eTypeArguments>
+    </eGenericSuperTypes>
+  </eClassifiers>
+</ecore:EPackage>
