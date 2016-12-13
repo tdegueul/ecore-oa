@@ -44,7 +44,7 @@ For the rest of the experiments we are going to use the #3 implementation which 
   * Greater Than (between two ints)
   * Equals (between two ints)
 
-   
+
 
 ## FSM
 
@@ -69,7 +69,10 @@ For the rest of the experiments we are going to use the #3 implementation which 
 
 - Guarded FSM
   - Context changed by expressions execution on enter/leave of a state
-  - Transition guarded by boolean expression with access to the context 
+  - Transition guarded by boolean expression with access to the context
+
+## Notes
+-  Java 8 cannot have private default method. By convention "private" method are public with a name prefixed with `_`.
 
 # Observations
 *   Reopening a class in a extended model is currently not an easy task
@@ -83,4 +86,4 @@ For the rest of the experiments we are going to use the #3 implementation which 
     * Replacing class by interface for the OA implementations -> easier reuse.
     * Every state must be passed as parameter and/or directly stored in the model.
 * Idea for slicing: Generating a limited interface according to the selected classes and delegating to the original model's OA methods.
-    * Trying to deal with generic types in ecore models (for BooleanOperations for example). 
+    * Trying to deal with generic types in ecore models (for BooleanOperations for example).
