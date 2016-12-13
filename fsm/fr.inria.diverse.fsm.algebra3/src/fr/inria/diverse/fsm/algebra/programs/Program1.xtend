@@ -54,7 +54,6 @@ class Program1 {
 		}).result(new GraphvizRep))
 		make(new ExecutableFSMAlgebra() {
 
-			// TODO : might be a better way to do this ???
 			var State state
 
 			var userInput = newLinkedList('a', 'b');
