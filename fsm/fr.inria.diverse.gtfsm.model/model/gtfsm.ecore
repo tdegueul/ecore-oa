@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gtfsm" nsURI="http://diverse.inria.fr/gtfsm" nsPrefix="gtfsm">
+  <eClassifiers xsi:type="ecore:EClass" name="GTFSM" eSuperTypes="../../fr.inria.diverse.tfsm.ecore/model/tfsm.ecore#//TimedFSM ../../fr.inria.diverse.gfsm.model/model/gfsm.ecore#//GFSM"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GTState" eSuperTypes="../../fr.inria.diverse.gfsm.model/model/gfsm.ecore#//GState ../../fr.inria.diverse.tfsm.ecore/model/tfsm.ecore#//TimedState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GTInitialState" eSuperTypes="#//GTState ../../fr.inria.diverse.tfsm.ecore/model/tfsm.ecore#//TimedInitialState ../../fr.inria.diverse.gfsm.model/model/gfsm.ecore#//GInitialState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GTFinalState" eSuperTypes="../../fr.inria.diverse.gfsm.model/model/gfsm.ecore#//GFinalState ../../fr.inria.diverse.tfsm.ecore/model/tfsm.ecore#//TimedFinalState #//GTState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GTTransition" eSuperTypes="../../fr.inria.diverse.tfsm.ecore/model/tfsm.ecore#//TimedTransition ../../fr.inria.diverse.gfsm.model/model/gfsm.ecore#//GTransition"/>
+</ecore:EPackage>
