@@ -1,22 +1,19 @@
 package fr.inria.diverse.fsm.algebra.impl
 
-import fr.inria.diverse.algebras.expressions.GraphvizExp
+import fr.inria.diverse.algebras.expressions.RepGraphvizExp
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
-import fr.inria.diverse.fsm.util.GraphvizRep
 import fsm.FSM
 import fsm.FinalState
 import fsm.InitialState
 import fsm.State
 import fsm.Transition
 
-class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizExp, GraphvizExp> {
-
-	protected GraphvizRep rep = new GraphvizRep;
+interface GraphvizFSMAlgebra extends FSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
 
 	override transition(Transition transition) {
-		[
-			this.rep.edges.
-				add('''«$S(transition.from).result» -> «$S(transition.to).result» [label=«transition.event»]''')
+		[ rep |
+			rep.edges.
+				add('''«$S(transition.from).result(rep)» -> «$S(transition.to).result(rep)» [label=«transition.event»]''')
 			""
 		]
 	}
@@ -28,25 +25,25 @@ class GraphvizFSMAlgebra implements FSMAlgebra<GraphvizExp, GraphvizExp, Graphvi
 	}
 
 	override finalState(FinalState finalState) {
-		[
-			val nodename = state(finalState).result
-			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green"))
+		[ rep |
+			val nodename = state(finalState).result(rep)
+			rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green"))
 			nodename
 		]
 	}
 
 	override initialState(InitialState initialState) {
-		[
-			val nodename = state(initialState).result
-			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red"))
+		[ rep |
+			val nodename = state(initialState).result(rep)
+			rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red"))
 			nodename
 		]
 	}
 
 	override fsm(FSM fsm) {
-		[
-			this.rep.name = fsm.name
-			fsm.transitions.forEach[e|$T(e).result]
+		[ rep |
+			rep.name = fsm.name
+			fsm.transitions.forEach[e|$T(e).result(rep)]
 			rep.show
 		]
 	}

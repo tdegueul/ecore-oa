@@ -5,6 +5,9 @@ import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fsm.FSM
 import fsm.FsmFactory
+import fr.inria.diverse.utils.GraphvizRep
+import fsm.State
+import java.util.Queue
 
 class Program1 {
 	def FSM createModel() {
@@ -36,7 +39,7 @@ class Program1 {
 		]
 	}
 
-	def <T,S,F> F make(FSMAlgebra<T,S,F> f) {
+	def <T, S, F> F make(FSMAlgebra<T, S, F> f) {
 		val exp = createModel
 
 		return f.$F(exp)
@@ -47,8 +50,32 @@ class Program1 {
 	}
 
 	def execute() {
-		println(make(new GraphvizFSMAlgebra).result)
-		make(new ExecutableFSMAlgebra(newLinkedList('a', 'b'))).execute
+		println(make(new GraphvizFSMAlgebra {
+		}).result(new GraphvizRep))
+		make(new ExecutableFSMAlgebra() {
+
+			// TODO : might be a better way to do this ???
+			var State state
+
+			var userInput = newLinkedList('a', 'b');
+
+			override getCurrentState() {
+				state
+			}
+
+			override setCurrentState(State state) {
+				this.state = state
+			}
+
+			override getUserinput() {
+				userInput
+			}
+
+			override setUserInput(Queue<String> userinput) {
+				this.userInput = userinput
+			}
+
+		}).execute()
 	}
 
 }

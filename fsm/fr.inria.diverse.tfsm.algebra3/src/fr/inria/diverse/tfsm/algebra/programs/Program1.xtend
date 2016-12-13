@@ -1,19 +1,75 @@
 package fr.inria.diverse.tfsm.algebra.programs
 
+import fr.inria.diverse.algebras.expressions.RepGraphvizExp
+import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
-import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
-import tfsm.TfsmFactory
-import tfsm.TimedFSM
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra
+import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra
+import fr.inria.diverse.utils.GraphvizRep
+import fsm.State
+import java.util.Map
+import java.util.Queue
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import tfsm.TfsmPackage
+import tfsm.TimedFSM
 
 class Program1 {
 	def static void main(String[] args) {
-		new Program1().execute();
+		new Program1().
+			execute();
 	}
 
 	def execute() {
-		println(make(new GraphvizTFSMAlgebra).result)
-		val made = make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")))
+
+		val TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebra() {
+		};
+
+		val TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebra() {
+
+			var Map<Integer, String> timedActions = newHashMap(3 -> "a", 7 -> "b", 9 -> "a");
+
+			override setTimedActions(Map<Integer, String> timedActions) {
+				this.timedActions = timedActions
+			}
+
+			override getTimedActions() {
+				timedActions
+			}
+
+			var Integer time = 0;
+
+			override setTime(Integer time) {
+				this.time = time;
+			}
+
+			override getTime() {
+				time
+			}
+
+			override getUserinput() {
+				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+			}
+
+			override setUserInput(Queue<String> userinput) {
+				throw new UnsupportedOperationException("TODO: auto-generated method stub")
+			}
+
+			var State currentState
+
+			override getCurrentState() {
+				this.currentState
+			}
+
+			override setCurrentState(State state) {
+				this.currentState = state
+			}
+
+		};
+		println(make(algGraphviz).result(new GraphvizRep))
+		val made = make(algExec);
 		made.execute
 	}
 
@@ -24,70 +80,13 @@ class Program1 {
 	}
 
 	def TimedFSM createModel() {
-		val expF = TfsmFactory::eINSTANCE
-
-		val xClock = expF.createClock => [name = "x"]
-		val yClock = expF.createClock => [name = "y"]
-
-		val s0 = expF.createTimedInitialState => [
-			name = "s0"
-			stateguard = expF.createLowerEqualClockConstraint => [
-				threshold = 5
-				clock = yClock
-			]
-		]
-
-		val s1 = expF.createTimedFinalState => [
-			name = "s1"
-			stateguard = expF.createAndClockConstraint => [
-				left = expF.createLowerEqualClockConstraint => [
-					threshold = 10
-					clock = yClock
-
-				]
-				right = expF.createLowerEqualClockConstraint => [
-					threshold = 8
-					clock = xClock
-
-				]
-			]
-		]
-
-		val ta = expF.createTimedTransition => [
-			event = "a"
-			from = s0
-			to = s1
-			clockresets.add(expF.createClockReset => [clock = yClock])
-			transitionguard = expF.createUpperEqualClockConstraint => [
-				threshold = 3
-				clock = yClock
-			]
-		]
-
-		val tb = expF.createTimedTransition => [
-			event = "b"
-			from = s1
-			to = s0
-			clockresets.add(expF.createClockReset => [clock = xClock])
-			transitionguard = expF.createAndClockConstraint => [
-				left = expF.createUpperEqualClockConstraint => [
-					threshold = 4
-					clock = yClock
-				]
-				right = expF.createUpperEqualClockConstraint => [
-					threshold = 6
-					clock = xClock
-				]
-			]
-		]
-
-		return expF.createTimedFSM => [
-			name = "TFSM1"
-			states.addAll(newArrayList(s0, s1))
-			transitions.addAll(newArrayList(ta, tb))
-			initialstate = s0
-			clocks.addAll(newArrayList(xClock, yClock))
-		]
+		val resSet = new ResourceSetImpl
+		resSet.resourceFactoryRegistry.extensionToFactoryMap.put("tfsm", new XMIResourceFactoryImpl)
+		val fsmPackage = TfsmPackage.eINSTANCE
+		val createURI = URI.createURI(
+			"/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra3/model/TFSM1.tfsm")
+		val resource = resSet.getResource(createURI, true)
+		resource.contents.head as TimedFSM
 	}
 
 }

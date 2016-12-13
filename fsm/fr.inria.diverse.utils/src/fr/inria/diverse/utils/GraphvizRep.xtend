@@ -1,4 +1,4 @@
-package fr.inria.diverse.fsm.util
+package fr.inria.diverse.utils
 
 import java.util.List
 import java.util.Map

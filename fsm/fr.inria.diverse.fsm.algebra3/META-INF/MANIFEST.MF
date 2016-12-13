@@ -6,12 +6,12 @@ Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.fsm.algebra.abstr,
  fr.inria.diverse.fsm.algebra.exprs,
  fr.inria.diverse.fsm.algebra.impl,
- fr.inria.diverse.fsm.algebra.programs,
- fr.inria.diverse.fsm.util
+ fr.inria.diverse.fsm.algebra.programs
 Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0",
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- fr.inria.diverse.algebras.expressions;bundle-version="1.0.0"
+ fr.inria.diverse.algebras.expressions;bundle-version="1.0.0",
+ fr.inria.diverse.utils;bundle-version="1.0.0"
 

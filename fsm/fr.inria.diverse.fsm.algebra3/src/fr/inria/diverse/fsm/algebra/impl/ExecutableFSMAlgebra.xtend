@@ -9,19 +9,19 @@ import fsm.State
 import fsm.Transition
 import java.util.Queue
 
-class ExecutableFSMAlgebra implements FSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp> {
-
-	protected Queue<String> userinput
-
-	protected State currentState
-
-	new(Queue<String> userinput) {
-		this.userinput = userinput
-	}
+interface ExecutableFSMAlgebra extends FSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp> {
 
 	override transition(Transition transition) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
+
+	def Queue<String> getUserinput()
+
+	def void setUserInput(Queue<String> userinput)
+
+	def State getCurrentState()
+
+	def void setCurrentState(State state)
 
 	override state(State state) {
 		[

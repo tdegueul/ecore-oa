@@ -5,9 +5,7 @@ import fsm.FSM
 import fsm.State
 import fsm.Transition
 import tfsm.AndClockConstraint
-import tfsm.BinaryClockConstraint
 import tfsm.Clock
-import tfsm.ClockConstraint
 import tfsm.ClockConstraintOperation
 import tfsm.ClockReset
 import tfsm.LowerClockConstraint
@@ -35,7 +33,6 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	def C clock(Clock clock)
 
-//	def CCO clockConstraint(ClockConstraint clockConstraint)
 	def CR clockReset(ClockReset clockReset)
 
 	def CCO lowerClockConstraint(LowerClockConstraint clockConstraint)
@@ -46,13 +43,10 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	def CCO upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint)
 
-//	def CCO clockConstraintOperation(ClockConstraintOperation clockConstraintOperation)
 	def CCO andClockConstraint(AndClockConstraint andClockConstraint)
 
 	def CCO orClockConstraint(OrClockConstraint orClockConstraint)
 
-//	def CCO binaryClockConstraint(BinaryClockConstraint binaryClockConstraint)
-// T,S,F,C, CC, CR
 	override def T $T(Transition transition) {
 		return if (transition instanceof TimedTransition) {
 			timedTransition(transition)

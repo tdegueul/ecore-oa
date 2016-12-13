@@ -1,5 +1,6 @@
 package fr.inria.diverse.tfsm.algebra.impl
 
+import fr.inria.diverse.algebras.expressions.RepGraphvizExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import tfsm.AndClockConstraint
@@ -15,53 +16,52 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import fr.inria.diverse.algebras.expressions.GraphvizExp
 
-class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
+interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
 
-	override timedFSM(TimedFSM timedFSM) {
-		[
-			this.rep.name = timedFSM.name
-			timedFSM.transitions.forEach[e|$T(e).result]
+	override RepGraphvizExp timedFSM(TimedFSM timedFSM) {
+		[ rep |
+			rep.name = timedFSM.name
+			timedFSM.transitions.forEach[e|$T(e).result(rep)]
 			rep.show
 		]
 	}
 
 	override timedInitialState(TimedInitialState timedInitialState) {
-		[
-			val nodename = timedState(timedInitialState).result
-			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
+		[ rep |
+			val nodename = timedState(timedInitialState).result(rep)
+			rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "red", "xlabel" -> nodename))
 			nodename
 		]
 	}
 
 	override timedFinalState(TimedFinalState timedFinalState) {
-		[
-			val nodename = timedState(timedFinalState).result
-			this.rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
+		[ rep |
+			val nodename = timedState(timedFinalState).result(rep)
+			rep.addNode(nodename, newHashMap("shape" -> "box", "color" -> "green", "xlabel" -> nodename))
 			nodename
 		]
 	}
 
 	override timedTransition(TimedTransition timedTransition) {
-		[
-			this.rep.edges.
-				add('''«$S(timedTransition.from).result» -> «$S(timedTransition.to).result» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$CCO(timedTransition.transitionguard).result»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$CR(reset).result»«ENDFOR»«ENDIF»"]''')
+		[ rep |
+			rep.edges.
+				add('''«$S(timedTransition.from).result(rep)» -> «$S(timedTransition.to).result(rep)» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$CCO(timedTransition.transitionguard).result(rep)»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$CR(reset).result(rep)»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}
 
 	override timedState(TimedState timedState) {
-		[
-			val statename = this.state(timedState).result
+		[ rep |
+			val statename = this.state(timedState).result(rep)
 			val attrs = if (timedState.stateguard != null) {
-					val guard = $CCO(timedState.stateguard).result
-					newHashMap("label" -> '''"«guard»"''')
+					val guard = $CCO(timedState.stateguard).result(rep)
+					newHashMap("label" -> guard)
 				} else {
-					newHashMap("label" -> '''""''')
+					newHashMap("label" -> '')
 				}
 
-			this.rep.addNode(statename, attrs)
+			rep.addNode(statename, attrs)
 			statename
 		]
 	}
@@ -91,12 +91,12 @@ class GraphvizTFSMAlgebra extends GraphvizFSMAlgebra implements TFSMAlgebra<Grap
 	}
 
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		['''(«$CCO(andClockConstraint.left).result» AND «$CCO(andClockConstraint.right).result»)''']
+		[rep|'''(«$CCO(andClockConstraint.left).result(rep)» AND «$CCO(andClockConstraint.right).result(rep)»)''']
 
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		['''(«$CCO(orClockConstraint.left).result» OR «$CCO(orClockConstraint.right).result»)''']
+		[rep|'''(«$CCO(orClockConstraint.left).result(rep)» OR «$CCO(orClockConstraint.right).result(rep)»)''']
 	}
 
 }
