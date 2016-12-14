@@ -42,7 +42,7 @@ class Program1 {
 	def <T, S, F> F make(FSMAlgebra<T, S, F> f) {
 		val exp = createModel
 
-		return f.$F(exp)
+		return f.$(exp)
 	}
 
 	def static void main(String[] args) {

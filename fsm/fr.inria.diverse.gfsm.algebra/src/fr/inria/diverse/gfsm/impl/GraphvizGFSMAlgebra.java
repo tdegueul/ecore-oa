@@ -29,12 +29,12 @@ public interface GraphvizGFSMAlgebra extends GraphvizFSMAlgebra, PrettyPrintExpr
 
 			final String guard;
 			if (gTransition.getGuard() != null) {
-				guard = this.$BE(gTransition.getGuard()).result();
+				guard = this.$(gTransition.getGuard()).result();
 			} else {
 				guard = "";
 			}
 
-			rep.edges.add(this.$S(gTransition.getFrom()).result(rep) + " -> " + this.$S(gTransition.getTo()).result(rep) + "[label=\""
+			rep.edges.add(this.$(gTransition.getFrom()).result(rep) + " -> " + this.$(gTransition.getTo()).result(rep) + "[label=\""
 					+ gTransition.getEvent() + (guard.equals("") ? "" : "\\n") + guard + "\"]");
 			return "";
 		};
@@ -49,12 +49,12 @@ public interface GraphvizGFSMAlgebra extends GraphvizFSMAlgebra, PrettyPrintExpr
 			if (gState.getInExpression() != null) {
 
 				// FIXME : Line breaks replacement is not so nice...
-				final String guard1 = this.$IO(gState.getInExpression()).result().replaceAll("\n", "\\\\n");
+				final String guard1 = this.$(gState.getInExpression()).result().replaceAll("\n", "\\\\n");
 				attrs.put("label", "IN:\\n" + guard1);
 			}
 
 			if (gState.getOutExpression() != null) {
-				final String guard2 = this.$IO(gState.getOutExpression()).result().replaceAll("\n", "\\\\n");
+				final String guard2 = this.$(gState.getOutExpression()).result().replaceAll("\n", "\\\\n");
 				final String orDefault = attrs.getOrDefault("label", "");
 				final String value = orDefault + (orDefault.equals("") ? "" : "\\n") + "OUT:\\n" + guard2;
 				attrs.put("label", value);
@@ -93,7 +93,7 @@ public interface GraphvizGFSMAlgebra extends GraphvizFSMAlgebra, PrettyPrintExpr
 	public default RepGraphvizExp gFSM(final GFSM gfsm) {
 		return (rep) -> {
 			rep.name = gfsm.getName();
-			gfsm.getTransitions().forEach(t -> this.$T(t).result(rep));
+			gfsm.getTransitions().forEach(t -> this.$(t).result(rep));
 			return rep.show();
 		};
 	}

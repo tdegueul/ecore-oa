@@ -23,18 +23,18 @@ public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, E
 	F gFSM(GFSM gfsm);
 
 	@Override
-	default T $T(final Transition transition) {
+	default T $(final Transition transition) {
 		final T ret;
 		if (transition instanceof GTransition) {
 			ret = this.gTransition((GTransition) transition);
 		} else {
-			ret = FSMAlgebra.super.$T(transition);
+			ret = FSMAlgebra.super.$(transition);
 		}
 		return ret;
 	}
 
 	@Override
-	default S $S(final State state) {
+	default S $(final State state) {
 		final S ret;
 		if (state instanceof GFinalState) {
 			ret = this.gFinalState((GFinalState) state);
@@ -43,18 +43,18 @@ public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, E
 		} else if (state instanceof GState) {
 			ret = this.gState((GState) state);
 		} else {
-			ret = FSMAlgebra.super.$S(state);
+			ret = FSMAlgebra.super.$(state);
 		}
 		return ret;
 	}
 
 	@Override
-	default F $F(final FSM fsm) {
+	default F $(final FSM fsm) {
 		final F ret;
 		if (fsm instanceof GFSM) {
 			ret = this.gFSM((GFSM) fsm);
 		} else {
-			ret = FSMAlgebra.super.$F(fsm);
+			ret = FSMAlgebra.super.$(fsm);
 		}
 		return ret;
 	}

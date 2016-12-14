@@ -34,7 +34,7 @@ interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp
 		[
 			this.currentState = timedFSM.initialstate
 			while (this.currentState != null) {
-				$S(this.currentState).execute
+				$(this.currentState).execute
 				timedFSM.clocks.forEach[e|e.tick = e.tick + 1]
 				time = time + 1
 			}
@@ -69,7 +69,7 @@ interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp
 				// aweful downcast !!
 				val res0 = nonGardedRes.filter [ e |
 					e instanceof TimedTransition && (e as TimedTransition).transitionguard == null ||
-						$CCO((e as TimedTransition).transitionguard)
+						$((e as TimedTransition).transitionguard)
 				]
 				val res = res0.map[e|(e as TimedTransition)]
 				val resSize = res.size
@@ -90,7 +90,7 @@ interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp
 					this.currentState = transition.to
 				}
 			}
-			if (!$CCO((this.currentState as TimedState).stateguard)) {
+			if (!$((this.currentState as TimedState).stateguard)) {
 				println('''[ERROR] deadlock! State guard triggered at time «time» on state «this.currentState.name»''')
 				println('''
 					clocks :
@@ -129,11 +129,11 @@ interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp
 	}
 
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		$CCO(andClockConstraint.left) && $CCO(andClockConstraint.right)
+		$(andClockConstraint.left) && $(andClockConstraint.right)
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		$CCO(orClockConstraint.left) || $CCO(orClockConstraint.right)
+		$(orClockConstraint.left) || $(orClockConstraint.right)
 	}
 
 }

@@ -46,7 +46,7 @@ public interface ExecutableGTFSMAlgebra extends
 			this.setCurrentState(gtfsm.getInitialstate());
 			this._processInExpression(this.getCurrentState());
 			while (this.getCurrentState() != null) {
-				this.$S(this.getCurrentState()).execute();
+				this.$(this.getCurrentState()).execute();
 				gtfsm.getClocks().forEach(e -> {
 					e.setTick(e.getTick() + 1);
 				});
@@ -85,7 +85,7 @@ public interface ExecutableGTFSMAlgebra extends
 					final boolean ret;
 					if (t instanceof GTransition) {
 						final Map<String, Integer> ctx = this.getCtx();
-						ret = this.$BE(((GTransition) t).getGuard()).result(ctx).orElseThrow(
+						ret = this.$(((GTransition) t).getGuard()).result(ctx).orElseThrow(
 								() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
 					} else {
 						ret = false;
@@ -95,7 +95,7 @@ public interface ExecutableGTFSMAlgebra extends
 					final boolean ret;
 					if (t instanceof TimedTransition) {
 						final ClockConstraintOperation transitionguard = ((TimedTransition) t).getTransitionguard();
-						ret = transitionguard == null || this.$CCO(transitionguard);
+						ret = transitionguard == null || this.$(transitionguard);
 					} else {
 						ret = false;
 					}

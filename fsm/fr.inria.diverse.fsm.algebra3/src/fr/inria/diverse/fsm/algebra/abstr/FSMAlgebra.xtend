@@ -17,7 +17,7 @@ interface FSMAlgebra<T, S, F> {
 
 	def F fsm(FSM fsm)
 
-	def T $T(Transition transition) {
+	def T $(Transition transition) {
 		return if (transition instanceof Transition) {
 			val tmp = transition(transition)
 			tmp
@@ -26,7 +26,7 @@ interface FSMAlgebra<T, S, F> {
 		}
 	}
 
-	def S $S(State state) {
+	def S $(State state) {
 		return if (state instanceof InitialState) {
 			initialState(state)
 		} else if (state instanceof FinalState) {
@@ -38,7 +38,7 @@ interface FSMAlgebra<T, S, F> {
 		}
 	}
 
-	def F $F(FSM fsm) {
+	def F $(FSM fsm) {
 		return if (fsm instanceof FSM) {
 			fsm(fsm)
 		} else {

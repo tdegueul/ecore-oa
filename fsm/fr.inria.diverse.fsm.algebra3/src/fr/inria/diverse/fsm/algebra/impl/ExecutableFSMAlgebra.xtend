@@ -61,7 +61,7 @@ interface ExecutableFSMAlgebra extends FSMAlgebra<ExecutableExp, ExecutableExp, 
 				if (this.currentState instanceof FinalState)
 					this.currentState = null
 				else
-					$S(this.currentState).execute
+					$(this.currentState).execute
 		]
 	}
 

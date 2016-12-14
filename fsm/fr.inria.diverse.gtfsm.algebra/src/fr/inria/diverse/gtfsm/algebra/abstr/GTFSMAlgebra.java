@@ -25,7 +25,7 @@ public interface GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO>
 	T gtTransition(GTTransition gtTransition);
 
 	@Override
-	default S $S(final State state) {
+	default S $(final State state) {
 		S ret;
 		if (state instanceof GTFinalState) {
 			ret = this.gtFinalState((GTFinalState) state);
@@ -35,39 +35,39 @@ public interface GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO>
 			ret = this.gtState((GTState) state);
 		} else {
 			try {
-				ret = GFSMAlgebra.super.$S(state);
+				ret = GFSMAlgebra.super.$(state);
 			} catch (final RuntimeException e) {
-				ret = TFSMAlgebra.super.$S(state);
+				ret = TFSMAlgebra.super.$(state);
 			}
 		}
 		return ret;
 	}
 
 	@Override
-	default F $F(final FSM fsm) {
+	default F $(final FSM fsm) {
 		F ret;
 		if (fsm instanceof GTFSM) {
 			ret = this.gtfsm((GTFSM) fsm);
 		} else {
 			try {
-				ret = GFSMAlgebra.super.$F(fsm);
+				ret = GFSMAlgebra.super.$(fsm);
 			} catch (final RuntimeException e) {
-				ret = TFSMAlgebra.super.$F(fsm);
+				ret = TFSMAlgebra.super.$(fsm);
 			}
 		}
 		return ret;
 	}
 
 	@Override
-	default T $T(final Transition transition) {
+	default T $(final Transition transition) {
 		T ret;
 		if (transition instanceof GTTransition) {
 			ret = this.gtTransition((GTTransition) transition);
 		} else {
 			try {
-				ret = GFSMAlgebra.super.$T(transition);
+				ret = GFSMAlgebra.super.$(transition);
 			} catch (final RuntimeException e) {
-				ret = TFSMAlgebra.super.$T(transition);
+				ret = TFSMAlgebra.super.$(transition);
 			}
 		}
 		return ret;

@@ -106,7 +106,7 @@ public class Program1 {
 
 		final String gtfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GTFSM1.gtfsm";
 		final String gtfsm2 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gtfsm";
-		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gfsm";
+		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/GFSM1.gfsm";
 		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
@@ -120,19 +120,22 @@ public class Program1 {
 		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
+		final Map<Integer, String> initTimedActions2 = new HashMap<Integer, String>();
+		initTimedActions2.put(0, "t1");
+		this.make2(gfsm1, new ExecutableGTFSMAlgebraImplementation(initTimedActions2)).execute();
 	}
 
 	private <T, S, F, C, CCO, CR, IE, BE, IO> F make(final String progName,
 			final GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
 		final GTFSM model = this.createModel(progName);
-		return graphvizGFSMAlgebra.$F(model);
+		return graphvizGFSMAlgebra.$(model);
 
 	}
 
 	private <T, S, F, C, CCO, CR, IE, BE, IO> F make2(final String progName,
 			final GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
 		final GFSM model = this.createModel2(progName);
-		return graphvizGFSMAlgebra.$F(model);
+		return graphvizGFSMAlgebra.$(model);
 	}
 
 }

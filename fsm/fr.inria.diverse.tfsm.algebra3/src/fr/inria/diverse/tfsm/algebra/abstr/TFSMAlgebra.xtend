@@ -47,16 +47,16 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	def CCO orClockConstraint(OrClockConstraint orClockConstraint)
 
-	override def T $T(Transition transition) {
+	override def T $(Transition transition) {
 		return if (transition instanceof TimedTransition) {
 			timedTransition(transition)
 		} else {
-			FSMAlgebra.super.$T(transition)
+			FSMAlgebra.super.$(transition)
 		}
 
 	}
 
-	override def S $S(State state) {
+	override def S $(State state) {
 		return if (state instanceof TimedFinalState) {
 			timedFinalState(state)
 		} else if (state instanceof TimedInitialState) {
@@ -64,21 +64,21 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 		} else if (state instanceof TimedState) {
 			timedState(state)
 		} else {
-			FSMAlgebra.super.$S(state)
+			FSMAlgebra.super.$(state)
 		}
 
 	}
 
-	override def F $F(FSM fsm) {
+	override def F $(FSM fsm) {
 		return if (fsm instanceof TimedFSM) {
 			timedFSM(fsm)
 		} else {
-			FSMAlgebra.super.$F(fsm)
+			FSMAlgebra.super.$(fsm)
 		}
 
 	}
 
-	def C $C(Clock clock) {
+	def C $(Clock clock) {
 		return if (clock instanceof Clock) {
 			clock(clock)
 		} else {
@@ -87,7 +87,7 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	}
 
-	def CR $CR(ClockReset clockReset) {
+	def CR $(ClockReset clockReset) {
 		return if (clockReset instanceof ClockReset) {
 			clockReset(clockReset)
 		} else {
@@ -96,7 +96,7 @@ interface TFSMAlgebra<T, S, F, C, CCO, CR> extends FSMAlgebra<T, S, F> {
 
 	}
 
-	def CCO $CCO(ClockConstraintOperation clockConstraint) {
+	def CCO $(ClockConstraintOperation clockConstraint) {
 		if (clockConstraint instanceof LowerClockConstraint) {
 			lowerClockConstraint(clockConstraint)
 		} else if (clockConstraint instanceof LowerEqualClockConstraint) {

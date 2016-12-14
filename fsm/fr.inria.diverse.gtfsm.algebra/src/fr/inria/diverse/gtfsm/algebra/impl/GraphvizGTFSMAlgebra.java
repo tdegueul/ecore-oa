@@ -25,7 +25,7 @@ public interface GraphvizGTFSMAlgebra extends
 	default RepGraphvizExp gtfsm(final GTFSM gtfsm) {
 		return (rep) -> {
 			rep.name = gtfsm.getName();
-			gtfsm.getTransitions().forEach(t -> this.$T(t).result(rep));
+			gtfsm.getTransitions().forEach(t -> this.$(t).result(rep));
 			return rep.show();
 		};
 	}
@@ -63,19 +63,19 @@ public interface GraphvizGTFSMAlgebra extends
 			if (gtState.getInExpression() != null) {
 
 				// FIXME : Line breaks replacement is not so nice...
-				final String guard1 = GraphvizGTFSMAlgebra.this.$IO(gtState.getInExpression()).result().replaceAll("\n", "\\\\n");
+				final String guard1 = GraphvizGTFSMAlgebra.this.$(gtState.getInExpression()).result().replaceAll("\n", "\\\\n");
 				attrs.put("label", "IN:\\n" + guard1);
 			}
 
 			if (gtState.getOutExpression() != null) {
-				final String guard2 = GraphvizGTFSMAlgebra.this.$IO(gtState.getOutExpression()).result().replaceAll("\n", "\\\\n");
+				final String guard2 = GraphvizGTFSMAlgebra.this.$(gtState.getOutExpression()).result().replaceAll("\n", "\\\\n");
 				final String orDefault1 = attrs.getOrDefault("label", "");
 				final String value = orDefault1 + (orDefault1.equals("") ? "" : "\\n") + "OUT:\\n" + guard2;
 				attrs.put("label", value);
 			}
 
 			if (gtState.getStateguard() != null) {
-				final String guard = GraphvizGTFSMAlgebra.this.$CCO(gtState.getStateguard()).result(rep);
+				final String guard = GraphvizGTFSMAlgebra.this.$(gtState.getStateguard()).result(rep);
 				final String orDefault2 = attrs.getOrDefault("label", "");
 
 				attrs.put("label", orDefault2 + (orDefault2.equals("") ? "" : "\\n") + "GUARD:\\n" + guard);

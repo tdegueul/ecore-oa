@@ -46,7 +46,7 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 						.filter(t -> t.getEvent().equals(action)).filter(t -> {
 					final boolean ret;
 					if (t instanceof GTransition) {
-						ret = ExecutableGFSMAlgebra.this.$BE(((GTransition) t).getGuard())
+						ret = ExecutableGFSMAlgebra.this.$(((GTransition) t).getGuard())
 								.result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
 										() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
 					} else {
@@ -101,14 +101,14 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 			this.setCurrentState(gfsm.getInitialstate());
 			this._processInExpression(this.getCurrentState());
 			while (this.getCurrentState() != null) {
-				this.$S(this.getCurrentState()).execute();
+				this.$(this.getCurrentState()).execute();
 			}
 		};
 	}
 
 	public default void _processOutExpression(final State currentState) {
 		if (currentState instanceof GState) {
-			this.$IO(((GState) this.getCurrentState()).getOutExpression()).eval(this.getCtx());
+			this.$(((GState) this.getCurrentState()).getOutExpression()).eval(this.getCtx());
 		}
 	}
 
@@ -116,7 +116,7 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 		if (currentState instanceof GState) {
 
 			final IntOperation inExpression = ((GState) this.getCurrentState()).getInExpression();
-			this.$IO(inExpression).eval(this.getCtx());
+			this.$(inExpression).eval(this.getCtx());
 		}
 	}
 }

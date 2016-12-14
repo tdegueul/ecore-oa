@@ -22,7 +22,7 @@ interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvi
 	override RepGraphvizExp timedFSM(TimedFSM timedFSM) {
 		[ rep |
 			rep.name = timedFSM.name
-			timedFSM.transitions.forEach[e|$T(e).result(rep)]
+			timedFSM.transitions.forEach[e|$(e).result(rep)]
 			rep.show
 		]
 	}
@@ -46,7 +46,7 @@ interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvi
 	override timedTransition(TimedTransition timedTransition) {
 		[ rep |
 			rep.edges.
-				add('''«$S(timedTransition.from).result(rep)» -> «$S(timedTransition.to).result(rep)» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$CCO(timedTransition.transitionguard).result(rep)»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$CR(reset).result(rep)»«ENDFOR»«ENDIF»"]''')
+				add('''«$(timedTransition.from).result(rep)» -> «$(timedTransition.to).result(rep)» [label="«timedTransition.event»«IF timedTransition.transitionguard != null»\n«$(timedTransition.transitionguard).result(rep)»«ENDIF»«IF timedTransition.clockresets != null && !timedTransition.clockresets.empty»\n«FOR reset:timedTransition.clockresets SEPARATOR '\n'»«$(reset).result(rep)»«ENDFOR»«ENDIF»"]''')
 			""
 		]
 	}
@@ -55,7 +55,7 @@ interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvi
 		[ rep |
 			val statename = this.state(timedState).result(rep)
 			val attrs = if (timedState.stateguard != null) {
-					val guard = $CCO(timedState.stateguard).result(rep)
+					val guard = $(timedState.stateguard).result(rep)
 					newHashMap("label" -> guard)
 				} else {
 					newHashMap("label" -> '')
@@ -91,12 +91,12 @@ interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvi
 	}
 
 	override andClockConstraint(AndClockConstraint andClockConstraint) {
-		[rep|'''(«$CCO(andClockConstraint.left).result(rep)» AND «$CCO(andClockConstraint.right).result(rep)»)''']
+		[rep|'''(«$(andClockConstraint.left).result(rep)» AND «$(andClockConstraint.right).result(rep)»)''']
 
 	}
 
 	override orClockConstraint(OrClockConstraint orClockConstraint) {
-		[rep|'''(«$CCO(orClockConstraint.left).result(rep)» OR «$CCO(orClockConstraint.right).result(rep)»)''']
+		[rep|'''(«$(orClockConstraint.left).result(rep)» OR «$(orClockConstraint.right).result(rep)»)''']
 	}
 
 }

@@ -13,7 +13,7 @@ interface GraphvizFSMAlgebra extends FSMAlgebra<RepGraphvizExp, RepGraphvizExp, 
 	override transition(Transition transition) {
 		[ rep |
 			rep.edges.
-				add('''«$S(transition.from).result(rep)» -> «$S(transition.to).result(rep)» [label=«transition.event»]''')
+				add('''«$(transition.from).result(rep)» -> «$(transition.to).result(rep)» [label=«transition.event»]''')
 			""
 		]
 	}
@@ -43,7 +43,7 @@ interface GraphvizFSMAlgebra extends FSMAlgebra<RepGraphvizExp, RepGraphvizExp, 
 	override fsm(FSM fsm) {
 		[ rep |
 			rep.name = fsm.name
-			fsm.transitions.forEach[e|$T(e).result(rep)]
+			fsm.transitions.forEach[e|$(e).result(rep)]
 			rep.show
 		]
 	}
