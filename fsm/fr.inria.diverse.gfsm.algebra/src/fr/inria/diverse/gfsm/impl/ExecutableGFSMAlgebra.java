@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import expression.IntOperation;
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
@@ -41,7 +42,8 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 					ExecutableGFSMAlgebra.this.setCurrentState(null);
 				}
 			} else {
-				final List<Transition> res = gState.getOutgoingtransitions().stream().filter(t -> {
+				final List<Transition> res = gState.getOutgoingtransitions().stream()
+						.filter(t -> t.getEvent().equals(action)).filter(t -> {
 					final boolean ret;
 					if (t instanceof GTransition) {
 						ret = ExecutableGFSMAlgebra.this.$BE(((GTransition) t).getGuard())
@@ -113,7 +115,8 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 	public default void _processInExpression(final State currentState) {
 		if (currentState instanceof GState) {
 
-			this.$IO(((GState) this.getCurrentState()).getInExpression()).eval(this.getCtx());
+			final IntOperation inExpression = ((GState) this.getCurrentState()).getInExpression();
+			this.$IO(inExpression).eval(this.getCtx());
 		}
 	}
 }

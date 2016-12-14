@@ -31,7 +31,7 @@ interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp
 	def Integer getTime()
 
 	override timedFSM(TimedFSM timedFSM) {
-		[|
+		[
 			this.currentState = timedFSM.initialstate
 			while (this.currentState != null) {
 				$S(this.currentState).execute
