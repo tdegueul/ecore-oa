@@ -26,6 +26,16 @@ For the rest of the experiments we are going to use the #3 implementation which 
 
 ![Object Algebra inheritance](./figures/oa-inheritance.png)
 
+# Lines of code analysis
+
+| project    | lines of code |
+| ---------- | ------------- |
+| fsm        | 423           |
+| tfsm       | 833           |
+| expression | 292           |
+| gfsm       | 312           |
+| gtfsm      | 368           |
+
 # Expression
 
 ## Concepts
