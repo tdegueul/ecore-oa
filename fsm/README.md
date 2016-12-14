@@ -24,6 +24,8 @@ For the rest of the experiments we are going to use the #3 implementation which 
 | **TFSM**       |      |      | yes          |
 | **GFSM**       |      |      | yes          |
 
+![Object Algebra inheritance](./figures/oa-inheritance.svg)
+
 # Expression
 
 ## Concepts
