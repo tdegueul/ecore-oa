@@ -28,13 +28,13 @@ For the rest of the experiments we are going to use the #3 implementation which 
 
 # Lines of code analysis
 
-| project    | lines of code |
-| ---------- | ------------- |
-| fsm        | 423           |
-| tfsm       | 833           |
-| expression | 292           |
-| gfsm       | 312           |
-| gtfsm      | 368           |
+| project           | lines of code | Abstract Algebra definition (should be generated) | Diff |
+| ----------------- | ------------- | ---------------------------------------- | ---- |
+| fsm (xtend)       | 423           | 49                                       | 374  |
+| tfsm (xtend)      | 833           | 65                                       | 768  |
+| expression (java) | 292           | 71                                       | 221  |
+| gfsm (java)       | 312           | 52                                       | 260  |
+| gtfsm (java)      | 368           | 65                                       | 303  |
 
 # Expression
 
