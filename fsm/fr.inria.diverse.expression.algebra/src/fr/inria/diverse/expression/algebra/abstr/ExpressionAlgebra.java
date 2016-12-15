@@ -21,32 +21,33 @@ import expression.IntVarRef;;
  *
  * @param <E>
  */
-public interface ExpressionAlgebra<IE, BE, IO> {
+public interface ExpressionAlgebra<B, A, C> {
 
-	IE intVarRef(final IntVarRef varRef);
+	A booleanAnd(final BooleanAnd booleanAnd);
 
-	IE intNeg(final IntNeg neg);
+	A booleanEqual(final BooleanEqual booleanEqual);
 
-	IE intAdd(final IntAdd add);
+	A booleanGreaterThan(final BooleanGreaterThan booleanGreaterThan);
 
-	IE intMult(final IntMult mult);
+	A booleanOr(final BooleanOr booleanOr);
 
-	IE constExpr(final ConstExpr constExpr);
+	B constExpr(final ConstExpr constExpr);
 
-	IO intVarAssign(final IntVarAssign intVarAssign);
+	B intAdd(final IntAdd intAdd);
 
-	IO intBlock(final IntBlock intBlock);
+	C intBlock(final IntBlock intBlock);
 
-	BE booleanEqual(final BooleanEqual booleanEqual);
+	B intMult(final IntMult intMult);
 
-	BE booleanAnd(final BooleanAnd booleanAnd);
+	B intNeg(final IntNeg intNeg);
 
-	BE booleanOr(final BooleanOr booleanOr);
+	C intVarAssign(final IntVarAssign intVarAssign);
 
-	BE booleanGreaterThan(final BooleanGreaterThan booleanGreaterThan);
-	
-	public default BE $(final BooleanExpression booleanExpression) {
-		final BE ret;
+	B intVarRef(final IntVarRef intVarRef);
+
+
+	public default A $(final BooleanExpression booleanExpression) {
+		final A ret;
 		if (booleanExpression instanceof BooleanEqual) {
 			ret = this.booleanEqual((BooleanEqual) booleanExpression);
 		} else if (booleanExpression instanceof BooleanAnd) {
@@ -62,8 +63,8 @@ public interface ExpressionAlgebra<IE, BE, IO> {
 		return ret;
 	}
 
-	public default IO $(final IntOperation intOperation) {
-		final IO ret;
+	public default C $(final IntOperation intOperation) {
+		final C ret;
 		if (intOperation instanceof IntVarAssign) {
 			ret = this.intVarAssign((IntVarAssign) intOperation);
 		} else if (intOperation instanceof IntBlock) {
@@ -74,8 +75,8 @@ public interface ExpressionAlgebra<IE, BE, IO> {
 		return ret;
 	}
 
-	public default IE $(final IntExpression intExpression) {
-		final IE ret;
+	public default B $(final IntExpression intExpression) {
+		final B ret;
 		if (intExpression instanceof IntMult) {
 			ret = this.intMult((IntMult) intExpression);
 		} else if (intExpression instanceof IntAdd) {
