@@ -13,12 +13,12 @@ import expression.IntMult;
 import expression.IntNeg;
 import expression.IntVarAssign;
 import expression.IntVarRef;
+import expression.algebra.ExpressionAlgebra;
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
-import fr.inria.diverse.expression.algebra.abstr.ExpressionAlgebra;
 
 public interface EvalExpressionAlgebra
-		extends ExpressionAlgebra<CtxEvalExp<Integer, Integer>, CtxEvalExp<Integer, Boolean>, EvalOpExp<Integer>> {
+		extends ExpressionAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>> {
 
 	@Override
 	public default CtxEvalExp<Integer, Integer> intVarRef(final IntVarRef intVarRef) {

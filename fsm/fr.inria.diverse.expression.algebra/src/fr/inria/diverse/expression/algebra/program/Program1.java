@@ -14,7 +14,6 @@ import expression.BooleanExpression;
 import expression.ExpressionPackage;
 import expression.IntExpression;
 import expression.IntOperation;
-import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
 import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
 

@@ -1,14 +1,14 @@
 package fr.inria.diverse.fsm.algebra.impl
 
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp
-import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra
 import fsm.FSM
 import fsm.FinalState
 import fsm.InitialState
 import fsm.State
 import fsm.Transition
+import fsm.algebra.FsmAlgebra
 
-interface GraphvizFSMAlgebra extends FSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
+interface GraphvizFSMAlgebra extends FsmAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
 
 	override transition(Transition transition) {
 		[ rep |
@@ -40,7 +40,7 @@ interface GraphvizFSMAlgebra extends FSMAlgebra<RepGraphvizExp, RepGraphvizExp, 
 		]
 	}
 
-	override fsm(FSM fsm) {
+	override fSM(FSM fsm) {
 		[ rep |
 			rep.name = fsm.name
 			fsm.transitions.forEach[e|$(e).result(rep)]

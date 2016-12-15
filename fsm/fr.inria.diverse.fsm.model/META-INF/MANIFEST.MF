@@ -8,6 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: fsm,
+ fsm.algebra,
  fsm.impl,
  fsm.util
 Require-Bundle: org.eclipse.core.runtime,

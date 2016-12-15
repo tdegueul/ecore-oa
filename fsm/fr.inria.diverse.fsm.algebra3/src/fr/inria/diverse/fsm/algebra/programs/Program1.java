@@ -3,7 +3,6 @@ package fr.inria.diverse.fsm.algebra.programs;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -13,6 +12,7 @@ import fsm.FsmFactory;
 import fsm.InitialState;
 import fsm.State;
 import fsm.Transition;
+import fsm.algebra.FsmAlgebra;
 
 public class Program1 {
 
@@ -47,14 +47,10 @@ public class Program1 {
 				return userInput;
 			}
 
-			public void setUserInput(final Queue<String> userinput) {
-				this.userInput = userinput;
-			}
-
 		}).execute();
 	}
 
-	private <T, F, S> F make(final FSMAlgebra<T, F, S> f) {
+	private <F, S, T> F make(final FsmAlgebra<F, S, T> f) {
 		final FSM exp = createModel();
 
 		return f.$(exp);
