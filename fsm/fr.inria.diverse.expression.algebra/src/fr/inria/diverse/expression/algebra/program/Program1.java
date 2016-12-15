@@ -14,12 +14,16 @@ import expression.BooleanExpression;
 import expression.ExpressionPackage;
 import expression.IntExpression;
 import expression.IntOperation;
+import fr.inria.diverse.algebras.expressions.GraphvizExp;
+import fr.inria.diverse.expression.algebra.abstr.ExpressionAlgebraDispatcherDefault;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
+import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebraDispatcher;
 import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
 
 public class Program1 {
 
-	private final class PrettyPrintExpressionAlgebraImplementation implements PrettyPrintExpressionAlgebra {
+	private final class PrettyPrintExpressionAlgebraImplementation implements PrettyPrintExpressionAlgebra,
+			ExpressionAlgebraDispatcherDefault<GraphvizExp, GraphvizExp, GraphvizExp> {
 	}
 
 	public static void main(final String[] args) {
@@ -37,7 +41,7 @@ public class Program1 {
 		final Map<String, Integer> ctx = new HashMap<>();
 		ctx.put("a", 200);
 		ctx.put("b", 200);
-		System.out.println(new EvalExpressionAlgebra() {
+		System.out.println(new EvalExpressionAlgebraDispatcher() {
 		}.$(model).result(ctx));
 		System.out.println(ctx);
 
@@ -49,7 +53,7 @@ public class Program1 {
 		final Map<String, Integer> ctx = new HashMap<>();
 		ctx.put("a", 200);
 		ctx.put("b", 200);
-		System.out.println(new EvalExpressionAlgebra() {
+		System.out.println(new EvalExpressionAlgebraDispatcher() {
 		}.$(model).eval(ctx));
 		System.out.println(ctx);
 	}
@@ -60,7 +64,7 @@ public class Program1 {
 		final Map<String, Integer> ctx = new HashMap<>();
 		ctx.put("a", 200);
 		ctx.put("b", 200);
-		System.out.println(new EvalExpressionAlgebra() {
+		System.out.println(new EvalExpressionAlgebraDispatcher() {
 		}.$(model).result(ctx));
 		System.out.println(ctx);
 	}

@@ -2,16 +2,14 @@ package fr.inria.diverse.gfsm.abstr;
 
 import fr.inria.diverse.expression.algebra.abstr.ExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
-import fsm.FSM;
-import fsm.State;
-import fsm.Transition;
 import gfsm.GFSM;
 import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
 
-public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, ExpressionAlgebra<IE, BE, IO> {
+public interface GFSMAlgebra<T, F, S, IE, BE, IO>
+		extends FSMAlgebra<T, F, S>, ExpressionAlgebra<IE, BE, IO>, GFSMAlgebraDispatcher {
 	T gTransition(GTransition gTransition);
 
 	S gState(GState gState);
@@ -21,42 +19,5 @@ public interface GFSMAlgebra<T, S, F, IE, BE, IO> extends FSMAlgebra<T, S, F>, E
 	S gFinalState(GFinalState gFinalState);
 
 	F gFSM(GFSM gfsm);
-
-	@Override
-	default T $(final Transition transition) {
-		final T ret;
-		if (transition instanceof GTransition) {
-			ret = this.gTransition((GTransition) transition);
-		} else {
-			ret = FSMAlgebra.super.$(transition);
-		}
-		return ret;
-	}
-
-	@Override
-	default S $(final State state) {
-		final S ret;
-		if (state instanceof GFinalState) {
-			ret = this.gFinalState((GFinalState) state);
-		} else if (state instanceof GInitialState) {
-			ret = this.gInitialState((GInitialState) state);
-		} else if (state instanceof GState) {
-			ret = this.gState((GState) state);
-		} else {
-			ret = FSMAlgebra.super.$(state);
-		}
-		return ret;
-	}
-
-	@Override
-	default F $(final FSM fsm) {
-		final F ret;
-		if (fsm instanceof GFSM) {
-			ret = this.gFSM((GFSM) fsm);
-		} else {
-			ret = FSMAlgebra.super.$(fsm);
-		}
-		return ret;
-	}
 
 }

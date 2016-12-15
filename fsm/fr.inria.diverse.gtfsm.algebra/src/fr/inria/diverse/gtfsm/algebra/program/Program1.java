@@ -10,9 +10,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import fr.inria.diverse.algebras.expressions.CtxEvalExp;
+import fr.inria.diverse.algebras.expressions.EvalOpExp;
+import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebra;
+import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebraDispatchDefault;
 import fr.inria.diverse.gtfsm.algebra.impl.ExecutableGTFSMAlgebra;
-import fr.inria.diverse.gtfsm.algebra.impl.GraphvizGTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.State;
 import gfsm.GFSM;
@@ -22,7 +26,8 @@ import gtfsm.GtfsmPackage;
 
 public class Program1 {
 
-	private final class ExecutableGTFSMAlgebraImplementation implements ExecutableGTFSMAlgebra {
+	private final class ExecutableGTFSMAlgebraImplementation implements ExecutableGTFSMAlgebra,
+			GTFSMAlgebraDispatchDefault<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Integer>, CtxEvalExp<Integer, Boolean>, EvalOpExp<Integer>> {
 		private Map<String, Integer> ctx = new HashMap<>();
 		private State currentState;
 		private Map<Integer, String> timedActions;
@@ -31,6 +36,22 @@ public class Program1 {
 		private ExecutableGTFSMAlgebraImplementation(final Map<Integer, String> initTimedActions) {
 			this.timedActions = initTimedActions;
 		}
+		
+		
+
+		@Override
+		public ExecutableExp gFSM(GFSM gfsm) {
+			return new ExecutableExp() {
+				
+				@Override
+				public void execute() {
+					System.out.println("GFSM !!!");
+					
+				}
+			};
+		}
+
+
 
 		@Override
 		public void setCtx(final Map<String, Integer> ctx) {
@@ -107,33 +128,34 @@ public class Program1 {
 		final String gtfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GTFSM1.gtfsm";
 		final String gtfsm2 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gtfsm";
 		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/GFSM1.gfsm";
-		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebra() {
+		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebraImpl() {
 		}).result(new GraphvizRep()));
 
-		System.out.println(this.make(gtfsm2, new GraphvizGTFSMAlgebra() {
+		System.out.println(this.make(gtfsm2, new GraphvizGTFSMAlgebraImpl() {
 		}).result(new GraphvizRep()));
 
 		final Map<Integer, String> initTimedActions = new HashMap<Integer, String>();
 		initTimedActions.put(0, "t1");
 		this.make(gtfsm2, new ExecutableGTFSMAlgebraImplementation(initTimedActions)).execute();
 
-		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebra() {
+		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebraImpl() {
 		}).result(new GraphvizRep()));
 
 		final Map<Integer, String> initTimedActions2 = new HashMap<Integer, String>();
 		initTimedActions2.put(0, "t1");
-		this.make2(gfsm1, new ExecutableGTFSMAlgebraImplementation(initTimedActions2)).execute();
+		final ExecutableExp make2 = this.make2(gfsm1, new ExecutableGTFSMAlgebraImplementation(initTimedActions2));
+		make2.execute();
 	}
 
-	private <T, S, F, C, CCO, CR, IE, BE, IO> F make(final String progName,
-			final GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
+	private <T, F, S, C, CCO, CR, IE, BE, IO> F make(final String progName,
+			final GTFSMAlgebra<T, F, S, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
 		final GTFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
 
 	}
 
-	private <T, S, F, C, CCO, CR, IE, BE, IO> F make2(final String progName,
-			final GTFSMAlgebra<T, S, F, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
+	private <T, F, S, C, CCO, CR, IE, BE, IO> F make2(final String progName,
+			final GTFSMAlgebra<T, F, S, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
 		final GFSM model = this.createModel2(progName);
 		return graphvizGFSMAlgebra.$(model);
 	}

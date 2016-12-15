@@ -29,9 +29,9 @@ public class Program1 {
 	private void execute(final String progName) {
 		final Queue<String> initUserInput = new LinkedList<>();
 		initUserInput.add("t1");
-		System.out.println(this.make(new GraphvizGFSMAlgebra() {
+		System.out.println(this.make(new GraphvizGFSMAlgebraImpl() {
 		}, progName).result(new GraphvizRep()));
-		this.make(new ExecutableGFSMAlgebra() {
+		this.make(new ExecutableGFSMAlgebraImpl() {
 
 			private Map<String, Integer> ctx = new HashMap<>();
 			private State currentState;
@@ -73,7 +73,7 @@ public class Program1 {
 		}, progName).execute();
 	}
 
-	private <T, S, F, IE, BE, IO> F make(final GFSMAlgebra<T, S, F, IE, BE, IO> graphvizGFSMAlgebra,
+	private <T, F, S, IE, BE, IO> F make(final GFSMAlgebra<T, F, S, IE, BE, IO> graphvizGFSMAlgebra,
 			final String progName) {
 		final GFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
