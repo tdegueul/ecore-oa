@@ -29,9 +29,9 @@ public class Program1 {
 	private void execute(final String progName) {
 		final Queue<String> initUserInput = new LinkedList<>();
 		initUserInput.add("t1");
-		System.out.println(this.make(new GraphvizGFSMAlgebraImpl() {
+		System.out.println(this.make(new GraphvizGFSMAlgebra() {
 		}, progName).result(new GraphvizRep()));
-		this.make(new ExecutableGFSMAlgebraImpl() {
+		this.make(new ExecutableGFSMAlgebra() {
 
 			private Map<String, Integer> ctx = new HashMap<>();
 			private State currentState;
@@ -40,12 +40,6 @@ public class Program1 {
 			@Override
 			public Queue<String> getUserinput() {
 				return this.userinput;
-			}
-
-			@Override
-			public void setUserInput(final Queue<String> userinput) {
-				this.userinput = userinput;
-
 			}
 
 			@Override

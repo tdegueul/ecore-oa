@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
+import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
+import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.FSM;
 import fsm.FinalState;
@@ -20,14 +22,14 @@ public class Program1 {
 	}
 
 	private void execute() {
-		System.out.println(make(new GraphvizFSMAlgebraImpl() {
+		System.out.println(make(new GraphvizFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
 		final Queue<String> defaultUserInput = new LinkedList<String>();
 		defaultUserInput.add("a");
 		defaultUserInput.add("b");
 
-		make(new ExecutableFSMAlgebraImpl() {
+		make(new ExecutableFSMAlgebra() {
 
 			State state;
 

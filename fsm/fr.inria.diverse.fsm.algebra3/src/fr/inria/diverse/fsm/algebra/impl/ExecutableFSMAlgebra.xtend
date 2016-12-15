@@ -17,8 +17,6 @@ interface ExecutableFSMAlgebra extends FSMAlgebra<ExecutableExp, ExecutableExp, 
 
 	def Queue<String> getUserinput()
 
-	def void setUserInput(Queue<String> userinput)
-
 	def State getCurrentState()
 
 	def void setCurrentState(State state)

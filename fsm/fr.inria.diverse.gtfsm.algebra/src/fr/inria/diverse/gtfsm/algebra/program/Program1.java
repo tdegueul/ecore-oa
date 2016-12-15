@@ -1,7 +1,9 @@
 package fr.inria.diverse.gtfsm.algebra.program;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -10,13 +12,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import fr.inria.diverse.algebras.expressions.CtxEvalExp;
-import fr.inria.diverse.algebras.expressions.EvalOpExp;
-import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebra;
-import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebraDispatchDefault;
 import fr.inria.diverse.gtfsm.algebra.impl.ExecutableGTFSMAlgebra;
+import fr.inria.diverse.gtfsm.algebra.impl.GraphvizGTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.State;
 import gfsm.GFSM;
@@ -26,8 +25,7 @@ import gtfsm.GtfsmPackage;
 
 public class Program1 {
 
-	private final class ExecutableGTFSMAlgebraImplementation implements ExecutableGTFSMAlgebra,
-			GTFSMAlgebraDispatchDefault<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Integer>, CtxEvalExp<Integer, Boolean>, EvalOpExp<Integer>> {
+	private final class ExecutableGTFSMAlgebraImplementation implements ExecutableGTFSMAlgebra {
 		private Map<String, Integer> ctx = new HashMap<>();
 		private State currentState;
 		private Map<Integer, String> timedActions;
@@ -36,22 +34,11 @@ public class Program1 {
 		private ExecutableGTFSMAlgebraImplementation(final Map<Integer, String> initTimedActions) {
 			this.timedActions = initTimedActions;
 		}
-		
-		
 
 		@Override
-		public ExecutableExp gFSM(GFSM gfsm) {
-			return new ExecutableExp() {
-				
-				@Override
-				public void execute() {
-					System.out.println("GFSM !!!");
-					
-				}
-			};
+		public Queue<String> getUserinput() {
+			return new LinkedList<>(this.timedActions.values());
 		}
-
-
 
 		@Override
 		public void setCtx(final Map<String, Integer> ctx) {
@@ -73,12 +60,6 @@ public class Program1 {
 		@Override
 		public State getCurrentState() {
 			return this.currentState;
-		}
-
-		@Override
-		public void setTimedActions(final Map<Integer, String> timedActions) {
-			this.timedActions = timedActions;
-
 		}
 
 		@Override
@@ -128,17 +109,17 @@ public class Program1 {
 		final String gtfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GTFSM1.gtfsm";
 		final String gtfsm2 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gtfsm";
 		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/GFSM1.gfsm";
-		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebraImpl() {
+		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
-		System.out.println(this.make(gtfsm2, new GraphvizGTFSMAlgebraImpl() {
+		System.out.println(this.make(gtfsm2, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
 		final Map<Integer, String> initTimedActions = new HashMap<Integer, String>();
 		initTimedActions.put(0, "t1");
 		this.make(gtfsm2, new ExecutableGTFSMAlgebraImplementation(initTimedActions)).execute();
 
-		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebraImpl() {
+		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
 		final Map<Integer, String> initTimedActions2 = new HashMap<Integer, String>();

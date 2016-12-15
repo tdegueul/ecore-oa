@@ -22,8 +22,6 @@ import tfsm.UpperEqualClockConstraint
 // find out a solution to overload types defined at an upper level at the level of the arguments (here timedActions vs userinput)
 interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp>, ExecutableFSMAlgebra {
 
-	def void setTimedActions(Map<Integer, String> timedActions)
-
 	def Map<Integer, String> getTimedActions()
 
 	def void setTime(Integer time)

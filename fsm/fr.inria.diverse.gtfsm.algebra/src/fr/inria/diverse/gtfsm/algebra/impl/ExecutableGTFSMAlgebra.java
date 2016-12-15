@@ -31,16 +31,6 @@ public interface ExecutableGTFSMAlgebra extends
 		ExecutableTFSMAlgebra, ExecutableGFSMAlgebra {
 
 	@Override
-	default void setUserInput(final Queue<String> userinput) {
-		throw new RuntimeException("setUserInput forbidden");
-	}
-
-	@Override
-	default Queue<String> getUserinput() {
-		throw new RuntimeException("getUserInput forbidden");
-	}
-
-	@Override
 	default ExecutableExp gtfsm(final GTFSM gtfsm) {
 		return () -> {
 			this.setCurrentState(gtfsm.getInitialstate());

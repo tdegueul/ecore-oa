@@ -13,6 +13,8 @@ import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra;
+import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
+import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.FSM;
 import fsm.State;
@@ -25,7 +27,7 @@ public class Program2 {
 	}
 
 	private void execute() {
-		final TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebraImpl() {
+		final TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebra() {
 
 		};
 		final Map<java.lang.Integer, String> defaultTimedActions = new HashMap<Integer, String>();
@@ -33,14 +35,9 @@ public class Program2 {
 		defaultTimedActions.put(7, "b");
 		defaultTimedActions.put(9, "a");
 
-		final TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebraImpl() {
+		final TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebra() {
 
 			Map<Integer, String> timedActions = defaultTimedActions;
-
-			@Override
-			public void setTimedActions(final Map<Integer, String> timedActions) {
-				this.timedActions = timedActions;
-			}
 
 			@Override
 			public Map<Integer, String> getTimedActions() {
@@ -61,11 +58,6 @@ public class Program2 {
 
 			@Override
 			public Queue<String> getUserinput() {
-				throw new UnsupportedOperationException("TODO: auto-generated method stub");
-			}
-
-			@Override
-			public void setUserInput(final Queue<String> userinput) {
 				throw new UnsupportedOperationException("TODO: auto-generated method stub");
 			}
 
