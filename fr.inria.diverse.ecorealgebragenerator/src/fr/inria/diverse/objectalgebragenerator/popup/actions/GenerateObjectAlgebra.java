@@ -1,8 +1,17 @@
 package fr.inria.diverse.objectalgebragenerator.popup.actions;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -44,7 +53,30 @@ public class GenerateObjectAlgebra implements IObjectActionDelegate {
 		final ResourceSetImpl resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.getResource(uri, true);
-		System.out.println(new GenerateAlgebra().process(resource.getContents().get(0)));
+		final EPackage ePackage = (EPackage) resource.getContents().get(0);
+		final String fileContent = new GenerateAlgebra().process(ePackage);
+		final IProject project = selectedIFile.getProject();
+		final IPath directoryAlgebra = project.getLocation().append("src").append(ePackage.getName()).append("algebra");
+		directoryAlgebra.toFile().mkdirs();
+		final IPath fileJavaAlgebra = directoryAlgebra
+				.append(ePackage.getName().substring(0, 1).toUpperCase() + ePackage.getName().substring(1) + "Algebra")
+				.addFileExtension("java");
+
+		try {
+			final FileWriter fileWriter = new FileWriter(fileJavaAlgebra.toFile());
+			fileWriter.write(fileContent);
+			fileWriter.close();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (final CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**

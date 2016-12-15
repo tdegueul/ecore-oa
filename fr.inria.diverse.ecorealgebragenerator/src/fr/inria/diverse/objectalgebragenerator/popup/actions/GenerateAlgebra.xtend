@@ -75,7 +75,9 @@ class GenerateAlgebra {
 		tree.entrySet.forEach[e|println('''«e.key» «e.value.toList»''')]
 
 		'''
-		package «package.name»;
+		package «package.name».algebra;
+		
+		import «package.name».*;
 		
 		public interface «package.name.toFirstUpper»Algebra<«FOR x : rootEClassesMap.keySet SEPARATOR ', '»«x»«ENDFOR»> {
 			
