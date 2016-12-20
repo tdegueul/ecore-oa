@@ -1,10 +1,15 @@
 package fr.inria.diverse.objectalgebragenerator.popup.actions
 
+import java.util.Collection
 import java.util.List
 import java.util.Map
 import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EStructuralFeature.Setting
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.xbase.lib.Functions.Function1
 
 class Node<T> {
@@ -52,7 +57,13 @@ class GenerateAlgebra {
 		val package = eObject as EPackage
 
 		val allEClasses = eObject.eAllContents.filter[e|e instanceof EClass].map[e|e as EClass].toList.sortBy[e|e.name]
-		val allRootEClasses = allEClasses.filter[root]
+		val allRootEClasses = eObject.eAllContents.filter[e|e instanceof EClass].map[e|e as EClass].map [ e |
+			e.findRootParent
+		].toSet
+
+		val allClassesToImport = newHashSet()
+		allClassesToImport.addAll(allEClasses)
+		allClassesToImport.addAll(allRootEClasses)
 
 		val Map<Character, EClass> rootEClassesMapA = allRootEClasses.toMap(new Function1<EClass, Character>() {
 
@@ -68,62 +79,79 @@ class GenerateAlgebra {
 
 		})
 
-		val Map<Character, Iterable<EClass>> tree = rootEClassesMapA.mapValues [e|
-			addChildren(e, allEClasses).toList.filter[b|!b.isAbstract] // we only keep the concret classes of hierarchies
+		val Map<Character, Iterable<EClass>> tree = rootEClassesMapA.mapValues [ e |
+			addChildren(e, allEClasses).toList.filter[b|!b.isAbstract] // we only keep the concrete classes of hierarchies
 		].filter[p1, p2|!p2.empty] // and do not keep parts of the hierarchy with only abstract classes
-		
-		
-		val rootEClassesMap = rootEClassesMapA.filter[p1, p2| tree.keySet.exists[z|p1.equals(z)]]
-		
-		println('''
-		# All EClasses :
-		«FOR eClass:allEClasses»
-		  - «eClass.name»
-		«ENDFOR»
-		''')
-		
-		println('''
-		# First representation status
-		«FOR e:rootEClassesMapA.entrySet»
-		- «e.key» = «e.value.name»
-		«ENDFOR»
-		''')
-		
-		println('''
-		# Full tree
-		«FOR key:tree.keySet»
-		  - «key»
-		  «FOR value:tree.get(key)»
-		    «"  "»- «value.name»
-		  «ENDFOR»
-		«ENDFOR»
-		''')
-		println(rootEClassesMapA.keySet)
-		println(tree.keySet)
-		println(rootEClassesMap.keySet)
+		val rootEClassesMap = rootEClassesMapA.filter[p1, p2|tree.keySet.exists[z|p1.equals(z)]]
+
+//		println('''
+//			# Cross references
+//			«FOR eRef : package.eCrossReferences.map[e|e as EFactory]»
+//				- «eRef.EPackage.name»
+//			«ENDFOR»
+//		''')
+//		println('''
+//			# Root Eclasses
+//			«FOR r : allRootEClasses»
+//				- «r.name»
+//			«ENDFOR»
+//		''')
+
+//		println('''
+//			# All EClasses
+//			«FOR eClass : allEClasses»
+//				- «eClass.name»
+//			«ENDFOR»
+//		''')
+
+//		println('''
+//			# First representation status
+//			«FOR e : rootEClassesMapA.entrySet»
+//				- «e.key» = «e.value.name»
+//			«ENDFOR»
+//		''')
+
+//		println('''
+//			# Full tree
+//			«FOR key : tree.keySet»
+//				- «key»
+//				«FOR value:tree.get(key)»
+//					«"  "»- «value.name»
+//				«ENDFOR»
+//			«ENDFOR»
+//		''')
+//		println(rootEClassesMapA.keySet)
+//		println(tree.keySet)
+//		println(rootEClassesMap.keySet)
+
+//		val Map<Character, Map<EObject, Collection<Setting>>> lstExternalRef = rootEClassesMapA.mapValues[e|EcoreUtil.ExternalCrossReferencer.find(e)]
+
+//		println('''
+//		External roots :
+//		«FOR ext : lstExternalRef.entrySet»
+//			- «ext.key»
+//			«FOR abcd:ext.value.entrySet»
+//				«"  "»- «abcd.key»: 
+//				«FOR tmp:abcd.value»
+//				«"    "»- «(tmp as Setting)»
+//				«ENDFOR»
+//			«ENDFOR»
+//		«ENDFOR»
+//		''')
+
 		'''
 		package «package.name».algebra;
 		
-		import «package.name».*;
-		
-		/*
-		# Generation details
-		## Roots details
-		«FOR element : rootEClassesMap.entrySet»
-			- «element.key»: «element.value.name»
+		«FOR imported : allClassesToImport.sortBy[x| '''«x.EPackage.name».«x.name»''']»
+			import «imported.EPackage.name».«imported.name»;
 		«ENDFOR»
-		*/
+
+		public interface «package.name.toClassName»Algebra«FOR x : rootEClassesMapA.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR» {
 		
-		public interface «package.name.toFirstUpper»Algebra<«FOR x : tree.keySet SEPARATOR ', '»«x»«ENDFOR»> {
-			
-			«FOR eClass : allEClasses»
-				«IF !eClass.isAbstract»
-				
-					// root parent = «eClass.findRootParent.name»
-					« rootEClassesMapA.getReverse(eClass.findRootParent)» «eClass.name.toFirstLower»(final «eClass.name» «eClass.name.toFirstLower»);
-					
-				«ENDIF»				
+			«FOR eClass : allEClasses.filter[e|!e.isAbstract] SEPARATOR '\n'»
+				« rootEClassesMapA.getReverse(eClass.findRootParent)» «eClass.name.toFirstLower»(final «eClass.name» «eClass.name.toFirstLower»);
 			«ENDFOR»
+		
 			«FOR abstractTypes : rootEClassesMap.entrySet SEPARATOR '\n'»
 				public default «abstractTypes.key» $(final «abstractTypes.value.name» «abstractTypes.value.name.toFirstLower») {
 					final «abstractTypes.key» ret;
@@ -156,4 +184,8 @@ class GenerateAlgebra {
 	def static <K, V> K getReverse(Map<K, V> map, V value) {
 		map.filter[p1, p2|p2.equals(value)].keySet.head
 	}
+	
+	def static String toClassName(String name) {
+		name.split("\\.").map[e|e.toFirstUpper].join
+	} 
 }
