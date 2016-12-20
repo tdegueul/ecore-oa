@@ -39,6 +39,18 @@ public class UnitTests {
 	public void simpleInheritance1() throws Exception {
 		testCompare("SimpleInheritance1");
 	}
+	
+	@Test
+	public void simpleInheritance2() throws Exception {
+		testCompare("SimpleInheritance2");
+	}
+	
+	@Test
+	public void oARootInheritance1() throws Exception {
+		testCompare("OARootInheritance1");
+	}
+	
+	
 
 	private void testCompare(String file) throws IOException {
 		final URI uri = URI.createURI(ROOT_PATH + "model/" + file + ".ecore");
