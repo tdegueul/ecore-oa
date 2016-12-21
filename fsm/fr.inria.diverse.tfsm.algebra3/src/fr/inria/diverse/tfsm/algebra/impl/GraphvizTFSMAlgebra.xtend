@@ -2,7 +2,6 @@ package fr.inria.diverse.tfsm.algebra.impl
 
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import tfsm.AndClockConstraint
 import tfsm.Clock
 import tfsm.ClockReset
@@ -16,8 +15,9 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra
 
-interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
+interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TfsmAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
 
 	override RepGraphvizExp timedFSM(TimedFSM timedFSM) {
 		[ rep |

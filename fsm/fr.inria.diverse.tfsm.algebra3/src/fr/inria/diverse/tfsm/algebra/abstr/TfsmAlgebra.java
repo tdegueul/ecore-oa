@@ -1,9 +1,9 @@
 package fr.inria.diverse.tfsm.algebra.abstr;
 
-import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
 import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
+import fsm.algebra.FsmAlgebra;
 import tfsm.AndClockConstraint;
 import tfsm.Clock;
 import tfsm.ClockConstraintOperation;
@@ -19,47 +19,49 @@ import tfsm.TimedTransition;
 import tfsm.UpperClockConstraint;
 import tfsm.UpperEqualClockConstraint;
 
-public interface TFSMAlgebra<T, F, S, C, CCO, CR> extends FSMAlgebra<T, F, S> {
-	F timedFSM(TimedFSM timedFSM);
+public interface TfsmAlgebra<A, B, C, D, E, F> extends FsmAlgebra<A, B, C> {
 
-	S timedInitialState(TimedInitialState timedInitialState);
+	E andClockConstraint(final AndClockConstraint andClockConstraint);
 
-	S timedFinalState(TimedFinalState timedFinalState);
+	D clock(final Clock clock);
 
-	T timedTransition(TimedTransition timedTransition);
+	F clockReset(final ClockReset clockReset);
 
-	S timedState(TimedState timedState);
+	E lowerClockConstraint(final LowerClockConstraint lowerClockConstraint);
 
-	C clock(Clock clock);
+	E lowerEqualClockConstraint(final LowerEqualClockConstraint lowerEqualClockConstraint);
 
-	CR clockReset(ClockReset clockReset);
+	E orClockConstraint(final OrClockConstraint orClockConstraint);
 
-	CCO lowerClockConstraint(LowerClockConstraint clockConstraint);
+	A timedFSM(final TimedFSM timedFSM);
 
-	CCO lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint);
+	B timedFinalState(final TimedFinalState timedFinalState);
 
-	CCO upperClockConstraint(UpperClockConstraint upperClockConstraint);
+	B timedInitialState(final TimedInitialState timedInitialState);
 
-	CCO upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint);
+	B timedState(final TimedState timedState);
 
-	CCO andClockConstraint(AndClockConstraint andClockConstraint);
+	C timedTransition(final TimedTransition timedTransition);
 
-	CCO orClockConstraint(OrClockConstraint orClockConstraint);
+	E upperClockConstraint(final UpperClockConstraint upperClockConstraint);
+
+	E upperEqualClockConstraint(final UpperEqualClockConstraint upperEqualClockConstraint);
 
 	@Override
-	default T $(final Transition transition) {
-		final T ret;
-		if (transition instanceof TimedTransition) {
-			ret = this.timedTransition((TimedTransition) transition);
+	public default A $(final FSM fSM) {
+		final A ret;
+		if (fSM instanceof TimedFSM) {
+			ret = this.timedFSM((TimedFSM) fSM);
 		} else {
-			ret = FSMAlgebra.super.$(transition);
+			ret = FsmAlgebra.super.$(fSM);
 		}
 		return ret;
+		
 	}
 
 	@Override
-	default S $(final State state) {
-		final S ret;
+	public default B $(final State state) {
+		final B ret;
 		if (state instanceof TimedFinalState) {
 			ret = this.timedFinalState((TimedFinalState) state);
 		} else if (state instanceof TimedInitialState) {
@@ -67,62 +69,59 @@ public interface TFSMAlgebra<T, F, S, C, CCO, CR> extends FSMAlgebra<T, F, S> {
 		} else if (state instanceof TimedState) {
 			ret = this.timedState((TimedState) state);
 		} else {
-			ret = FSMAlgebra.super.$(state);
+			ret = FsmAlgebra.super.$(state);
 		}
 		return ret;
 	}
-
+	
 	@Override
-	default F $(final FSM fsm) {
-		final F ret;
-		if (fsm instanceof TimedFSM) {
-			ret = this.timedFSM((TimedFSM) fsm);
-		} else {
-			ret = FSMAlgebra.super.$(fsm);
-		}
-		return ret;
-
-	}
-
-	default C $(final Clock clock) {
+	public default C $(final Transition transition) {
 		final C ret;
+		if (transition instanceof TimedTransition) {
+			ret = this.timedTransition((TimedTransition) transition);
+		} else {
+			ret = FsmAlgebra.super.$(transition);
+		}
+		return ret;
+	}
+	
+	public default D $(final Clock clock) {
+		final D ret;
 		if (clock instanceof Clock) {
-			ret = this.clock(clock);
+			ret = this.clock((Clock) clock);
 		} else {
-			throw new RuntimeException("unkown Clock " + clock);
+			throw new RuntimeException("Unknow Clock " + clock);
 		}
 		return ret;
 	}
 
-	default CR $(final ClockReset clockReset) {
-		final CR ret;
+	public default E $(final ClockConstraintOperation clockConstraintOperation) {
+		final E ret;
+		if (clockConstraintOperation instanceof LowerClockConstraint) {
+			ret = this.lowerClockConstraint((LowerClockConstraint) clockConstraintOperation);
+		} else if (clockConstraintOperation instanceof LowerEqualClockConstraint) {
+			ret = this.lowerEqualClockConstraint((LowerEqualClockConstraint) clockConstraintOperation);
+		} else if (clockConstraintOperation instanceof UpperClockConstraint) {
+			ret = this.upperClockConstraint((UpperClockConstraint) clockConstraintOperation);
+		} else if (clockConstraintOperation instanceof UpperEqualClockConstraint) {
+			ret = this.upperEqualClockConstraint((UpperEqualClockConstraint) clockConstraintOperation);
+		} else if (clockConstraintOperation instanceof AndClockConstraint) {
+			ret = this.andClockConstraint((AndClockConstraint) clockConstraintOperation);
+		} else if (clockConstraintOperation instanceof OrClockConstraint) {
+			ret = this.orClockConstraint((OrClockConstraint) clockConstraintOperation);
+		} else {
+			throw new RuntimeException("Unknow ClockConstraintOperation " + clockConstraintOperation);
+		}
+		return ret;
+	}
+
+	public default F $(final ClockReset clockReset) {
+		final F ret;
 		if (clockReset instanceof ClockReset) {
-			ret = this.clockReset(clockReset);
+			ret = this.clockReset((ClockReset) clockReset);
 		} else {
-			throw new RuntimeException("unkown ClockReset " + clockReset);
+			throw new RuntimeException("Unknow ClockReset " + clockReset);
 		}
 		return ret;
 	}
-
-	default CCO $(final ClockConstraintOperation clockConstraint) {
-		final CCO ret;
-
-		if (clockConstraint instanceof LowerClockConstraint) {
-			ret = this.lowerClockConstraint((LowerClockConstraint) clockConstraint);
-		} else if (clockConstraint instanceof LowerEqualClockConstraint) {
-			ret = this.lowerEqualClockConstraint((LowerEqualClockConstraint) clockConstraint);
-		} else if (clockConstraint instanceof UpperClockConstraint) {
-			ret = this.upperClockConstraint((UpperClockConstraint) clockConstraint);
-		} else if (clockConstraint instanceof UpperEqualClockConstraint) {
-			ret = this.upperEqualClockConstraint((UpperEqualClockConstraint) clockConstraint);
-		} else if (clockConstraint instanceof AndClockConstraint) {
-			ret = this.andClockConstraint((AndClockConstraint) clockConstraint);
-		} else if (clockConstraint instanceof OrClockConstraint) {
-			ret = this.orClockConstraint((OrClockConstraint) clockConstraint);
-		} else {
-			throw new RuntimeException("unkown ClockConstraint " + clockConstraint);
-		}
-		return ret;
-	}
-
 }

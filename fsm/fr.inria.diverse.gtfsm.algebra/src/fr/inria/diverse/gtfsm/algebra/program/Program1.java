@@ -106,6 +106,7 @@ public class Program1 {
 
 	private void execute() {
 
+		// TODO: Replacing with System.getProperty("user.dir")
 		final String gtfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GTFSM1.gtfsm";
 		final String gtfsm2 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gtfsm";
 		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/GFSM1.gfsm";
@@ -128,15 +129,15 @@ public class Program1 {
 		make2.execute();
 	}
 
-	private <T, F, S, C, CCO, CR, IE, BE, IO> F make(final String progName,
-			final GTFSMAlgebra<T, F, S, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
+	private <A, B, C, D, E, F, G, H, I> A make(final String progName,
+			final GTFSMAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
 		final GTFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
 
 	}
 
-	private <T, F, S, C, CCO, CR, IE, BE, IO> F make2(final String progName,
-			final GTFSMAlgebra<T, F, S, C, CCO, CR, IE, BE, IO> graphvizGFSMAlgebra) {
+	private <A, B, C, D, E, F, G, H, I> A make2(final String progName,
+			final GTFSMAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
 		final GFSM model = this.createModel2(progName);
 		return graphvizGFSMAlgebra.$(model);
 	}

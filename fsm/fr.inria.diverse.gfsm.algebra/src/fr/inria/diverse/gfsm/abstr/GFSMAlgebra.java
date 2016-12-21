@@ -1,41 +1,41 @@
 package fr.inria.diverse.gfsm.abstr;
 
-import fr.inria.diverse.expression.algebra.abstr.ExpressionAlgebra;
-import fr.inria.diverse.fsm.algebra.abstr.FSMAlgebra;
+import expression.algebra.ExpressionAlgebra;
 import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
+import fsm.algebra.FsmAlgebra;
 import gfsm.GFSM;
 import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
 
-public interface GFSMAlgebra<T, F, S, IE, BE, IO> extends FSMAlgebra<T, F, S>, ExpressionAlgebra<IE, BE, IO> {
-	T gTransition(GTransition gTransition);
+public interface GFSMAlgebra<A, B, C, D, E, F> extends FsmAlgebra<A, B, C>, ExpressionAlgebra<D, E, F> {
+	C gTransition(GTransition gTransition);
 
-	S gState(GState gState);
+	B gState(GState gState);
 
-	S gInitialState(GInitialState gInitialState);
+	B gInitialState(GInitialState gInitialState);
 
-	S gFinalState(GFinalState gFinalState);
+	B gFinalState(GFinalState gFinalState);
 
-	F gFSM(GFSM gfsm);
+	A gFSM(GFSM gfsm);
 
 	@Override
-	default T $(final Transition transition) {
-		final T ret;
+	default C $(final Transition transition) {
+		final C ret;
 		if (transition instanceof GTransition) {
 			ret = this.gTransition((GTransition) transition);
 		} else {
-			ret = FSMAlgebra.super.$(transition);
+			ret = FsmAlgebra.super.$(transition);
 		}
 		return ret;
 	}
 
 	@Override
-	default S $(final State state) {
-		final S ret;
+	default B $(final State state) {
+		final B ret;
 		if (state instanceof GFinalState) {
 			ret = this.gFinalState((GFinalState) state);
 		} else if (state instanceof GInitialState) {
@@ -43,18 +43,18 @@ public interface GFSMAlgebra<T, F, S, IE, BE, IO> extends FSMAlgebra<T, F, S>, E
 		} else if (state instanceof GState) {
 			ret = this.gState((GState) state);
 		} else {
-			ret = FSMAlgebra.super.$(state);
+			ret = FsmAlgebra.super.$(state);
 		}
 		return ret;
 	}
 
 	@Override
-	default F $(final FSM fsm) {
-		final F ret;
+	default A $(final FSM fsm) {
+		final A ret;
 		if (fsm instanceof GFSM) {
 			ret = this.gFSM((GFSM) fsm);
 		} else {
-			ret = FSMAlgebra.super.$(fsm);
+			ret = FsmAlgebra.super.$(fsm);
 		}
 		return ret;
 	}

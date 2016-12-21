@@ -28,6 +28,7 @@ class Program1 {
 		// do not remove this, needed to load some context. Side effects...
 		val fsmPackage = TfsmPackage.eINSTANCE;
 
+		// TODO: Replacing with System.getProperty("user.dir")
 		val resource = resSet.getResource(
 			URI.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra2/models/FSM1.tfsm"), true)
 		resource.contents.
@@ -83,7 +84,7 @@ class Program1 {
 		make(new ExecutableTFSMAlgebra(newHashMap(3 -> "a", 7 -> "b", 9 -> "a")), typeof(ExecutableTransitionExp), // T
 		typeof(ExecutableStateExp), // S
 		typeof(ExecutableExp), // F
-		typeof(ExecutableStateExp), // IS extends S 
+		typeof(ExecutableStateExp), // IS extends S
 		typeof(ExecutableStateExp), // FS extends S
 		typeof(ExecutableExp), // TF extends F
 		typeof(ExecutableTimedStateExp), // TS extends S

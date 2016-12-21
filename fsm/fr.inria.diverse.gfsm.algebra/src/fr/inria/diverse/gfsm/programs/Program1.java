@@ -67,7 +67,7 @@ public class Program1 {
 		}, progName).execute();
 	}
 
-	private <T, F, S, IE, BE, IO> F make(final GFSMAlgebra<T, F, S, IE, BE, IO> graphvizGFSMAlgebra,
+	private <A, B, C, D, E, F> A make(final GFSMAlgebra<A, B, C, D, E, F> graphvizGFSMAlgebra,
 			final String progName) {
 		final GFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
@@ -77,6 +77,7 @@ public class Program1 {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gfsm", new XMIResourceFactoryImpl());
 		final GfsmPackage gFsmPackage = GfsmPackage.eINSTANCE;
+		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/" + progName);
 		final Resource resource = resSet.getResource(createURI, true);

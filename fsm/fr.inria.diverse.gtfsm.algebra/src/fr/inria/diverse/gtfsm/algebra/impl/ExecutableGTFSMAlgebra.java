@@ -27,7 +27,7 @@ import tfsm.TimedFSM;
 import tfsm.TimedTransition;
 
 public interface ExecutableGTFSMAlgebra extends
-		GTFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Integer>, CtxEvalExp<Integer, Boolean>, EvalOpExp<Integer>>,
+		GTFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>>,
 		ExecutableTFSMAlgebra, ExecutableGFSMAlgebra {
 
 	@Override
@@ -60,8 +60,8 @@ public interface ExecutableGTFSMAlgebra extends
 		return () -> {
 			final String action = this.getTimedActions().get(this.getTime());
 
-			final Long futureActions = this.getTimedActions().entrySet().stream().filter(t -> t.getKey() >= this.getTime())
-					.collect(Collectors.counting());
+			final Long futureActions = this.getTimedActions().entrySet().stream()
+					.filter(t -> t.getKey() >= this.getTime()).collect(Collectors.counting());
 			if (futureActions == 0) {
 				if (!(this.getCurrentState() instanceof GTFinalState)) {
 					System.out.println(

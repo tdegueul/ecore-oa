@@ -3,7 +3,6 @@ package fr.inria.diverse.tfsm.algebra.impl
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra
 import java.util.Map
 import tfsm.AndClockConstraint
 import tfsm.Clock
@@ -18,9 +17,10 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
+import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra
 
 // find out a solution to overload types defined at an upper level at the level of the arguments (here timedActions vs userinput)
-interface ExecutableTFSMAlgebra extends TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp>, ExecutableFSMAlgebra {
+interface ExecutableTFSMAlgebra extends TfsmAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp>, ExecutableFSMAlgebra {
 
 	def Map<Integer, String> getTimedActions()
 

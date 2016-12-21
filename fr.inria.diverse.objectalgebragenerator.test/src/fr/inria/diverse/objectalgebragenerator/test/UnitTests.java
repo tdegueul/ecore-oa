@@ -18,7 +18,8 @@ import fr.inria.diverse.objectalgebragenerator.popup.actions.GenerateAlgebra;
 
 public class UnitTests {
 
-	private static final String ROOT_PATH = "/home/mleduc/dev/ecore/ecore-oa/fr.inria.diverse.objectalgebragenerator.test/";
+	private static final String ROOT_PATH = System.getProperty("user.dir");
+
 
 	@Test
 	public void simpleTest() throws Exception {
@@ -27,7 +28,7 @@ public class UnitTests {
 	
 	@Test
 	public void oneClass() throws Exception {
-		testCompare("oneClass");
+		testCompare("packageA");
 	}
 	
 	@Test
@@ -50,10 +51,15 @@ public class UnitTests {
 		testCompare("OARootInheritance1");
 	}
 	
+	@Test
+	public void simpleCrossRefNoInheritance() throws Exception {
+		testCompare("SimpleCrossRefNoInheritance");
+	}
+	
 	
 
 	private void testCompare(String file) throws IOException {
-		final URI uri = URI.createURI(ROOT_PATH + "model/" + file + ".ecore");
+		final URI uri = URI.createFileURI(new File("model/" + file + ".ecore").getAbsolutePath());
 
 		final ResourceSetImpl resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
@@ -61,7 +67,7 @@ public class UnitTests {
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
 		final String fileContent = new GenerateAlgebra().process(ePackage);
 
-		final String expected = Files.readAllLines(new File(ROOT_PATH + "results/" + file + ".java").toPath()).stream()
+		final String expected = Files.readAllLines(new File(ROOT_PATH + "/results/" + file + ".java").toPath()).stream()
 				.collect(Collectors.joining("\n"));
 		assertEquals(expected, fileContent);
 	}

@@ -93,9 +93,4 @@ For the rest of the experiments we are going to use the #3 implementation which 
     * no explicit definition of the type returned by a subpart of the model (e.g. the ClockConstraints in TFSM can be defined as another algebra which returns booleans).
 
 # TODO
-* Removing the setFinal mess which should be an implemenation detail
-* GFSM:
-    * Replacing class by interface for the OA implementations -> easier reuse.
-    * Every state must be passed as parameter and/or directly stored in the model.
-* Idea for slicing: Generating a limited interface according to the selected classes and delegating to the original model's OA methods.
-    * Trying to deal with generic types in ecore models (for BooleanOperations for example).
+  - porting TFSM/GFSM and GTFSM with the OA generator.

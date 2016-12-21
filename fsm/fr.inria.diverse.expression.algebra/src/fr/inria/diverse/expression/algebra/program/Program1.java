@@ -69,6 +69,7 @@ public class Program1 {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("expression", new XMIResourceFactoryImpl());
 		final ExpressionPackage fsmPackage = ExpressionPackage.eINSTANCE;
+		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.expression.algebra/model/" + progName);
 		final Resource resource = resSet.getResource(createURI, true);

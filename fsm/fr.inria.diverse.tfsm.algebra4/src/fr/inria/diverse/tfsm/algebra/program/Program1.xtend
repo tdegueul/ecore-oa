@@ -28,6 +28,7 @@ class Program1 {
 		// do not remove this, needed to load some context. Side effects...
 		val fsmPackage = TfsmPackage.eINSTANCE;
 
+		// TODO: Replacing with System.getProperty("user.dir")
 		val resource = resSet.getResource(
 			URI.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra2/models/FSM1.tfsm"), true)
 		resource.contents.head as TimedFSM

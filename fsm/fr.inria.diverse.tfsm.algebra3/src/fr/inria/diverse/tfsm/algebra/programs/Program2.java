@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.tfsm.algebra.abstr.TFSMAlgebra;
+import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -27,7 +27,7 @@ public class Program2 {
 	}
 
 	private void execute() {
-		final TFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebra() {
+		final TfsmAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebra() {
 
 		};
 		final Map<java.lang.Integer, String> defaultTimedActions = new HashMap<Integer, String>();
@@ -35,7 +35,7 @@ public class Program2 {
 		defaultTimedActions.put(7, "b");
 		defaultTimedActions.put(9, "a");
 
-		final TFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebra() {
+		final TfsmAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebra() {
 
 			Map<Integer, String> timedActions = defaultTimedActions;
 
@@ -79,7 +79,7 @@ public class Program2 {
 
 	}
 
-	private <T, F, S, C, CCO, CR> F make(final TFSMAlgebra<T, F, S, C, CCO, CR> f) {
+	private <A, B, C, D, E, F> A make(final TfsmAlgebra<A, B, C, D, E, F> f) {
 		final FSM exp = this.createModel();
 
 		return f.$(exp);
@@ -89,6 +89,7 @@ public class Program2 {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("tfsm", new XMIResourceFactoryImpl());
 		final TfsmPackage fsmPackage = TfsmPackage.eINSTANCE;
+		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra3/model/TFSM1.tfsm");
 		final Resource resource = resSet.getResource(createURI, true);

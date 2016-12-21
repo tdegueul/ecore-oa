@@ -24,6 +24,7 @@ class Program1 {
 		// do not remove this, needed to load some context. Side effects...
 		val fsmPackage = FsmPackage.eINSTANCE;
 
+		// TODO: Replacing with System.getProperty("user.dir")
 		val resource = resSet.getResource(
 			URI.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.fsm.algebra2/models/FSM1.fsm"), true)
 		resource.contents.head as FSM

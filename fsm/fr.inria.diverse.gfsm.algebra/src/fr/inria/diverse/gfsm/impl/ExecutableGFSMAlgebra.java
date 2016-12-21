@@ -21,7 +21,7 @@ import gfsm.GState;
 import gfsm.GTransition;
 
 public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpressionAlgebra,
-		GFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, CtxEvalExp<Integer, Integer>, CtxEvalExp<Integer, Boolean>, EvalOpExp<Integer>> {
+		GFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>> {
 
 	void setCtx(Map<String, Integer> ctx);
 
@@ -46,7 +46,7 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 						.filter(t -> t.getEvent().equals(action)).filter(t -> {
 					final boolean ret;
 					if (t instanceof GTransition) {
-						ret = ExecutableGFSMAlgebra.this.$(((GTransition) t).getGuard())
+						ret = $(((GTransition) t).getGuard())
 								.result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
 										() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
 					} else {
