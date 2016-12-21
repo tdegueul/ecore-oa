@@ -7,9 +7,9 @@ import simple.inheritance1.Parent;
 public interface SimpleInheritance1Algebra<A> {
 
 	A childA(final ChildA childA);
-	
+
 	A childB(final ChildB childB);
-	
+
 	A parent(final Parent parent);
 
 	public default A $(final Parent parent) {

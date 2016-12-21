@@ -16,79 +16,82 @@ import org.junit.Test;
 
 import fr.inria.diverse.objectalgebragenerator.popup.actions.GenerateAlgebra;
 
-public class UnitTests {
+public class UnitTests2 {
 
 	private static final String ROOT_PATH = System.getProperty("user.dir");
+
 
 	@Test
 	public void simpleTest() throws Exception {
 		testCompare("simpleTest");
 	}
-
+	
 	@Test
 	public void nameConflictPackageA() throws Exception {
-		testCompare("nameConflict/packageA");
+		testCompare("nameConflict/packageA");	
 	}
-
 	@Test
 	public void nameConflictPackageB() throws Exception {
-		testCompare("nameConflict/packageB");
+		testCompare("nameConflict/packageB");	
 	}
-
+	
 	@Test
 	public void nameConflictPackageC() throws Exception {
-		testCompare("nameConflict/packageC");
+		testCompare("nameConflict/packageC");	
 	}
-
+	
 	@Test
 	public void packageA() throws Exception {
-		testCompare("packageA");
+		testCompare("packageA");	
 	}
-
+	
+	@Test
+	public void wShapedInheritance() throws Exception {
+		testCompare("wShapedInheritance");	
+	}
+	
 	@Test
 	public void packageB() throws Exception {
-		testCompare("packageB");
+		testCompare("packageB");	
 	}
-
+	
 	@Test
 	public void packageC() throws Exception {
-		testCompare("packageC");
+		testCompare("packageC");	
 	}
-
+	
 	@Test
 	public void packageD() throws Exception {
-		testCompare("packageD");
+		testCompare("packageD");	
 	}
-
-	@Test(expected=RuntimeException.class)
-	public void wShapedInheritance() throws Exception {
-		testCompare("wShapedInheritance");
-	}
-
+	
+	
 	@Test
 	public void oneAbstractClass() throws Exception {
 		testCompare("oneAbstractClass");
 	}
-
+	
 	@Test
 	public void simpleInheritance1() throws Exception {
 		testCompare("SimpleInheritance1");
 	}
-
+	
 	@Test
 	public void simpleInheritance2() throws Exception {
 		testCompare("SimpleInheritance2");
 	}
-
+	
 	@Test
 	public void oARootInheritance1() throws Exception {
 		testCompare("OARootInheritance1");
 	}
-
+	
 	@Test
 	public void simpleCrossRefNoInheritance() throws Exception {
 		testCompare("SimpleCrossRefNoInheritance");
 	}
+	
+	
 
 	private void testCompare(String file) throws IOException {
 		final URI uri = URI.createFileURI(new File("model/" + file + ".ecore").getAbsolutePath());
@@ -98,9 +101,8 @@ public class UnitTests {
 		final Resource resource = resourceSet.getResource(uri, true);
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
 		final String fileContent = new GenerateAlgebra().process2(ePackage);
+
 		System.out.println("# " + file);
-		final String expected = Files.readAllLines(new File(ROOT_PATH + "/results/" + file + ".java").toPath()).stream()
-				.collect(Collectors.joining("\n"));
-		assertEquals(expected, fileContent);
+		System.out.println(fileContent);
 	}
 }

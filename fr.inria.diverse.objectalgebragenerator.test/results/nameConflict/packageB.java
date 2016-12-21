@@ -1,8 +1,8 @@
-package a.algebra;
+package b.algebra;
 
-import a.AClass;
+import b.AClass;
 
-public interface AAlgebra<A> {
+public interface BAlgebra<A> {
 
 	A aClass(final AClass aClass);
 
