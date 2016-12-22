@@ -17,10 +17,10 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra
+import tfsm.algebra.TfsmAlgebra
 
 // find out a solution to overload types defined at an upper level at the level of the arguments (here timedActions vs userinput)
-interface ExecutableTFSMAlgebra extends TfsmAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp>, ExecutableFSMAlgebra {
+interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableExp>, ExecutableFSMAlgebra {
 
 	def Map<Integer, String> getTimedActions()
 

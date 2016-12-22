@@ -15,7 +15,7 @@ import tfsm.TimedState
 import tfsm.TimedTransition
 import tfsm.UpperClockConstraint
 import tfsm.UpperEqualClockConstraint
-import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra
+import tfsm.algebra.TfsmAlgebra
 
 interface GraphvizTFSMAlgebra extends GraphvizFSMAlgebra, TfsmAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> {
 

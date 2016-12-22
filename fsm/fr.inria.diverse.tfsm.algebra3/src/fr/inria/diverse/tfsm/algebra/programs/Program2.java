@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.FSM;
 import fsm.State;
 import tfsm.TfsmPackage;
+import tfsm.algebra.TfsmAlgebra;
 
 public class Program2 {
 
@@ -35,7 +35,7 @@ public class Program2 {
 		defaultTimedActions.put(7, "b");
 		defaultTimedActions.put(9, "a");
 
-		final TfsmAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp> algExec = new ExecutableTFSMAlgebra() {
+		final TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableExp> algExec = new ExecutableTFSMAlgebra() {
 
 			Map<Integer, String> timedActions = defaultTimedActions;
 
@@ -79,7 +79,7 @@ public class Program2 {
 
 	}
 
-	private <A, B, C, D, E, F> A make(final TfsmAlgebra<A, B, C, D, E, F> f) {
+	private <A, B, C, D, E, F> D make(final TfsmAlgebra<A, B, C, D, E, F> f) {
 		final FSM exp = this.createModel();
 
 		return f.$(exp);

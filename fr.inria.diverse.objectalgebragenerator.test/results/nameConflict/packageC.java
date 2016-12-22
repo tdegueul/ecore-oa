@@ -15,9 +15,9 @@ public interface BAlgebra<A> extends AAlgebra<A>, BAlgebra<A> {
 			ret = this.aAClass((AAClass) aClass);
 		} else {
 			try {
-				ret = AAlgebra.this.$(aClass);
+				ret = AAlgebra.super.$(aClass);
 			} catch(RuntimeException e) {
-				ret = BAlgebra.this.$(aClass);
+				ret = BAlgebra.super.$(aClass);
 			}
 		}
 		return ret;

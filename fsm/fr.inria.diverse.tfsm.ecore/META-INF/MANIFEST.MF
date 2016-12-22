@@ -8,6 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: tfsm,
+ tfsm.algebra,
  tfsm.impl,
  tfsm.util
 Require-Bundle: org.eclipse.core.runtime,

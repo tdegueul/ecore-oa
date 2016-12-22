@@ -88,8 +88,7 @@ class GenerateAlgebra {
 				«ENDIF»
 				}
 				return ret;
-			}
-			«ENDFOR»
+			}«ENDFOR»
 		}'''
 	}
 
@@ -110,17 +109,17 @@ class GenerateAlgebra {
 	
 
 	def String toTryCatch(Iterable<EPackage> packages, String typeVarName) {
-		if (packages.size == 1) {
-			'''ret = «packages.head.toPackageName».this.$(«typeVarName»);'''
-		} else {
 			'''
+			«IF packages.size == 1»
+				ret = «packages.head.toPackageName».super.$(«typeVarName»);
+			«ELSE»
 				try {
-					ret = «packages.head.toPackageName».this.$(«typeVarName»);
+					ret = «packages.head.toPackageName».super.$(«typeVarName»);
 				} catch(RuntimeException e) {
 					«toTryCatch(packages.tail, typeVarName)»
 				}
+			«ENDIF»
 			'''
-		}
 	}
 
 	def Set<GraphNode<EClass>> findConcretTypes(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {

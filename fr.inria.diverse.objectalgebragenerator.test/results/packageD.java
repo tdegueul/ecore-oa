@@ -17,9 +17,9 @@ public interface DAlgebra<A, B, C> extends BAlgebra<A, B>, CAlgebra<A, C> {
 			ret = this.a12Class((A12Class) aClass);
 		} else {
 			try {
-				ret = BAlgebra.this.$(aClass);
+				ret = BAlgebra.super.$(aClass);
 			} catch(RuntimeException e) {
-				ret = CAlgebra.this.$(aClass);
+				ret = CAlgebra.super.$(aClass);
 			}
 		}
 		return ret;

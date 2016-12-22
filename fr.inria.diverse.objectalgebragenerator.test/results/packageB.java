@@ -17,7 +17,7 @@ public interface BAlgebra<A, B> extends AAlgebra<A> {
 		if (aClass instanceof A1Class) {
 			ret = this.a1Class((A1Class) aClass);
 		} else {
-			ret = AAlgebra.this.$(aClass);
+			ret = AAlgebra.super.$(aClass);
 		}
 		return ret;
 	}
