@@ -1,7 +1,6 @@
 package fr.inria.diverse.gtfsm.algebra.abstr;
 
 import fr.inria.diverse.gfsm.abstr.GFSMAlgebra;
-import fr.inria.diverse.tfsm.algebra.abstr.TfsmAlgebra;
 import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
@@ -10,6 +9,7 @@ import gtfsm.GTFinalState;
 import gtfsm.GTInitialState;
 import gtfsm.GTState;
 import gtfsm.GTTransition;
+import tfsm.algebra.TfsmAlgebra;
 
 public interface GTFSMAlgebra<A, B, C, D, E, F, G, H, I>
 		extends TfsmAlgebra<A, B, C, D, E, F>, GFSMAlgebra<A, B, C, G, H, I> {

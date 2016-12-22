@@ -32,7 +32,7 @@ class GenerateAlgebra {
 		visitPackages(visitedpackage, ePackage, graph1)
 
 		val c1 = graph1.clusters()
-		val List<List<GraphNode<EClass>>> clusters = c1.map[x|x.sortBy[y|y.elem.name]].sortBy[z|z.head.elem.name].map[x|x.filter[y|!y.elem.abstract].toList].filter[x|!x.empty].toList
+		val List<List<GraphNode<EClass>>> clusters = c1.map[x|x.sortBy[y|y.elem.name]].sortBy[z|z.head.elem.name].toList
 		val Map<String, List<GraphNode<EClass>>> allTypes = clusters.toMap(new Function1<Object, String>() {
 
 			val char x = 'A'
@@ -46,6 +46,8 @@ class GenerateAlgebra {
 			}
 
 		})
+		
+		val allConcretTypes = allTypes.mapValues[x|x.filter[y|!y.elem.abstract]].filter[p1, p2|!p2.empty]
 		
 		println('''
 		# All types
@@ -73,13 +75,13 @@ class GenerateAlgebra {
 		
 		val allDirectPackages = allDirectPackagesByInheritance.sortBy[name]
 
-		val all$Types = allTypes.mapValues[e|e.filter[f|f.elem.EPackage.equals(ePackage)]].
+		val all$Types = allConcretTypes.mapValues[e|e.filter[f|f.elem.EPackage.equals(ePackage)]].
 			filter[p1, p2|!p2.empty]
 			
 		val imports = newHashSet()
 		imports.addAll(allMethods.map[elem].map[e|'''«e.EPackage.name».«e.name»'''])
 		imports.addAll(all$Types.values.map[findRootType].map[e|'''«e.EPackage.name».«e.name»'''])
-		imports.addAll(all$Types.values.map[getDirectPackages(ePackage)].flatten.map[e|'''«e.name».algebra.«e.toPackageName»'''])
+		imports.addAll(allDirectPackages.map[e|'''«e.name».algebra.«e.toPackageName»'''])
 		
 		'''
 		package «ePackage.name».algebra;
@@ -88,7 +90,7 @@ class GenerateAlgebra {
 		import «imported»;
 		«ENDFOR»
 		
-		public interface «ePackage.toPackageName»«FOR x : allTypes.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«FOR ePp : allDirectPackages.sortBy[name] BEFORE ' extends ' SEPARATOR ', '»«ePp.toPackageName»«FOR x : ePp.getListTypes(graph1, allTypes) BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«ENDFOR» {
+		public interface «ePackage.toPackageName»«FOR x : allConcretTypes.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«FOR ePp : allDirectPackages.sortBy[name] BEFORE ' extends ' SEPARATOR ', '»«ePp.toPackageName»«FOR x : ePp.getListTypes(graph1, allTypes) BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«ENDFOR» {
 		
 			«FOR eClass : allMethods.map[elem]»
 				«eClass.abstractType(allTypes)» «eClass.name.toFirstLower»(final «eClass.name» «eClass.name.toFirstLower»);
@@ -170,7 +172,9 @@ class GenerateAlgebra {
 	}
 
 	def String abstractType(EClass class1, Map<String, List<GraphNode<EClass>>> allTypes) {
-		allTypes.entrySet.filter[e|e.value.contains(new GraphNode(class1))].head.key
+		allTypes.entrySet.filter[e|
+			e.value.contains(new GraphNode(class1))
+		].head.key
 	}
 
 	def void visitPackages(HashSet<EPackage> visitedpackage, EPackage ePackage, Graph<EClass> graph1) {
