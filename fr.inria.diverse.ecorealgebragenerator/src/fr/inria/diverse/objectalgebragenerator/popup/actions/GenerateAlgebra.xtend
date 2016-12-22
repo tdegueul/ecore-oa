@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtext.xbase.lib.Functions.Function1
 import java.util.Comparator
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EReference
 
 class GenerateAlgebra {
 
@@ -44,14 +46,32 @@ class GenerateAlgebra {
 			}
 
 		})
+		
+		println('''
+		# All types
+		«FOR type:allTypes.keySet»
+		## «type»
+		«FOR clazz:allTypes.get(type)»
+		- «clazz.elem.EPackage.name».«clazz.elem.name»
+		«ENDFOR»
+		«ENDFOR»
+		''')
 
 		val allMethods = graph1.nodes.sortBy[e|e.elem.name].filter[e|e.elem.EPackage.equals(ePackage)].filter [e|
 			!e.elem.abstract
 		]
 
-		val allDirectPackages = allMethods.map[e|e.outgoing].flatten.map[e|e.elem.EPackage].filter [ e |
+		val allDirectPackagesByInheritance = allMethods.map[e|e.outgoing].flatten.map[e|e.elem.EPackage].filter [ e |
 			!e.equals(ePackage)
 		].toSet
+		
+		val allDirectPackageByReference = allMethods.map[e|e.elem.EReferences].map[e|e.directlyRelatedTypes].flatten.map[e|e.EPackage].filter [ e |
+			!e.equals(ePackage)
+		].toSet
+		
+		allDirectPackagesByInheritance.addAll(allDirectPackageByReference)
+		
+		val allDirectPackages = allDirectPackagesByInheritance.sortBy[name]
 
 		val all$Types = allTypes.mapValues[e|e.filter[f|f.elem.EPackage.equals(ePackage)]].
 			filter[p1, p2|!p2.empty]
@@ -157,10 +177,16 @@ class GenerateAlgebra {
 		visitedpackage.add(ePackage)
 		val allEClasses = ePackage.eAllContents.filter[e|e instanceof EClass].map[e|e as EClass].toList.sortBy[e|e.name]
 		allEClasses.forEach[e|addParents(graph1, e)]
+		allEClasses.forEach[e|e.EReferences.directlyRelatedTypes.forEach[f|addParents(graph1, f)]]
 
-		graph1.nodes.sortBy[e|e.elem.name].map[e|e.elem.EPackage].toSet.filter[e|!visitedpackage.contains(e)].forEach [ e |
+		val notYetVisited = graph1.nodes.sortBy[e|e.elem.name].map[e|e.elem.EPackage].toSet.filter[e|!visitedpackage.contains(e)]
+		notYetVisited.forEach [ e |
 			visitPackages(visitedpackage, e, graph1)
 		]
+	}
+	
+	def List<EClass> getDirectlyRelatedTypes(EList<EReference> list) {
+		list.map[f|f.EType].filter[z|z instanceof EClass].map[q|q as EClass].filter[x|!x.EPackage.name.equals("ecore")].toList
 	}
 
 	def String showGraph(Graph<EClass> graph) {
@@ -179,6 +205,7 @@ class GenerateAlgebra {
 	}
 
 	def void addParents(Graph<EClass> graph1, EClass e) {
+		println('''# Add class «e.name»''')
 		val node = graph1.addNode(e)
 		e.ESuperTypes.forEach [ f |
 			val node2 = graph1.addNode(f)
