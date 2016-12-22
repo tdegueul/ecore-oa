@@ -8,7 +8,7 @@ import c.CClass;
 public interface CAlgebra<A, B> extends AAlgebra<A> {
 
 	A a2Class(final A2Class a2Class);
-	
+
 	B cClass(final CClass bClass);
 
 	@Override

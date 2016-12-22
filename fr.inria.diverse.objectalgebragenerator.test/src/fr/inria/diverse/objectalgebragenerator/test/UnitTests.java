@@ -60,7 +60,7 @@ public class UnitTests {
 		testCompare("packageD");
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected = RuntimeException.class)
 	public void wShapedInheritance() throws Exception {
 		testCompare("wShapedInheritance");
 	}
@@ -97,8 +97,8 @@ public class UnitTests {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.getResource(uri, true);
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
-		final String fileContent = new GenerateAlgebra().process2(ePackage);
-		System.out.println("# " + file);
+		final String fileContent = new GenerateAlgebra().process(ePackage);
+		// System.out.println("# " + file);
 		final String expected = Files.readAllLines(new File(ROOT_PATH + "/results/" + file + ".java").toPath()).stream()
 				.collect(Collectors.joining("\n"));
 		assertEquals(expected, fileContent);

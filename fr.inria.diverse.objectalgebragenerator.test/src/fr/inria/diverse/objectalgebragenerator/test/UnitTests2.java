@@ -100,9 +100,8 @@ public class UnitTests2 {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.getResource(uri, true);
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
-		final String fileContent = new GenerateAlgebra().process2(ePackage);
+		final String fileContent = new GenerateAlgebra().process(ePackage);
 
-		System.out.println("# " + file);
 		System.out.println(fileContent);
 	}
 }
