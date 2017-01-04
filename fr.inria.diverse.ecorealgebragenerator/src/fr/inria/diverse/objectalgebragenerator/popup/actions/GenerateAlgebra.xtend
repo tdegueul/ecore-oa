@@ -11,44 +11,31 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
-import org.eclipse.xtext.xbase.lib.Functions.Function1
 
 class GenerateAlgebra {
 
-	def Node<EClass> addChildren(EClass e, List<EClass> allElems) {
+	private def Node<EClass> addChildren(EClass e, List<EClass> allElems) {
 		val ret = new Node(e)
 		val subtypes = allElems.filter[f|f.ESuperTypes.contains(e)]
 		subtypes.filter[x|!x.isRoot].map[f|addChildren(f, allElems)].forEach[x|ret.addChild(x)]
 		ret
 	}
 	
-	def Graph<EClass> buildGraph(EPackage ePackage) {
+	private def Graph<EClass> buildGraph(EPackage ePackage) {
 		val graph1 = new Graph<EClass>();
 		visitPackages(newHashSet(), ePackage, graph1)
 		graph1	
 	}
 	
-	def Map<String, List<GraphNode<EClass>>> buildAllTypes(List<List<GraphNode<EClass>>> clusters) {
-		clusters.toMap(new Function1<Object, String>() {
-
-			val char x = 'A'
-			var cptr = 0
-
-			override apply(Object t) {
-
-				// FIXME : wont work after 26 abstract types...
-				val char ret = (x + (cptr++)) as char
-				return ret.toString
-			}
-
-		})
+	private def Map<String, List<GraphNode<EClass>>> buildAllTypes(List<List<GraphNode<EClass>>> clusters) {
+		clusters.toMap(new CharsSequence)
 	}
 	
-	def List<List<GraphNode<EClass>>> calculateClusters(Graph<EClass> graphCurrentPackage) {
+	private def List<List<GraphNode<EClass>>> calculateClusters(Graph<EClass> graphCurrentPackage) {
 		graphCurrentPackage.clusters().map[x|x.sortBy[y|y.elem.name]].sortBy[z|z.head.elem.name].toList		
 	}
 	
-	def buildConcretTypeForParents(EPackage ePackage, Map<String, List<GraphNode<EClass>>> allTypes) {
+	private def buildConcretTypeForParents(EPackage ePackage, Map<String, List<GraphNode<EClass>>> allTypes) {
 		val graphCurrentPackage = buildGraph(ePackage)
 
 		val  clusters = calculateClusters(graphCurrentPackage)
@@ -66,16 +53,6 @@ class GenerateAlgebra {
 		
 		val allConcretTypes = buildConcretTypes(allTypes)
 		
-		println('''
-		# All types
-		«FOR type:allTypes.keySet»
-		## «type»
-		«FOR clazz:allTypes.get(type)»
-		- «clazz.elem.EPackage.name».«clazz.elem.name»
-		«ENDFOR»
-		«ENDFOR»
-		''')
-
 		val allMethods = graphCurrentPackage.nodes.sortBy[e|e.elem.name].filter[e|e.elem.EPackage.equals(ePackage)].filter [e|
 			!e.elem.abstract
 		]
@@ -123,11 +100,11 @@ class GenerateAlgebra {
 		}'''
 	}
 	
-	def buildConcretTypes(Map<String, List<GraphNode<EClass>>> allTypes) {
+	private def buildConcretTypes(Map<String, List<GraphNode<EClass>>> allTypes) {
 		allTypes.mapValues[x|x.filter[y|!y.elem.abstract]].filter[p1, p2|!p2.empty]
 	}
 	
-	def List<EPackage> allDirectPackages(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+	private def List<EPackage> allDirectPackages(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
 		val allDirectPackagesByInheritance = nodes.getDirectPackageByInheritance(ePackage)
 		
 		val allDirectPackageByReference = nodes.getAllDirectPackagesByReference(ePackage)
@@ -136,13 +113,13 @@ class GenerateAlgebra {
 		allDirectPackagesByInheritance.sortBy[name]
 	}
 	
-	def Set<EPackage> getAllDirectPackagesByReference(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+	private def Set<EPackage> getAllDirectPackagesByReference(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
 		nodes.map[e|e.elem.EReferences].map[e|e.directlyRelatedTypes].flatten.map[e|e.EPackage].filter [ e |
 			!e.equals(ePackage)
 		].toSet
 	}
 	
-	def Set<EPackage> getDirectPackageByInheritance(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+	private def Set<EPackage> getDirectPackageByInheritance(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
 		nodes.map[e|e.outgoing].flatten.map[e|e.elem.EPackage].filter [ e |
 			!e.equals(ePackage)
 		].toSet
@@ -150,7 +127,7 @@ class GenerateAlgebra {
 
 
 	
-	def concretTypes(Entry<String, Iterable<GraphNode<EClass>>> entry, EPackage ePackage) {
+	private def concretTypes(Entry<String, Iterable<GraphNode<EClass>>> entry, EPackage ePackage) {
 		entry.value.findConcretTypes(ePackage).sortWith(new Comparator<GraphNode<EClass>> {
 				
 				override compare(GraphNode<EClass> o1, GraphNode<EClass> o2) {
@@ -164,7 +141,7 @@ class GenerateAlgebra {
 	
 	
 
-	def String toTryCatch(Iterable<EPackage> packages, String typeVarName) {
+	private def String toTryCatch(Iterable<EPackage> packages, String typeVarName) {
 			'''
 			«IF packages.size == 1»
 				ret = «packages.head.toPackageName».super.$(«typeVarName»);
@@ -178,15 +155,15 @@ class GenerateAlgebra {
 			'''
 	}
 
-	def Set<GraphNode<EClass>> findConcretTypes(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+	private def Set<GraphNode<EClass>> findConcretTypes(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
 		nodes.filter[e|!e.elem.abstract].filter[e|e.elem.EPackage.equals(ePackage)].toSet
 	}
 
-	def List<EPackage> getDirectPackages(Iterable<GraphNode<EClass>> entry, EPackage currentPackage) {
+	private def List<EPackage> getDirectPackages(Iterable<GraphNode<EClass>> entry, EPackage currentPackage) {
 		entry.map[outgoing].flatten.map[e|e.elem.EPackage].filter[e|!e.equals(currentPackage)].toSet.sortBy[name]
 	}
 
-	def EClass getFindRootType(Iterable<GraphNode<EClass>> nodes) {
+	private def EClass getFindRootType(Iterable<GraphNode<EClass>> nodes) {
 		val roots = nodes.map[roots].flatten.toSet
 		if (roots.size >
 			1) {
@@ -195,16 +172,8 @@ class GenerateAlgebra {
 			roots.head.elem
 		}
 	}
-
-	def Set<String> getListTypes(EPackage ePackage, Graph<EClass> graph, Map<String, List<GraphNode<EClass>>> allTypes) {
-		// we keep the root elements with at least a children which leads to current package
-		val visited = newHashSet()
-		val relatedToCurrentPackage = getListTypesRec(visited, ePackage, graph, allTypes)
-		
-		relatedToCurrentPackage.map [ e | e.elem.abstractType(allTypes) ].toSet
-	}
 	
-	def Iterable<GraphNode<EClass>> getListTypesRec(HashSet<EPackage> visited, EPackage ePackage, Graph<EClass> graph, Map<String, List<GraphNode<EClass>>> allTypes) {
+	private def Iterable<GraphNode<EClass>> getListTypesRec(HashSet<EPackage> visited, EPackage ePackage, Graph<EClass> graph, Map<String, List<GraphNode<EClass>>> allTypes) {
 		if(!visited.contains(ePackage)) {
 			visited.add(ePackage)
 			val List<GraphNode<EClass>> relatedToCurrentPackage = graph.nodes.sortBy[e|e.elem.name].filter [e|
@@ -226,13 +195,13 @@ class GenerateAlgebra {
 		}
 	}
 
-	def String abstractType(EClass class1, Map<String, List<GraphNode<EClass>>> allTypes) {
+	private def String abstractType(EClass class1, Map<String, List<GraphNode<EClass>>> allTypes) {
 		allTypes.entrySet.filter[e|
 			e.value.contains(new GraphNode(class1))
 		].head.key
 	}
 
-	def void visitPackages(HashSet<EPackage> visitedpackage, EPackage ePackage, Graph<EClass> graph1) {
+	private def void visitPackages(HashSet<EPackage> visitedpackage, EPackage ePackage, Graph<EClass> graph1) {
 		visitedpackage.add(ePackage)
 		val allEClasses = ePackage.eAllContents.filter[e|e instanceof EClass].map[e|e as EClass].toList.sortBy[e|e.name]
 		allEClasses.forEach[e|addParents(graph1, e)]
@@ -244,26 +213,11 @@ class GenerateAlgebra {
 		]
 	}
 	
-	def List<EClass> getDirectlyRelatedTypes(EList<EReference> list) {
+	private def List<EClass> getDirectlyRelatedTypes(EList<EReference> list) {
 		list.map[f|f.EType].filter[z|z instanceof EClass].map[q|q as EClass].filter[x|!x.EPackage.name.equals("ecore")].toList
 	}
 
-	def String showGraph(Graph<EClass> graph) {
-		'''
-			digraph TMP {
-				«FOR node : graph.nodes.sortBy[e|e.elem.name]»
-					"«node.elem.EPackage.name».«node.elem.name»" [label="«IF node.elem.root»ROOT\n«ENDIF»«node.elem.name»\n«node.elem.EPackage.eResource.URI.lastSegment»"]
-				«ENDFOR»
-				«FOR node : graph.nodes.sortBy[e|e.elem.name]»
-					«FOR o:node.outgoing»
-						"«node.elem.EPackage.name».«node.elem.name»" -> "«o.elem.EPackage.name».«o.elem.name»"
-					«ENDFOR»
-				«ENDFOR»
-			}
-		'''
-	}
-
-	def void addParents(Graph<EClass> graph1, EClass e) {
+	private def void addParents(Graph<EClass> graph1, EClass e) {
 		println('''# Add class «e.name»''')
 		val node = graph1.addNode(e)
 		e.ESuperTypes.forEach [ f |
@@ -278,25 +232,21 @@ class GenerateAlgebra {
 	/**
 	 * A root element is an element with no super type or explicitly defined with @OARoot.
 	 */
-	def static boolean isRoot(EClass eClass) {
+	private def static boolean isRoot(EClass eClass) {
 		eClass.ESuperTypes.empty || eClass.hasOARootAnnotation
 	}
 
-	def static EClass findRootParent(EClass eClass) {
+	private def static EClass findRootParent(EClass eClass) {
 		if(eClass.isRoot) eClass else findRootParent(eClass.ESuperTypes.head)
 	}
 
-	def static boolean hasOARootAnnotation(EClass eClass) {
+	private def static boolean hasOARootAnnotation(EClass eClass) {
 		eClass.EAnnotations.exists[e|e.source.equals("OARoot")]
 	}
 
-	def static <K, V> K getReverse(Map<K, V> map, V value) {
-		map.filter[p1, p2|p2.equals(value)].keySet.head
-	}
-
-	def static String toClassName(String name) {
+	private def static String toClassName(String name) {
 		name.split("\\.").map[e|e.toFirstUpper].join
 	}
 
-	def static toPackageName(EPackage ePackage) '''«ePackage.name.toClassName»Algebra'''
+	private def static toPackageName(EPackage ePackage) '''«ePackage.name.toClassName»Algebra'''
 }

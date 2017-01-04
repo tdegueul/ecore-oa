@@ -14,11 +14,11 @@ class Graph<E> {
 			this.elem = elem
 		}
 
-		def addOutgoing(GraphNode<E> x) {
+		private def addOutgoing(GraphNode<E> x) {
 			outgoing.add(x)
 		}
 
-		def addIncomming(GraphNode<E> x) {
+		private def addIncomming(GraphNode<E> x) {
 			incomming.add(x)
 		}
 
@@ -28,10 +28,6 @@ class Graph<E> {
 
 		def isRoot() {
 			outgoing.empty
-		}
-
-		def isLeaf() {
-			incomming.empty
 		}
 
 		def Set<GraphNode<E>> getRoots() {
@@ -60,7 +56,7 @@ class Graph<E> {
 			elem.hashCode()
 		}
 
-		def Set<GraphNode<E>> getParents() {
+		private def Set<GraphNode<E>> getParents() {
 			val ret = newHashSet();
 			ret.addAll(this.outgoing)
 			outgoing.forEach[x|ret.addAll(x.parents)]
@@ -102,10 +98,6 @@ class Graph<E> {
 		nodes.filter[isRoot]
 	}
 
-	def getLeafs() {
-		nodes.filter[isLeaf]
-	}
-
 	override String toString() {
 		'''Graph («FOR n : nodes SEPARATOR ', '»«n»«ENDFOR»)'''
 	}
@@ -141,7 +133,7 @@ class Graph<E> {
 		ret
 	}
 
-	def boolean containsSome(Set<?> nodes, Set<?> nodes2) {
+	private def boolean containsSome(Set<?> nodes, Set<?> nodes2) {
 		nodes.exists[e|nodes2.contains(e)]
 	}
 
