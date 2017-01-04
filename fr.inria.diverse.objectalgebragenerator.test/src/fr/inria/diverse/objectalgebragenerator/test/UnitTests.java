@@ -45,6 +45,11 @@ public class UnitTests {
 		testCompare("packageA");
 	}
 
+	@Test(expected = RuntimeException.class)
+	public void wShapedInheritance() throws Exception {
+		testCompare("wShapedInheritance");
+	}
+	
 	@Test
 	public void packageB() throws Exception {
 		testCompare("packageB");
@@ -58,11 +63,6 @@ public class UnitTests {
 	@Test
 	public void packageD() throws Exception {
 		testCompare("packageD");
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void wShapedInheritance() throws Exception {
-		testCompare("wShapedInheritance");
 	}
 
 	@Test

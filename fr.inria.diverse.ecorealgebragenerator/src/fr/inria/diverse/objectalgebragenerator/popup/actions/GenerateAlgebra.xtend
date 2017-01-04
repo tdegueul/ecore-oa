@@ -1,18 +1,17 @@
 package fr.inria.diverse.objectalgebragenerator.popup.actions
 
 import fr.inria.diverse.objectalgebragenerator.popup.actions.Graph.GraphNode
+import java.util.Comparator
 import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Map.Entry
 import java.util.Set
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.xtext.xbase.lib.Functions.Function1
-import java.util.Comparator
 import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtext.xbase.lib.Functions.Function1
 
 class GenerateAlgebra {
 
@@ -22,18 +21,15 @@ class GenerateAlgebra {
 		subtypes.filter[x|!x.isRoot].map[f|addChildren(f, allElems)].forEach[x|ret.addChild(x)]
 		ret
 	}
-
-	def String process(EObject eObject) {
-		val ePackage = eObject as EPackage
-
+	
+	def Graph<EClass> buildGraph(EPackage ePackage) {
 		val graph1 = new Graph<EClass>();
-		val visitedpackage = newHashSet()
-
-		visitPackages(visitedpackage, ePackage, graph1)
-
-		val c1 = graph1.clusters()
-		val List<List<GraphNode<EClass>>> clusters = c1.map[x|x.sortBy[y|y.elem.name]].sortBy[z|z.head.elem.name].toList
-		val Map<String, List<GraphNode<EClass>>> allTypes = clusters.toMap(new Function1<Object, String>() {
+		visitPackages(newHashSet(), ePackage, graph1)
+		graph1	
+	}
+	
+	def Map<String, List<GraphNode<EClass>>> buildAllTypes(List<List<GraphNode<EClass>>> clusters) {
+		clusters.toMap(new Function1<Object, String>() {
 
 			val char x = 'A'
 			var cptr = 0
@@ -46,8 +42,29 @@ class GenerateAlgebra {
 			}
 
 		})
+	}
+	
+	def List<List<GraphNode<EClass>>> calculateClusters(Graph<EClass> graphCurrentPackage) {
+		graphCurrentPackage.clusters().map[x|x.sortBy[y|y.elem.name]].sortBy[z|z.head.elem.name].toList		
+	}
+	
+	def buildConcretTypeForParents(EPackage ePackage, Map<String, List<GraphNode<EClass>>> allTypes) {
+		val graphCurrentPackage = buildGraph(ePackage)
+
+		val  clusters = calculateClusters(graphCurrentPackage)
 		
-		val allConcretTypes = allTypes.mapValues[x|x.filter[y|!y.elem.abstract]].filter[p1, p2|!p2.empty]
+		clusters.map[x | x.filter[z|!z.elem.abstract].head.elem.abstractType(allTypes)]
+	}
+	
+
+	def String process(EPackage ePackage) {
+
+		val graphCurrentPackage = buildGraph(ePackage)
+
+		val  clusters = calculateClusters(graphCurrentPackage)
+		val allTypes = buildAllTypes(clusters)
+		
+		val allConcretTypes = buildConcretTypes(allTypes)
 		
 		println('''
 		# All types
@@ -59,21 +76,13 @@ class GenerateAlgebra {
 		«ENDFOR»
 		''')
 
-		val allMethods = graph1.nodes.sortBy[e|e.elem.name].filter[e|e.elem.EPackage.equals(ePackage)].filter [e|
+		val allMethods = graphCurrentPackage.nodes.sortBy[e|e.elem.name].filter[e|e.elem.EPackage.equals(ePackage)].filter [e|
 			!e.elem.abstract
 		]
 
-		val allDirectPackagesByInheritance = allMethods.map[e|e.outgoing].flatten.map[e|e.elem.EPackage].filter [ e |
-			!e.equals(ePackage)
-		].toSet
 		
-		val allDirectPackageByReference = allMethods.map[e|e.elem.EReferences].map[e|e.directlyRelatedTypes].flatten.map[e|e.EPackage].filter [ e |
-			!e.equals(ePackage)
-		].toSet
 		
-		allDirectPackagesByInheritance.addAll(allDirectPackageByReference)
-		
-		val allDirectPackages = allDirectPackagesByInheritance.sortBy[name]
+		val allDirectPackages = allMethods.allDirectPackages(ePackage) 
 
 		val all$Types = allConcretTypes.mapValues[e|e.filter[f|f.elem.EPackage.equals(ePackage)]].
 			filter[p1, p2|!p2.empty]
@@ -90,7 +99,7 @@ class GenerateAlgebra {
 		import «imported»;
 		«ENDFOR»
 		
-		public interface «ePackage.toPackageName»«FOR x : allConcretTypes.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«FOR ePp : allDirectPackages.sortBy[name] BEFORE ' extends ' SEPARATOR ', '»«ePp.toPackageName»«FOR x : ePp.getListTypes(graph1, allTypes) BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«ENDFOR» {
+		public interface «ePackage.toPackageName»«FOR x : allConcretTypes.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«FOR ePp : allDirectPackages.sortBy[name].map[x | (x -> buildConcretTypeForParents(x, allTypes))] BEFORE ' extends ' SEPARATOR ', '»«ePp.key.toPackageName»«FOR x : ePp.value BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«ENDFOR» {
 		
 			«FOR eClass : allMethods.map[elem]»
 				«eClass.abstractType(allTypes)» «eClass.name.toFirstLower»(final «eClass.name» «eClass.name.toFirstLower»);
@@ -99,7 +108,7 @@ class GenerateAlgebra {
 			«FOR abstractTypes : all$Types.entrySet SEPARATOR '\n'»
 			«IF abstractTypes.value.getDirectPackages(ePackage).size > 0»@Override«ENDIF»
 			public default «abstractTypes.key» $(final «abstractTypes.value.findRootType.name» «abstractTypes.value.findRootType.name.toFirstLower») {
-				final «abstractTypes.key» ret;
+				«abstractTypes.key» ret;
 				«FOR type : abstractTypes.concretTypes(ePackage).map[elem].sortBy[name] BEFORE 'if' SEPARATOR ' else if' AFTER ''» («abstractTypes.value.findRootType.name.toFirstLower» instanceof «type.name») {
 					ret = this.«type.name.toFirstLower»((«type.name») «abstractTypes.value.findRootType.name.toFirstLower»);
 				}«ENDFOR» else {
@@ -112,6 +121,31 @@ class GenerateAlgebra {
 				return ret;
 			}«ENDFOR»
 		}'''
+	}
+	
+	def buildConcretTypes(Map<String, List<GraphNode<EClass>>> allTypes) {
+		allTypes.mapValues[x|x.filter[y|!y.elem.abstract]].filter[p1, p2|!p2.empty]
+	}
+	
+	def List<EPackage> allDirectPackages(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+		val allDirectPackagesByInheritance = nodes.getDirectPackageByInheritance(ePackage)
+		
+		val allDirectPackageByReference = nodes.getAllDirectPackagesByReference(ePackage)
+		
+		allDirectPackagesByInheritance.addAll(allDirectPackageByReference)
+		allDirectPackagesByInheritance.sortBy[name]
+	}
+	
+	def Set<EPackage> getAllDirectPackagesByReference(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+		nodes.map[e|e.elem.EReferences].map[e|e.directlyRelatedTypes].flatten.map[e|e.EPackage].filter [ e |
+			!e.equals(ePackage)
+		].toSet
+	}
+	
+	def Set<EPackage> getDirectPackageByInheritance(Iterable<GraphNode<EClass>> nodes, EPackage ePackage) {
+		nodes.map[e|e.outgoing].flatten.map[e|e.elem.EPackage].filter [ e |
+			!e.equals(ePackage)
+		].toSet
 	}
 
 
@@ -164,11 +198,32 @@ class GenerateAlgebra {
 
 	def Set<String> getListTypes(EPackage ePackage, Graph<EClass> graph, Map<String, List<GraphNode<EClass>>> allTypes) {
 		// we keep the root elements with at least a children which leads to current package
-		graph.nodes.sortBy[e|e.elem.name].filter[root].filter [e|
-			e.elem.EPackage.equals(ePackage) || e.children.exists[f|f.elem.EPackage.equals(ePackage)]
-		].map [ e |
-			e.elem.abstractType(allTypes)
-		].toSet
+		val visited = newHashSet()
+		val relatedToCurrentPackage = getListTypesRec(visited, ePackage, graph, allTypes)
+		
+		relatedToCurrentPackage.map [ e | e.elem.abstractType(allTypes) ].toSet
+	}
+	
+	def Iterable<GraphNode<EClass>> getListTypesRec(HashSet<EPackage> visited, EPackage ePackage, Graph<EClass> graph, Map<String, List<GraphNode<EClass>>> allTypes) {
+		if(!visited.contains(ePackage)) {
+			visited.add(ePackage)
+			val List<GraphNode<EClass>> relatedToCurrentPackage = graph.nodes.sortBy[e|e.elem.name].filter [e|
+				e.elem.EPackage.equals(ePackage) || e.children.exists[f|f.elem.EPackage.equals(ePackage)] || e.elem.EReferences.directlyRelatedTypes.exists[v|v.EPackage.equals(ePackage)]
+			].toList
+			
+			
+			val List<EPackage> letgo = relatedToCurrentPackage.allDirectPackages(ePackage)
+			letgo.forEach[n|
+				relatedToCurrentPackage.addAll(getListTypesRec(visited, n, graph, allTypes))
+			] 
+			
+			relatedToCurrentPackage
+			
+			
+			
+		} else {
+			newArrayList()
+		}
 	}
 
 	def String abstractType(EClass class1, Map<String, List<GraphNode<EClass>>> allTypes) {
