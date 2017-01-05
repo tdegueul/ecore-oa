@@ -12,13 +12,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import fr.inria.diverse.gfsm.abstr.GFSMAlgebra;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
 import fr.inria.diverse.gfsm.impl.GraphvizGFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.State;
 import gfsm.GFSM;
 import gfsm.GfsmPackage;
+import gfsm.algebra.GfsmAlgebra;
 
 public class Program1 {
 
@@ -67,7 +67,7 @@ public class Program1 {
 		}, progName).execute();
 	}
 
-	private <A, B, C, D, E, F> A make(final GFSMAlgebra<A, B, C, D, E, F> graphvizGFSMAlgebra,
+	private <A, B, F, C, D, E> F make(final GfsmAlgebra<A, B, F, C, D, E> graphvizGFSMAlgebra,
 			final String progName) {
 		final GFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);

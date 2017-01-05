@@ -5,24 +5,25 @@ import java.util.HashMap;
 import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.gfsm.impl.GraphvizGFSMAlgebra;
-import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import gtfsm.GTFSM;
 import gtfsm.GTFinalState;
 import gtfsm.GTInitialState;
 import gtfsm.GTState;
 import gtfsm.GTTransition;
+import gtfsm.algebra.GtfsmAlgebra;
 
 /*
  * TODO : Magically ... the concrete types are all matching since I am the developper of both previously implemented algebras ! 
  * We need to test a case when, for example, the interface used to define F, S or T is not the same for gfsm and tfsm;
  */
 public interface GraphvizGTFSMAlgebra extends
-		GTFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp>,
+//		GtfsmMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp>,
+GtfsmAlgebra<RepGraphvizExp, GraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp>,
 		GraphvizTFSMAlgebra, GraphvizGFSMAlgebra {
 
 	@Override
-	default RepGraphvizExp gtfsm(final GTFSM gtfsm) {
+	default RepGraphvizExp gTFSM(final GTFSM gtfsm) {
 		return (rep) -> {
 			rep.name = gtfsm.getName();
 			gtfsm.getTransitions().forEach(t -> this.$(t).result(rep));
@@ -31,9 +32,9 @@ public interface GraphvizGTFSMAlgebra extends
 	}
 
 	@Override
-	default RepGraphvizExp gtInitialState(final GTInitialState gtInitialState) {
+	default RepGraphvizExp gTInitialState(final GTInitialState gtInitialState) {
 		return (rep) -> {
-			final String nodeName = this.gtState(gtInitialState).result(rep);
+			final String nodeName = this.gTState(gtInitialState).result(rep);
 			final HashMap<String, String> properties = new HashMap<>();
 			properties.put("shape", "box");
 			properties.put("color", "red");
@@ -43,9 +44,9 @@ public interface GraphvizGTFSMAlgebra extends
 	}
 
 	@Override
-	default RepGraphvizExp gtFinalState(final GTFinalState gtFinalState) {
+	default RepGraphvizExp gTFinalState(final GTFinalState gtFinalState) {
 		return (rep) -> {
-			final String nodeName = this.gtState(gtFinalState).result(rep);
+			final String nodeName = this.gTState(gtFinalState).result(rep);
 			final HashMap<String, String> properties = new HashMap<>();
 			properties.put("shape", "box");
 			properties.put("color", "green");
@@ -55,7 +56,7 @@ public interface GraphvizGTFSMAlgebra extends
 	}
 
 	@Override
-	default RepGraphvizExp gtState(final GTState gtState) {
+	default RepGraphvizExp gTState(final GTState gtState) {
 		return rep -> {
 			final String stateName = GraphvizGTFSMAlgebra.this.state(gtState).result(rep);
 
@@ -85,7 +86,7 @@ public interface GraphvizGTFSMAlgebra extends
 	}
 
 	@Override
-	default RepGraphvizExp gtTransition(final GTTransition gtTransition) {
+	default RepGraphvizExp gTTransition(final GTTransition gtTransition) {
 		return this.gTransition(gtTransition);
 	}
 

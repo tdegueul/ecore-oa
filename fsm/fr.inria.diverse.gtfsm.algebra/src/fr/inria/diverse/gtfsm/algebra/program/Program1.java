@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebra;
 import fr.inria.diverse.gtfsm.algebra.impl.ExecutableGTFSMAlgebra;
 import fr.inria.diverse.gtfsm.algebra.impl.GraphvizGTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -22,16 +21,17 @@ import gfsm.GFSM;
 import gfsm.GfsmPackage;
 import gtfsm.GTFSM;
 import gtfsm.GtfsmPackage;
+import gtfsm.algebra.GtfsmAlgebra;
 
 public class Program1 {
 
-	private final class ExecutableGTFSMAlgebraImplementation implements ExecutableGTFSMAlgebra {
+	private final class ExecutableGtfsmAlgebraImplementation implements ExecutableGTFSMAlgebra {
 		private Map<String, Integer> ctx = new HashMap<>();
 		private State currentState;
 		private Map<Integer, String> timedActions;
 		private Integer time = 0;
 
-		private ExecutableGTFSMAlgebraImplementation(final Map<Integer, String> initTimedActions) {
+		private ExecutableGtfsmAlgebraImplementation(final Map<Integer, String> initTimedActions) {
 			this.timedActions = initTimedActions;
 		}
 
@@ -118,26 +118,26 @@ public class Program1 {
 
 		final Map<Integer, String> initTimedActions = new HashMap<Integer, String>();
 		initTimedActions.put(0, "t1");
-		this.make(gtfsm2, new ExecutableGTFSMAlgebraImplementation(initTimedActions)).execute();
+		this.make(gtfsm2, new ExecutableGtfsmAlgebraImplementation(initTimedActions)).execute();
 
 		System.out.println(this.make2(gfsm1, new GraphvizGTFSMAlgebra() {
 		}).result(new GraphvizRep()));
 
 		final Map<Integer, String> initTimedActions2 = new HashMap<Integer, String>();
 		initTimedActions2.put(0, "t1");
-		final ExecutableExp make2 = this.make2(gfsm1, new ExecutableGTFSMAlgebraImplementation(initTimedActions2));
+		final ExecutableExp make2 = this.make2(gfsm1, new ExecutableGtfsmAlgebraImplementation(initTimedActions2));
 		make2.execute();
 	}
 
-	private <A, B, C, D, E, F, G, H, I> A make(final String progName,
-			final GTFSMAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
+	private <A, B, C, D, E, F, G, H, I> F make(final String progName,
+			final GtfsmAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
 		final GTFSM model = this.createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
 
 	}
 
-	private <A, B, C, D, E, F, G, H, I> A make2(final String progName,
-			final GTFSMAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
+	private <A, B, C, D, E, F, G, H, I> F make2(final String progName,
+			final GtfsmAlgebra<A, B, C, D, E, F, G, H, I> graphvizGFSMAlgebra) {
 		final GFSM model = this.createModel2(progName);
 		return graphvizGFSMAlgebra.$(model);
 	}

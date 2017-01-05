@@ -13,7 +13,6 @@ import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
-import fr.inria.diverse.gtfsm.algebra.abstr.GTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fsm.Transition;
 import gfsm.GTransition;
@@ -22,16 +21,18 @@ import gtfsm.GTFinalState;
 import gtfsm.GTInitialState;
 import gtfsm.GTState;
 import gtfsm.GTTransition;
+import gtfsm.algebra.GtfsmAlgebra;
 import tfsm.ClockConstraintOperation;
 import tfsm.TimedFSM;
 import tfsm.TimedTransition;
 
 public interface ExecutableGTFSMAlgebra extends
-		GTFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>>,
+//ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>
+		GtfsmAlgebra<Boolean, CtxEvalExp<Integer, Boolean>, Void, CtxExecutableExp, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableExp,EvalOpExp<Integer> >,
 		ExecutableTFSMAlgebra, ExecutableGFSMAlgebra {
 
 	@Override
-	default ExecutableExp gtfsm(final GTFSM gtfsm) {
+	default ExecutableExp gTFSM(final GTFSM gtfsm) {
 		return () -> {
 			this.setCurrentState(gtfsm.getInitialstate());
 			this._processInExpression(this.getCurrentState());
@@ -46,17 +47,17 @@ public interface ExecutableGTFSMAlgebra extends
 	}
 
 	@Override
-	default ExecutableExp gtInitialState(final GTInitialState gtInitialState) {
-		return this.gtState(gtInitialState);
+	default ExecutableExp gTInitialState(final GTInitialState gtInitialState) {
+		return this.gTState(gtInitialState);
 	}
 
 	@Override
-	default ExecutableExp gtFinalState(final GTFinalState gtFinalState) {
-		return this.gtState(gtFinalState);
+	default ExecutableExp gTFinalState(final GTFinalState gtFinalState) {
+		return this.gTState(gtFinalState);
 	}
 
 	@Override
-	default ExecutableExp gtState(final GTState gtState) {
+	default ExecutableExp gTState(final GTState gtState) {
 		return () -> {
 			final String action = this.getTimedActions().get(this.getTime());
 
@@ -124,7 +125,7 @@ public interface ExecutableGTFSMAlgebra extends
 	}
 
 	@Override
-	default ExecutableExp gtTransition(final GTTransition gtTransition) {
+	default ExecutableExp gTTransition(final GTTransition gtTransition) {
 		return null;
 	}
 

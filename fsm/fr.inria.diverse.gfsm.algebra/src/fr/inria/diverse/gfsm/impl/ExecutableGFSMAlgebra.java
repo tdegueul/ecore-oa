@@ -11,7 +11,6 @@ import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
-import fr.inria.diverse.gfsm.abstr.GFSMAlgebra;
 import fsm.State;
 import fsm.Transition;
 import gfsm.GFSM;
@@ -19,9 +18,10 @@ import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
+import gfsm.algebra.GfsmAlgebra;
 
 public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpressionAlgebra,
-		GFSMAlgebra<ExecutableExp, ExecutableExp, ExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>> {
+		GfsmAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableExp, EvalOpExp<Integer>> {
 
 	void setCtx(Map<String, Integer> ctx);
 

@@ -14,8 +14,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference gfsm.ecore#//GState/inExpression"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference gfsm.ecore#//GState/outExpression"/>
     </genClasses>
-    <genClasses ecoreClass="gfsm.ecore#//GInitialState"/>
     <genClasses ecoreClass="gfsm.ecore#//GFinalState"/>
+    <genClasses ecoreClass="gfsm.ecore#//GInitialState"/>
     <genClasses ecoreClass="gfsm.ecore#//GFSM"/>
   </genPackages>
 </genmodel:GenModel>

@@ -6,15 +6,15 @@ import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
-import fr.inria.diverse.gfsm.abstr.GFSMAlgebra;
 import fsm.Transition;
 import gfsm.GFSM;
 import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
+import gfsm.algebra.GfsmAlgebra;
 
-public interface GraphvizGFSMAlgebra extends GraphvizFSMAlgebra, PrettyPrintExpressionAlgebra, GFSMAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp, GraphvizExp, GraphvizExp> {
+public interface GraphvizGFSMAlgebra extends GraphvizFSMAlgebra, PrettyPrintExpressionAlgebra, GfsmAlgebra<GraphvizExp, GraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, GraphvizExp> {
 
 	
 	
