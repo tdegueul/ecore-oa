@@ -97,7 +97,7 @@ public class UnitTests {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.getResource(uri, true);
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
-		final String fileContent = new GenerateAlgebra().process(ePackage);
+		final String fileContent = new GenerateAlgebra().processAlgebra(ePackage);
 		// System.out.println("# " + file);
 		final String expected = Files.readAllLines(new File(ROOT_PATH + "/results/" + file + ".java").toPath()).stream()
 				.collect(Collectors.joining("\n"));

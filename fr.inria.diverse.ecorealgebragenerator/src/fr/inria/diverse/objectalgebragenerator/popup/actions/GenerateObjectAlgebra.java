@@ -54,8 +54,39 @@ public class GenerateObjectAlgebra implements IObjectActionDelegate {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.getResource(uri, true);
 		final EPackage ePackage = (EPackage) resource.getContents().get(0);
-		final String fileContent = new GenerateAlgebra().process(ePackage);
 		final IProject project = selectedIFile.getProject();
+		generateAlgebra(ePackage, project);
+		generateAlgebraMemo(ePackage, project);
+
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (final CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void generateAlgebraMemo(EPackage ePackage, IProject project) {
+		final String fileContent = new GenerateAlgebra().processAlgebraMemo(ePackage);
+		final IPath directoryAlgebra = project.getLocation().append("src").append(ePackage.getName()).append("algebra");
+		directoryAlgebra.toFile().mkdirs();
+		final IPath fileJavaAlgebra = directoryAlgebra
+				.append(ePackage.getName().substring(0, 1).toUpperCase() + ePackage.getName().substring(1) + "AlgebraMemo")
+				.addFileExtension("java");
+
+		try {
+			final FileWriter fileWriter = new FileWriter(fileJavaAlgebra.toFile());
+			fileWriter.write(fileContent);
+			fileWriter.close();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void generateAlgebra(final EPackage ePackage, final IProject project) {
+		final String fileContent = new GenerateAlgebra().processAlgebra(ePackage);
 		final IPath directoryAlgebra = project.getLocation().append("src").append(ePackage.getName()).append("algebra");
 		directoryAlgebra.toFile().mkdirs();
 		final IPath fileJavaAlgebra = directoryAlgebra
@@ -69,14 +100,6 @@ public class GenerateObjectAlgebra implements IObjectActionDelegate {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (final CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	/**

@@ -43,8 +43,11 @@ class GenerateAlgebra {
 		clusters.map[x | x.filter[z|!z.elem.abstract].head.elem.abstractType(allTypes)]
 	}
 	
+		def String processAlgebraMemo(EPackage ePackage) { 
+			return "";
+		}
 
-	def String process(EPackage ePackage) {
+	def String processAlgebra(EPackage ePackage) {
 
 		val graphCurrentPackage = buildGraph(ePackage)
 
@@ -75,6 +78,7 @@ class GenerateAlgebra {
 		«FOR imported:imports.sort»
 		import «imported»;
 		«ENDFOR»
+		import java.util.Map;
 		
 		public interface «ePackage.toPackageName»«FOR x : allConcretTypes.keySet BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«FOR ePp : allDirectPackages.sortBy[name].map[x | (x -> buildConcretTypeForParents(x, allTypes))] BEFORE ' extends ' SEPARATOR ', '»«ePp.key.toPackageName»«FOR x : ePp.value BEFORE '<' SEPARATOR ', ' AFTER '>'»«x»«ENDFOR»«ENDFOR» {
 		
@@ -84,16 +88,25 @@ class GenerateAlgebra {
 			«ENDFOR»
 			«FOR abstractTypes : all$Types.entrySet SEPARATOR '\n'»
 			«IF abstractTypes.value.getDirectPackages(ePackage).size > 0»@Override«ENDIF»
+			
+			Map<«abstractTypes.value.findRootType.name», «abstractTypes.key»> get«abstractTypes.value.findRootType.name»Memo();
+			
 			public default «abstractTypes.key» $(final «abstractTypes.value.findRootType.name» «abstractTypes.value.findRootType.name.toFirstLower») {
-				«abstractTypes.key» ret;
-				«FOR type : abstractTypes.concretTypes(ePackage).map[elem].sortBy[name] BEFORE 'if' SEPARATOR ' else if' AFTER ''» («abstractTypes.value.findRootType.name.toFirstLower» instanceof «type.name») {
-					ret = this.«type.name.toFirstLower»((«type.name») «abstractTypes.value.findRootType.name.toFirstLower»);
-				}«ENDFOR» else {
-				«IF abstractTypes.value.getDirectPackages(ePackage).size > 0»
-					«abstractTypes.value.getDirectPackages(ePackage).toTryCatch(abstractTypes.value.findRootType.name.toFirstLower)»
-				«ELSE»
-								«'\t'»throw new RuntimeException("Unknow «abstractTypes.value.findRootType.name» " + «abstractTypes.value.findRootType.name.toFirstLower»);
-				«ENDIF»
+				final «abstractTypes.key» ret;
+				Map<«abstractTypes.value.findRootType.name», «abstractTypes.key»> memo = get«abstractTypes.value.findRootType.name»Memo();
+				if(memo.containsKey(«abstractTypes.value.findRootType.name.toFirstLower»)) {
+					ret = memo.get(«abstractTypes.value.findRootType.name.toFirstLower»);
+				} else {
+					«FOR type : abstractTypes.concretTypes(ePackage).map[elem].sortBy[name] BEFORE 'if' SEPARATOR ' else if' AFTER ''» («abstractTypes.value.findRootType.name.toFirstLower».eClass().getName().equals("«type.name»")) {
+						ret = this.«type.name.toFirstLower»((«type.name») «abstractTypes.value.findRootType.name.toFirstLower»);
+					}«ENDFOR» else {
+					«IF abstractTypes.value.getDirectPackages(ePackage).size > 0»
+						«abstractTypes.value.getDirectPackages(ePackage).toTryCatch(abstractTypes.value.findRootType.name.toFirstLower)»
+					«ELSE»
+									«'\t'»throw new RuntimeException("Unknow «abstractTypes.value.findRootType.name» " + «abstractTypes.value.findRootType.name.toFirstLower»);
+					«ENDIF»
+				}
+					memo.put(«abstractTypes.value.findRootType.name.toFirstLower», ret);
 				}
 				return ret;
 			}«ENDFOR»
