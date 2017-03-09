@@ -2,7 +2,6 @@ package fr.inria.diverse.gtfsm.algebra.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,6 +11,7 @@ import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fsm.Transition;
@@ -28,7 +28,7 @@ import tfsm.TimedTransition;
 
 public interface ExecutableGTFSMAlgebra extends
 //ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>
-		GtfsmAlgebra<Boolean, CtxEvalExp<Integer, Boolean>, Void, CtxExecutableExp, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableExp,EvalOpExp<Integer> >,
+		GtfsmAlgebra<Boolean, CtxEvalExp<Integer, Boolean>, Void, CtxExecutableExp, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer> >,
 		ExecutableTFSMAlgebra, ExecutableGFSMAlgebra {
 
 	@Override
@@ -72,17 +72,7 @@ public interface ExecutableGTFSMAlgebra extends
 			} else if (action != null) {
 				final EList<Transition> outgoingtransitions = gtState.getOutgoingtransitions();
 				final Stream<Transition> filter = outgoingtransitions.stream().filter(t -> t.getEvent().equals(action));
-				final List<Transition> res = filter.filter(t -> {
-					final boolean ret;
-					if (t instanceof GTransition) {
-						final Map<String, Integer> ctx = this.getCtx();
-						ret = this.$(((GTransition) t).getGuard()).result(ctx).orElseThrow(
-								() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
-					} else {
-						ret = false;
-					}
-					return ret;
-				}).filter(t -> {
+				final List<Transition> res = filter.filter(t -> $(t).execute()).filter(t -> {
 					final boolean ret;
 					if (t instanceof TimedTransition) {
 						final ClockConstraintOperation transitionguard = ((TimedTransition) t).getTransitionguard();
@@ -125,7 +115,7 @@ public interface ExecutableGTFSMAlgebra extends
 	}
 
 	@Override
-	default ExecutableExp gTTransition(final GTTransition gtTransition) {
+	default ExecutableTransition gTTransition(final GTTransition gtTransition) {
 		return null;
 	}
 

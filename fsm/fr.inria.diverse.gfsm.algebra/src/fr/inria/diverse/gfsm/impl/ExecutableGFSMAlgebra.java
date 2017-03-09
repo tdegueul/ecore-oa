@@ -10,6 +10,7 @@ import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
 import fsm.State;
 import fsm.Transition;
@@ -21,15 +22,16 @@ import gfsm.GTransition;
 import gfsm.algebra.GfsmAlgebra;
 
 public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpressionAlgebra,
-		GfsmAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableExp, EvalOpExp<Integer>> {
+		GfsmAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer>> {
 
 	void setCtx(Map<String, Integer> ctx);
 
 	Map<String, Integer> getCtx();
 
 	@Override
-	public default ExecutableExp gTransition(final GTransition gTransition) {
-		throw new RuntimeException("gTransition");
+	public default ExecutableTransition gTransition(final GTransition gTransition) {
+		return () -> $(gTransition.getGuard()).result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
+				() -> new RuntimeException("failed to process " + gTransition.getEvent() + " guard"));
 	}
 
 	@Override
@@ -43,17 +45,7 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 				}
 			} else {
 				final List<Transition> res = gState.getOutgoingtransitions().stream()
-						.filter(t -> t.getEvent().equals(action)).filter(t -> {
-					final boolean ret;
-					if (t instanceof GTransition) {
-						ret = $(((GTransition) t).getGuard())
-								.result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
-										() -> new RuntimeException("failed to process " + t.getEvent() + " guard"));
-					} else {
-						ret = false;
-					}
-					return ret;
-				}).collect(Collectors.toList());
+						.filter(t -> t.getEvent().equals(action)).filter(t -> $(t).execute()).collect(Collectors.toList());
 
 				if (res.size() == 1) {
 					System.out.println("transition: event " + action + " - " + gState.getName() + " -> "

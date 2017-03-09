@@ -2,6 +2,7 @@ package fr.inria.diverse.tfsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra
 import java.util.Map
 import tfsm.AndClockConstraint
@@ -20,7 +21,7 @@ import tfsm.UpperEqualClockConstraint
 import tfsm.algebra.TfsmAlgebra
 
 // find out a solution to overload types defined at an upper level at the level of the arguments (here timedActions vs userinput)
-interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableExp>, ExecutableFSMAlgebra {
+interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableTransition>, ExecutableFSMAlgebra {
 
 	def Map<Integer, String> getTimedActions()
 
@@ -48,7 +49,8 @@ interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutable
 	}
 
 	override timedTransition(TimedTransition timedTransition) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		// TODO: Check clocks here
+		return [true];
 	}
 
 	override timedState(TimedState state) {
@@ -66,8 +68,7 @@ interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutable
 				val nonGardedRes = state.outgoingtransitions.filter[e|e.event == action]
 				// aweful downcast !!
 				val res0 = nonGardedRes.filter [ e |
-					e instanceof TimedTransition && (e as TimedTransition).transitionguard == null ||
-						$((e as TimedTransition).transitionguard)
+					$(e).execute
 				]
 				val res = res0.map[e|(e as TimedTransition)]
 				val resSize = res.size

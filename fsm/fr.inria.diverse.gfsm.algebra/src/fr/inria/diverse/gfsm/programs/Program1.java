@@ -22,6 +22,7 @@ import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
 import fr.inria.diverse.gfsm.impl.GraphvizGFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -116,7 +117,7 @@ public class Program1 {
 			}
 
 			@Override
-			public Map<Transition, ExecutableExp> getTransitionMemo() {
+			public Map<Transition, ExecutableTransition> getTransitionMemo() {
 				return Maps.newHashMap();
 			}
 

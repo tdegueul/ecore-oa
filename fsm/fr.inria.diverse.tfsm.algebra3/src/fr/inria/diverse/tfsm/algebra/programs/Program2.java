@@ -14,6 +14,7 @@ import com.google.common.collect.Maps;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -73,7 +74,7 @@ public class Program2 {
 		defaultTimedActions.put(7, "b");
 		defaultTimedActions.put(9, "a");
 
-		final TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableExp> algExec = new ExecutableTFSMAlgebra() {
+		final TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableTransition> algExec = new ExecutableTFSMAlgebra() {
 
 			Map<Integer, String> timedActions = defaultTimedActions;
 
@@ -137,7 +138,7 @@ public class Program2 {
 			}
 
 			@Override
-			public Map<Transition, ExecutableExp> getTransitionMemo() {
+			public Map<Transition, ExecutableTransition> getTransitionMemo() {
 				return Maps.newHashMap();
 			}
 
@@ -162,7 +163,7 @@ public class Program2 {
 			}
 
 			@Override
-			public ExecutableExp transition(Transition transition) {
+			public ExecutableTransition transition(Transition transition) {
 				return null;
 			}
 

@@ -32,6 +32,7 @@ import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.gtfsm.algebra.impl.ExecutableGTFSMAlgebra;
 import fr.inria.diverse.gtfsm.algebra.impl.GraphvizGTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -144,7 +145,7 @@ public class Program1 {
 		}
 
 		@Override
-		public ExecutableExp gTransition(GTransition gTransition) {
+		public ExecutableTransition gTransition(GTransition gTransition) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -162,7 +163,7 @@ public class Program1 {
 		}
 
 		@Override
-		public Map<Transition, ExecutableExp> getTransitionMemo() {
+		public Map<Transition, ExecutableTransition> getTransitionMemo() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -276,7 +277,7 @@ public class Program1 {
 		}
 
 		@Override
-		public ExecutableExp transition(Transition transition) {
+		public ExecutableTransition transition(Transition transition) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -342,7 +343,7 @@ public class Program1 {
 		}
 
 		@Override
-		public ExecutableExp timedTransition(TimedTransition timedTransition) {
+		public ExecutableTransition timedTransition(TimedTransition timedTransition) {
 			// TODO Auto-generated method stub
 			return null;
 		}

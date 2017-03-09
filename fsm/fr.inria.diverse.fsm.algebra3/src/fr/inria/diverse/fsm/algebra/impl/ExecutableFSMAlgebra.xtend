@@ -1,15 +1,16 @@
 package fr.inria.diverse.fsm.algebra.impl
 
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition
 import fsm.FSM
 import fsm.FinalState
 import fsm.InitialState
 import fsm.State
 import fsm.Transition
-import java.util.Queue
 import fsm.algebra.FsmAlgebra
+import java.util.Queue
 
-interface ExecutableFSMAlgebra extends FsmAlgebra<ExecutableExp, ExecutableExp, ExecutableExp> {
+interface ExecutableFSMAlgebra extends FsmAlgebra<ExecutableExp, ExecutableExp, ExecutableTransition> {
 
 	override transition(Transition transition) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
