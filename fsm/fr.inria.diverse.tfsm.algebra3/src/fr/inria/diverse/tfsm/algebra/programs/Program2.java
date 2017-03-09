@@ -9,6 +9,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import com.google.common.collect.Maps;
+
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
 import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
@@ -16,7 +18,13 @@ import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.FSM;
+import fsm.FinalState;
+import fsm.InitialState;
 import fsm.State;
+import fsm.Transition;
+import tfsm.Clock;
+import tfsm.ClockConstraintOperation;
+import tfsm.ClockReset;
 import tfsm.TfsmPackage;
 import tfsm.algebra.TfsmAlgebra;
 
@@ -28,6 +36,36 @@ public class Program2 {
 
 	private void execute() {
 		final TfsmAlgebra<RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp, RepGraphvizExp> algGraphviz = new GraphvizTFSMAlgebra() {
+
+			@Override
+			public Map<FSM, RepGraphvizExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, RepGraphvizExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, RepGraphvizExp> getTransitionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<ClockConstraintOperation, RepGraphvizExp> getClockConstraintOperationMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Clock, RepGraphvizExp> getClockMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<ClockReset, RepGraphvizExp> getClockResetMemo() {
+				return Maps.newHashMap();
+			}
 
 		};
 		final Map<java.lang.Integer, String> defaultTimedActions = new HashMap<Integer, String>();
@@ -71,6 +109,61 @@ public class Program2 {
 			@Override
 			public void setCurrentState(final State state) {
 				this.currentState = state;
+			}
+
+			@Override
+			public Map<ClockConstraintOperation, Boolean> getClockConstraintOperationMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Clock, Void> getClockMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<ClockReset, CtxExecutableExp> getClockResetMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<FSM, ExecutableExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, ExecutableExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, ExecutableExp> getTransitionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public ExecutableExp fSM(FSM fSM) {
+				return null;
+			}
+
+			@Override
+			public ExecutableExp finalState(FinalState finalState) {
+				return null;
+			}
+
+			@Override
+			public ExecutableExp initialState(InitialState initialState) {
+				return null;
+			}
+
+			@Override
+			public ExecutableExp state(State state) {
+				return null;
+			}
+
+			@Override
+			public ExecutableExp transition(Transition transition) {
+				return null;
 			}
 
 		};

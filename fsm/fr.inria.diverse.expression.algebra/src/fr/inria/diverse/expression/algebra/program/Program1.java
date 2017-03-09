@@ -10,16 +10,35 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import com.google.common.collect.Maps;
+
 import expression.BooleanExpression;
 import expression.ExpressionPackage;
 import expression.IntExpression;
 import expression.IntOperation;
+import fr.inria.diverse.algebras.expressions.CtxEvalExp;
+import fr.inria.diverse.algebras.expressions.EvalOpExp;
+import fr.inria.diverse.algebras.expressions.GraphvizExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
 import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
 
 public class Program1 {
 
 	private final class PrettyPrintExpressionAlgebraImplementation implements PrettyPrintExpressionAlgebra {
+		@Override
+		public Map<BooleanExpression, GraphvizExp> getBooleanExpressionMemo() {
+			return Maps.newHashMap();
+		}
+
+		@Override
+		public Map<IntExpression, GraphvizExp> getIntExpressionMemo() {
+			return Maps.newHashMap();
+		}
+
+		@Override
+		public Map<IntOperation, GraphvizExp> getIntOperationMemo() {
+			return Maps.newHashMap();
+		}
 	}
 
 	public static void main(final String[] args) {
@@ -38,6 +57,20 @@ public class Program1 {
 		ctx.put("a", 200);
 		ctx.put("b", 200);
 		System.out.println(new EvalExpressionAlgebra() {
+			@Override
+			public Map<BooleanExpression, CtxEvalExp<Integer, Boolean>> getBooleanExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntExpression, CtxEvalExp<Integer, Integer>> getIntExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntOperation, EvalOpExp<Integer>> getIntOperationMemo() {
+				return Maps.newHashMap();
+			}
 		}.$(model).result(ctx));
 		System.out.println(ctx);
 
@@ -50,6 +83,20 @@ public class Program1 {
 		ctx.put("a", 200);
 		ctx.put("b", 200);
 		System.out.println(new EvalExpressionAlgebra() {
+			@Override
+			public Map<BooleanExpression, CtxEvalExp<Integer, Boolean>> getBooleanExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntExpression, CtxEvalExp<Integer, Integer>> getIntExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntOperation, EvalOpExp<Integer>> getIntOperationMemo() {
+				return Maps.newHashMap();
+			}
 		}.$(model).eval(ctx));
 		System.out.println(ctx);
 	}
@@ -61,6 +108,20 @@ public class Program1 {
 		ctx.put("a", 200);
 		ctx.put("b", 200);
 		System.out.println(new EvalExpressionAlgebra() {
+			@Override
+			public Map<BooleanExpression, CtxEvalExp<Integer, Boolean>> getBooleanExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntExpression, CtxEvalExp<Integer, Integer>> getIntExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntOperation, EvalOpExp<Integer>> getIntOperationMemo() {
+				return Maps.newHashMap();
+			}
 		}.$(model).result(ctx));
 		System.out.println(ctx);
 	}

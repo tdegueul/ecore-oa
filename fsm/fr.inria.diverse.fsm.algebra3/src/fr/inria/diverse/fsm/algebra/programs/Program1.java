@@ -1,8 +1,13 @@
 package fr.inria.diverse.fsm.algebra.programs;
 
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
+import com.google.common.collect.Maps;
+
+import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
@@ -23,6 +28,20 @@ public class Program1 {
 
 	private void execute() {
 		System.out.println(make(new GraphvizFSMAlgebra() {
+			@Override
+			public Map<FSM, RepGraphvizExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, RepGraphvizExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, RepGraphvizExp> getTransitionMemo() {
+				return Maps.newHashMap();
+			}
 		}).result(new GraphvizRep()));
 
 		final Queue<String> defaultUserInput = new LinkedList<String>();
@@ -45,6 +64,21 @@ public class Program1 {
 
 			public Queue<String> getUserinput() {
 				return userInput;
+			}
+
+			@Override
+			public Map<FSM, ExecutableExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, ExecutableExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, ExecutableExp> getTransitionMemo() {
+				return Maps.newHashMap();
 			}
 
 		}).execute();

@@ -8,4 +8,5 @@ Export-Package: fr.inria.diverse.expression.algebra.impl,
 Require-Bundle: fr.inria.diverse.expression.model;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi,
  fr.inria.diverse.algebras.expressions;bundle-version="1.0.0",
- fr.inria.diverse.utils;bundle-version="1.0.0"
+ fr.inria.diverse.utils;bundle-version="1.0.0",
+ com.google.guava;bundle-version="15.0.0"

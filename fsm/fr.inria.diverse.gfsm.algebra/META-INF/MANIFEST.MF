@@ -8,6 +8,7 @@ Require-Bundle: fr.inria.diverse.gfsm.model;bundle-version="0.1.0";visibility:=r
  fr.inria.diverse.expression.algebra;visibility:=reexport,
  fr.inria.diverse.algebras.expressions;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.ecore.xmi,
- fr.inria.diverse.utils;visibility:=reexport
+ fr.inria.diverse.utils;visibility:=reexport,
+ com.google.guava;bundle-version="15.0.0"
 Export-Package: fr.inria.diverse.gfsm.impl,
  fr.inria.diverse.gfsm.programs

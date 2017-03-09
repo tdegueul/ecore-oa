@@ -12,10 +12,22 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import com.google.common.collect.Maps;
+
+import expression.BooleanExpression;
+import expression.IntExpression;
+import expression.IntOperation;
+import fr.inria.diverse.algebras.expressions.CtxEvalExp;
+import fr.inria.diverse.algebras.expressions.EvalOpExp;
+import fr.inria.diverse.algebras.expressions.GraphvizExp;
+import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
+import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
 import fr.inria.diverse.gfsm.impl.GraphvizGFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
+import fsm.FSM;
 import fsm.State;
+import fsm.Transition;
 import gfsm.GFSM;
 import gfsm.GfsmPackage;
 import gfsm.algebra.GfsmAlgebra;
@@ -30,6 +42,35 @@ public class Program1 {
 		final Queue<String> initUserInput = new LinkedList<>();
 		initUserInput.add("t1");
 		System.out.println(this.make(new GraphvizGFSMAlgebra() {
+			@Override
+			public Map<FSM, RepGraphvizExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, RepGraphvizExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, RepGraphvizExp> getTransitionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<BooleanExpression, GraphvizExp> getBooleanExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntExpression, GraphvizExp> getIntExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntOperation, GraphvizExp> getIntOperationMemo() {
+				return Maps.newHashMap();
+			}
 		}, progName).result(new GraphvizRep()));
 		this.make(new ExecutableGFSMAlgebra() {
 
@@ -62,6 +103,36 @@ public class Program1 {
 			@Override
 			public Map<String, Integer> getCtx() {
 				return this.ctx;
+			}
+
+			@Override
+			public Map<FSM, ExecutableExp> getFSMMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<State, ExecutableExp> getStateMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<Transition, ExecutableExp> getTransitionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<BooleanExpression, CtxEvalExp<Integer, Boolean>> getBooleanExpressionMemo() {
+				return Maps.newHashMap();
+			}
+	
+			@Override
+			public Map<IntExpression, CtxEvalExp<Integer, Integer>> getIntExpressionMemo() {
+				return Maps.newHashMap();
+			}
+
+			@Override
+			public Map<IntOperation, EvalOpExp<Integer>> getIntOperationMemo() {
+				return Maps.newHashMap();
 			}
 
 		}, progName).execute();
