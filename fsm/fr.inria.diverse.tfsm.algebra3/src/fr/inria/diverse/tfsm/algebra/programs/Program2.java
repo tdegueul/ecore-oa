@@ -184,7 +184,7 @@ public class Program2 {
 		final TfsmPackage fsmPackage = TfsmPackage.eINSTANCE;
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
-				.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.tfsm.algebra3/model/TFSM1.tfsm");
+				.createURI("model/TFSM1.tfsm");
 		final Resource resource = resSet.getResource(createURI, true);
 		return (FSM) resource.getContents().get(0);
 	}

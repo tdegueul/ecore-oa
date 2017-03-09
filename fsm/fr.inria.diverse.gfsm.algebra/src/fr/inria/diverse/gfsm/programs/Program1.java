@@ -150,7 +150,7 @@ public class Program1 {
 		final GfsmPackage gFsmPackage = GfsmPackage.eINSTANCE;
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
-				.createURI("/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/" + progName);
+				.createURI("model/" + progName);
 		final Resource resource = resSet.getResource(createURI, true);
 		final EList<EObject> contents = resource.getContents();
 		return (GFSM) contents.get(0);

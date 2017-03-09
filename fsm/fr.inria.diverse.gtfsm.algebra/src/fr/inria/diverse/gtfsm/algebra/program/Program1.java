@@ -406,9 +406,9 @@ public class Program1 {
 	private void execute() {
 
 		// TODO: Replacing with System.getProperty("user.dir")
-		final String gtfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GTFSM1.gtfsm";
-		final String gtfsm2 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gtfsm.algebra/model/GFSM1.gtfsm";
-		final String gfsm1 = "/home/mleduc/dev/ecore/ecore-oa/fsm/fr.inria.diverse.gfsm.algebra/model/GFSM1.gfsm";
+		final String gtfsm1 = "model/GTFSM1.gtfsm";
+		final String gtfsm2 = "model/GFSM1.gtfsm";
+		final String gfsm1 = "model/GFSM1.gfsm";
 		System.out.println(this.make(gtfsm1, new GraphvizGTFSMAlgebra() {
 			@Override
 			public RepGraphvizExp gFSM(GFSM gFSM) {
