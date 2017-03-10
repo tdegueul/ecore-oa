@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Algebra3
-Bundle-SymbolicName: fr.inria.diverse.fsm.algebra3
+Bundle-Name: FsmAlgebra
+Bundle-SymbolicName: fr.inria.diverse.fsm.algebra
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.fsm.algebra.exprs,
  fr.inria.diverse.fsm.algebra.impl,
