@@ -11,4 +11,5 @@ Require-Bundle: fr.inria.diverse.tfsm.ecore;bundle-version="0.1.0";visibility:=r
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.1"
 Export-Package: fr.inria.diverse.tfsm.algebra.impl,
  fr.inria.diverse.tfsm.algebra.programs
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

@@ -12,3 +12,4 @@ Require-Bundle: fr.inria.diverse.gfsm.model;bundle-version="0.1.0";visibility:=r
  com.google.guava;bundle-version="15.0.0"
 Export-Package: fr.inria.diverse.gfsm.impl,
  fr.inria.diverse.gfsm.programs
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
