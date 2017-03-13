@@ -25,7 +25,7 @@ public interface ExecutableFSMAlgebra extends FsmAlgebra<ExecutableExp, Executab
 		return () -> {
 			String action = getUserinput().poll();
 			if (action == null) {
-				if (!(getCurrentState() instanceof FinalState)) // FIXME: Avoid casts
+				if (!(getCurrentState() instanceof FinalState))
 					System.out.println("[ERROR] no action available but final state not reached");
 			} else {
 				List<Transition> res =

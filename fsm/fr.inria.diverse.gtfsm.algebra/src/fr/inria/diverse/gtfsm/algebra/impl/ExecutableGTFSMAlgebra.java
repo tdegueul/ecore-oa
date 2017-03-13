@@ -58,7 +58,7 @@ public interface ExecutableGTFSMAlgebra extends
 				.collect(Collectors.counting());
 
 			if (futureActions == 0) {
-				if (!(getCurrentState() instanceof GTFinalState)) // FIXME: Avoid casts
+				if (!(getCurrentState() instanceof GTFinalState))
 					System.out.println(
 						"[ERROR] no action available but final state not reached (" + gtState.getName() + ")");
 				setCurrentState(null);

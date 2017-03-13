@@ -63,7 +63,7 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 				.collect(Collectors.counting());
 
 			if (futureActions == 0) {
-				if (!(getCurrentState() instanceof TimedFinalState)) { // FIXME: Avoid casts
+				if (!(getCurrentState() instanceof TimedFinalState)) {
 					System.out.println("[ERROR] no action available but final state not reached");
 					setCurrentState(null);
 				}

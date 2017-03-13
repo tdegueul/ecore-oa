@@ -44,7 +44,7 @@ public interface ExecutableGFSMAlgebra extends
 		return () -> {
 			String action = ExecutableGFSMAlgebra.this.getUserinput().poll();
 			if (action == null) {
-				if (!(ExecutableGFSMAlgebra.this.getCurrentState() instanceof GFinalState)) { // FIXME: Avoid casts
+				if (!(ExecutableGFSMAlgebra.this.getCurrentState() instanceof GFinalState)) {
 					System.out.println("[ERROR] no action available but final state not reached");
 					ExecutableGFSMAlgebra.this.setCurrentState(null);
 				}
