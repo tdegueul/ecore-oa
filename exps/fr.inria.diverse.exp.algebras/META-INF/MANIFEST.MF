@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ExpEcoreAlgebra
+Bundle-SymbolicName: fr.inria.diverse.exp.algebras
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.11.2",
+ fr.inria.diverse.exp.model;bundle-version="1.0.0",
+ fr.inria.diverse.mul.model;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

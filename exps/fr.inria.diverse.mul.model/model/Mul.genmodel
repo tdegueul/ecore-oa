@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/MulEcore/src" modelPluginID="MulEcore" modelName="Mul"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../fr.inria.diverse.exp.model/model/Exp.genmodel#//exp"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>Mul.ecore</foreignModel>
+  <genPackages prefix="Mul" disposableProviderFactory="true" ecorePackage="Mul.ecore#/">
+    <genClasses ecoreClass="Mul.ecore#//Mul">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Mul.ecore#//Mul/lhs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Mul.ecore#//Mul/rhs"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
