@@ -1,4 +1,4 @@
-package fr.inria.diverse.expression.algebra.program;
+package fr.inria.diverse.expression.algebra.programs;
 
 import java.util.HashMap;
 import java.util.Map;

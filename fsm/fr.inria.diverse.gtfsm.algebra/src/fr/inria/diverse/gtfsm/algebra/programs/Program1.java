@@ -1,4 +1,4 @@
-package fr.inria.diverse.gtfsm.algebra.program;
+package fr.inria.diverse.gtfsm.algebra.programs;
 
 import java.util.HashMap;
 import java.util.LinkedList;

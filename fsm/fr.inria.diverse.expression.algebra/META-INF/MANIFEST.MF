@@ -4,7 +4,7 @@ Bundle-Name: Algebra
 Bundle-SymbolicName: fr.inria.diverse.expression.algebra
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.expression.algebra.impl,
- fr.inria.diverse.expression.algebra.program,
+ fr.inria.diverse.expression.algebra.programs,
  fr.inria.diverse.expression.algebra.semantics
 Require-Bundle: fr.inria.diverse.expression.model;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi,
