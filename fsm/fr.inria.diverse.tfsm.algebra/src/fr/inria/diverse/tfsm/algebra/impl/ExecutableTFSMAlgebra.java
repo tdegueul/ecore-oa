@@ -1,5 +1,6 @@
 package fr.inria.diverse.tfsm.algebra.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ import tfsm.algebra.TfsmAlgebra;
 
 public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExecutableExp, ExecutableExp, ExecutableExp, ExecutableTransition>, ExecutableFSMAlgebra {
 	@Override
-	public default ExecutableExp timedFSM(TimedFSM tfsm) {
+	public default ExecutableExp timedFSM(final TimedFSM tfsm) {
 		return () -> {
 			setCurrentState(tfsm.getInitialstate());
 			while (getCurrentState() != null) {
@@ -38,29 +39,31 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 	}
 
 	@Override
-	public default ExecutableExp timedInitialState(TimedInitialState s) {
+	public default ExecutableExp timedInitialState(final TimedInitialState s) {
 		return timedState(s);
 	}
 
 	@Override
-	public default ExecutableExp timedFinalState(TimedFinalState s) {
+	public default ExecutableExp timedFinalState(final TimedFinalState s) {
 		return timedState(s);
 	}
 
 	@Override
-	public default ExecutableTransition timedTransition(TimedTransition tt) {
-		// FIXME: Check clocks here
-		return () -> true;
+	public default ExecutableTransition timedTransition(final TimedTransition tt) {
+		return () -> tt.getTransitionguard() == null || $(tt.getTransitionguard());
 	}
 
 	@Override
-	public default ExecutableExp timedState(TimedState s) {
+	public default ExecutableExp timedState(final TimedState s) {
 		return () -> {
 			String action = getTimedActions().get(getTime());
-			
-			long futureActions = getTimedActions().keySet().stream().filter(p -> p > getTime()).count();
+			long futureActions =
+				getTimedActions().keySet().stream()
+				.filter(p -> p > getTime())
+				.collect(Collectors.counting());
+
 			if (futureActions == 0) {
-				if (!(getCurrentState() instanceof TimedFinalState)) {
+				if (!(getCurrentState() instanceof TimedFinalState)) { // FIXME: Avoid casts
 					System.out.println("[ERROR] no action available but final state not reached");
 					setCurrentState(null);
 				}
@@ -69,30 +72,33 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 						s.getOutgoingtransitions()
 						.stream()
 						.filter(t -> t.getEvent().equals(action) && $(t).execute())
-						.map(t -> (TimedTransition) t) // FIXME: Uh
+						.map(t -> (TimedTransition) t) // FIXME: Avoid casts
 						.collect(Collectors.toList());
 				int size = nonGuardedRes.size();
 
 				if (size > 1) {
-					System.out.println("[ERROR] non deterministic: " + size + " outgoing transitions match event " + action);
+					System.out.println(MessageFormat.format("[ERROR] non deterministic: {0} outgoing transitions match event {1}",
+						size, action));
 					setCurrentState(null);
 				} else if (size == 1) {
 					TimedTransition trans = nonGuardedRes.get(0);
 					State next = trans.getTo();
-					System.out.println("transition (time " + getTime() + "): event " + action + " - " + getCurrentState().getName() + " -> " + next.getName());
+					System.out.println(MessageFormat.format("transition (time {0}): event {1} - {2} -> {3}",
+						getTime(), action, getCurrentState().getName(), next.getName()));
 					trans.getClockresets().forEach(r -> r.getClock().setTick(0));
 					System.out.println("clocks:");
-					for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: Uh
+					for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: EOpposite to avoid cast on eContainer()?
 						System.out.println("\t- clock " + c.getName() + " = " + c.getTick());
 					System.out.println();
 					setCurrentState(next);
 				}
 			}
 			
-			if (!$(((TimedState) getCurrentState()).getStateguard())) { // FIXME: Uh
-				System.out.println("[ERROR] deadlock! State guard triggered at time " + getTime() + " on state " + getCurrentState().getName());
+			if (!$(((TimedState) getCurrentState()).getStateguard())) { // FIXME: Uh, avoid casts
+				System.out.println(MessageFormat.format("ERROR] deadlock! State guard triggered at time {0} on state {1}",
+					getTime(), getCurrentState().getName()));
 				System.out.println("clocks:");
-				for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: Uh
+				for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: EOpposite to avoid cast on eContainer()?
 					System.out.println("\t- clock " + c.getName() + " = " + c.getTick());
 				System.out.println();
 				setCurrentState(null);
@@ -101,47 +107,49 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 	}
 
 	@Override
-	public default Void clock(Clock c) {
+	public default Void clock(final Clock c) {
+		// FIXME: Is this normal?
 		throw new UnsupportedOperationException("TODO: auto-generated method stub");
 	}
 
 	@Override
-	public default CtxExecutableExp clockReset(ClockReset cr) {
+	public default CtxExecutableExp clockReset(final ClockReset cr) {
+		// FIXME: Is this normal?
 		throw new UnsupportedOperationException("TODO: auto-generated method stub");
 	}
 
 	@Override
-	public default Boolean lowerClockConstraint(LowerClockConstraint clockConstraint) {
+	public default Boolean lowerClockConstraint(final LowerClockConstraint clockConstraint) {
 		return clockConstraint.getClock().getTick() < clockConstraint.getThreshold();
 	}
 
 	@Override
-	public default Boolean lowerEqualClockConstraint(LowerEqualClockConstraint lowerEqualClockConstraint) {
+	public default Boolean lowerEqualClockConstraint(final LowerEqualClockConstraint lowerEqualClockConstraint) {
 		return lowerEqualClockConstraint.getClock().getTick() <= lowerEqualClockConstraint.getThreshold();
 	}
 
 	@Override
-	public default Boolean upperClockConstraint(UpperClockConstraint upperClockConstraint) {
+	public default Boolean upperClockConstraint(final UpperClockConstraint upperClockConstraint) {
 		return upperClockConstraint.getClock().getTick() > upperClockConstraint.getThreshold();
 	}
 
 	@Override
-	public default Boolean upperEqualClockConstraint(UpperEqualClockConstraint upperEqualClockConstraint) {
+	public default Boolean upperEqualClockConstraint(final UpperEqualClockConstraint upperEqualClockConstraint) {
 		return upperEqualClockConstraint.getClock().getTick() >= upperEqualClockConstraint.getThreshold();
 	}
 
 	@Override
-	public default Boolean andClockConstraint(AndClockConstraint andClockConstraint) {
+	public default Boolean andClockConstraint(final AndClockConstraint andClockConstraint) {
 		return $(andClockConstraint.getLeft()) && $(andClockConstraint.getRight());
 	}
 
 	@Override
-	public default Boolean orClockConstraint(OrClockConstraint orClockConstraint) {
+	public default Boolean orClockConstraint(final OrClockConstraint orClockConstraint) {
 		return $(orClockConstraint.getLeft()) || $(orClockConstraint.getRight());
 	}
 
 	// FIXME: What are these?
 	public Map<Integer, String> getTimedActions();
 	public Integer getTime();
-	public void setTime(Integer t);
+	public void setTime(final Integer t);
 }

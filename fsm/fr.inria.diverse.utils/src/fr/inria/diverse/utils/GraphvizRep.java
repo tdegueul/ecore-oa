@@ -1,14 +1,14 @@
 package fr.inria.diverse.utils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 public class GraphvizRep {
-	public Map<String, Map<String, String>> nodes = Maps.newHashMap();
+	public Map<String, Map<String, String>> nodes = new HashMap<>();
 	public List<String> edges = Lists.newArrayList();
 	public String name;
 
@@ -29,8 +29,5 @@ public class GraphvizRep {
 	public void addNode(String nodeName, Map<String, String> props) {
 		if (!nodes.containsKey(nodeName))
 			nodes.put(nodeName, props);
-
-		Map<String, String> node = nodes.get(nodeName);
-		node.putAll(props);
 	}
 }

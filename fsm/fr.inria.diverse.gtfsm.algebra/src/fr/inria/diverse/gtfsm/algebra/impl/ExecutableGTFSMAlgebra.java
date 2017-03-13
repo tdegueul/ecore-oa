@@ -1,10 +1,8 @@
 package fr.inria.diverse.gtfsm.algebra.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.eclipse.emf.common.util.EList;
 
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
@@ -20,101 +18,87 @@ import gtfsm.GTInitialState;
 import gtfsm.GTState;
 import gtfsm.GTTransition;
 import gtfsm.algebra.GtfsmAlgebra;
-import tfsm.ClockConstraintOperation;
 import tfsm.TimedFSM;
-import tfsm.TimedTransition;
 
 public interface ExecutableGTFSMAlgebra extends
-//ExecutableExp, ExecutableExp, ExecutableExp, Void, Boolean, CtxExecutableExp, CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>
-		GtfsmAlgebra<Boolean, CtxEvalExp<Integer, Boolean>, Void, CtxExecutableExp, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer> >,
-		ExecutableTFSMAlgebra, ExecutableGFSMAlgebra {
+	ExecutableTFSMAlgebra,
+	ExecutableGFSMAlgebra,
+	GtfsmAlgebra<Boolean, CtxEvalExp<Integer, Boolean>, Void, CtxExecutableExp, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer> > {
 
 	@Override
 	default ExecutableExp gTFSM(final GTFSM gtfsm) {
 		return () -> {
-			this.setCurrentState(gtfsm.getInitialstate());
-			this._processInExpression(this.getCurrentState());
-			while (this.getCurrentState() != null) {
-				this.$(this.getCurrentState()).execute();
-				gtfsm.getClocks().forEach(e -> {
-					e.setTick(e.getTick() + 1);
-				});
-				this.setTime(this.getTime() + 1);
+			setCurrentState(gtfsm.getInitialstate());
+			_processInExpression(getCurrentState());
+			while (getCurrentState() != null) {
+				$(getCurrentState()).execute();
+				gtfsm.getClocks().forEach(e -> e.setTick(e.getTick() + 1));
+				setTime(getTime() + 1);
 			}
 		};
 	}
 
 	@Override
 	default ExecutableExp gTInitialState(final GTInitialState gtInitialState) {
-		return this.gTState(gtInitialState);
+		return gTState(gtInitialState);
 	}
 
 	@Override
 	default ExecutableExp gTFinalState(final GTFinalState gtFinalState) {
-		return this.gTState(gtFinalState);
+		return gTState(gtFinalState);
 	}
 
 	@Override
 	default ExecutableExp gTState(final GTState gtState) {
 		return () -> {
-			final String action = this.getTimedActions().get(this.getTime());
+			String action = getTimedActions().get(getTime());
+			long futureActions =
+				getTimedActions().entrySet().stream()
+				.filter(t -> t.getKey() >= getTime())
+				.collect(Collectors.counting());
 
-			final Long futureActions = this.getTimedActions().entrySet().stream()
-					.filter(t -> t.getKey() >= this.getTime()).collect(Collectors.counting());
 			if (futureActions == 0) {
-				if (!(this.getCurrentState() instanceof GTFinalState)) {
+				if (!(getCurrentState() instanceof GTFinalState)) // FIXME: Avoid casts
 					System.out.println(
-							"[ERROR] no action available but final state not reached (" + gtState.getName() + ")");
-				}
-				this.setCurrentState(null);
+						"[ERROR] no action available but final state not reached (" + gtState.getName() + ")");
+				setCurrentState(null);
 			} else if (action != null) {
-				final EList<Transition> outgoingtransitions = gtState.getOutgoingtransitions();
-				final Stream<Transition> filter = outgoingtransitions.stream().filter(t -> t.getEvent().equals(action));
-				final List<Transition> res = filter.filter(t -> $(t).execute()).filter(t -> {
-					final boolean ret;
-					if (t instanceof TimedTransition) {
-						final ClockConstraintOperation transitionguard = ((TimedTransition) t).getTransitionguard();
-						ret = transitionguard == null || this.$(transitionguard);
-					} else {
-						ret = false;
-					}
+				List<Transition> res =
+					gtState.getOutgoingtransitions().stream()
+					.filter(t -> t.getEvent().equals(action) && $(t).execute())
+					.collect(Collectors.toList());
+				int resSize = res.size();
 
-					return ret;
-				}).collect(Collectors.toList());
-
-				final int size = res.size();
-				if (size == 1) {
-					final GTTransition transition = (GTTransition) res.get(0);
-					System.out.println("transition: event " + action + " - " + gtState.getName() + " -> "
-							+ transition.getTo().getName());
+				if (resSize == 1) {
+					GTTransition transition = (GTTransition) res.get(0); // FIXME: Avoid casts
+					System.out.println(MessageFormat.format("transition: event {0} - {1} -> {2}",
+						action, gtState.getName(), transition.getTo().getName()));
 					transition.getClockresets().forEach(c -> c.getClock().setTick(0));
 
 					System.out.println("clocks:");
-					((TimedFSM) gtState.eContainer()).getClocks().forEach(c -> {
-						System.out.println(" - clock " + c.getName() + " = " + c.getTick());
-					});
-					this._printCtx();
-					this._processOutExpression(this.getCurrentState());
-					this._printCtx();
-					this.setCurrentState(transition.getTo());
-					this._processInExpression(this.getCurrentState());
-					this._printCtx();
-				} else if (size > 1) {
-					System.out.println(
-							"[ERROR] Non deterministic " + size + " outgoing transitions matches event " + action);
-					this.setCurrentState(null);
+					((TimedFSM) gtState.eContainer()).getClocks().forEach(c -> // FIXME: EOpposite to avoid the eContainer() cast?
+						System.out.println(" - clock " + c.getName() + " = " + c.getTick())
+					);
+					_printCtx();
+					_processOutExpression(getCurrentState());
+					_printCtx();
+					setCurrentState(transition.getTo());
+					_processInExpression(getCurrentState());
+					_printCtx();
+				} else if (resSize > 1) {
+					System.out.println(MessageFormat.format("[ERROR] Non deterministic {0} outgoing transitions match event {1}",
+						resSize, action));
+					setCurrentState(null);
 				} else {
 					System.out.println("[ERROR] Deadlock");
-					this.setCurrentState(null);
+					setCurrentState(null);
 				}
 			}
-
 		};
 	}
 
 	@Override
 	default ExecutableTransition gTTransition(final GTTransition gtTransition) {
-		return null;
+		return null; // FIXME: Mh. Is that normal?
 	}
-
 }

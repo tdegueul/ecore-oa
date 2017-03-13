@@ -21,10 +21,8 @@ import fsm.Transition;
 import fsm.algebra.FsmAlgebra;
 
 public class Program1 {
-
 	public static void main(final String[] args) {
 		new Program1().execute();
-
 	}
 
 	private void execute() {
@@ -45,14 +43,12 @@ public class Program1 {
 			}
 		}).result(new GraphvizRep()));
 
-		final Queue<String> defaultUserInput = new LinkedList<String>();
+		final Queue<String> defaultUserInput = new LinkedList<>();
 		defaultUserInput.add("a");
 		defaultUserInput.add("b");
 
 		make(new ExecutableFSMAlgebra() {
-
 			State state;
-
 			Queue<String> userInput = defaultUserInput;
 
 			public State getCurrentState() {
@@ -81,48 +77,50 @@ public class Program1 {
 			public Map<Transition, ExecutableTransition> getTransitionMemo() {
 				return Maps.newHashMap();
 			}
-
 		}).execute();
 	}
 
 	private <F, S, T> F make(final FsmAlgebra<F, S, T> f) {
-		final FSM exp = createModel();
-
+		FSM exp = createModel();
 		return f.$(exp);
 	}
 
 	private FSM createModel() {
-		final FsmFactory expF = FsmFactory.eINSTANCE;
+		FsmFactory expF = FsmFactory.eINSTANCE;
 
-		final InitialState initial = expF.createInitialState();
+		InitialState initial = expF.createInitialState();
 		initial.setName("first");
-		final State nodea = expF.createState();
+
+		State nodea = expF.createState();
 		nodea.setName("A");
-		final State nodeb = expF.createState();
+
+		State nodeb = expF.createState();
 		nodeb.setName("B");
-		final FinalState end = expF.createFinalState();
+
+		FinalState end = expF.createFinalState();
 		end.setName("last");
 
-		final Transition t1 = expF.createTransition();
+		Transition t1 = expF.createTransition();
 		t1.setFrom(initial);
 		t1.setTo(nodea);
 		t1.setEvent("a");
-		final Transition t2 = expF.createTransition();
+
+		Transition t2 = expF.createTransition();
 		t2.setFrom(initial);
 		t2.setTo(nodeb);
 		t2.setEvent("c");
-		final Transition t3 = expF.createTransition();
+
+		Transition t3 = expF.createTransition();
 		t3.setFrom(nodea);
 		t3.setTo(end);
 		t3.setEvent("b");
 
-		final FSM ret = expF.createFSM();
-
+		FSM ret = expF.createFSM();
 		ret.getTransitions().add(t1);
 		ret.getTransitions().add(t2);
 		ret.getTransitions().add(t3);
 		ret.setInitialstate(initial);
+	
 		return ret;
 	}
-
 }

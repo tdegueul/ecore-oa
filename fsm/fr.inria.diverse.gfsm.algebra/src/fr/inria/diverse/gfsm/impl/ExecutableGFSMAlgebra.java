@@ -1,5 +1,6 @@
 package fr.inria.diverse.gfsm.impl;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,8 +22,10 @@ import gfsm.GState;
 import gfsm.GTransition;
 import gfsm.algebra.GfsmAlgebra;
 
-public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpressionAlgebra,
-		GfsmAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer>> {
+public interface ExecutableGFSMAlgebra extends
+	ExecutableFSMAlgebra,
+	EvalExpressionAlgebra,
+	GfsmAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, ExecutableExp, ExecutableExp, ExecutableTransition, EvalOpExp<Integer>> {
 
 	void setCtx(Map<String, Integer> ctx);
 
@@ -30,85 +33,88 @@ public interface ExecutableGFSMAlgebra extends ExecutableFSMAlgebra, EvalExpress
 
 	@Override
 	public default ExecutableTransition gTransition(final GTransition gTransition) {
-		return () -> $(gTransition.getGuard()).result(ExecutableGFSMAlgebra.this.getCtx()).orElseThrow(
-				() -> new RuntimeException("failed to process " + gTransition.getEvent() + " guard"));
+		return () ->
+			$(gTransition.getGuard())
+			.result(ExecutableGFSMAlgebra.this.getCtx())
+			.orElseThrow(() -> new RuntimeException("failed to process " + gTransition.getEvent() + " guard"));
 	}
 
 	@Override
 	public default ExecutableExp gState(final GState gState) {
 		return () -> {
-			final String action = ExecutableGFSMAlgebra.this.getUserinput().poll();
+			String action = ExecutableGFSMAlgebra.this.getUserinput().poll();
 			if (action == null) {
-				if (!(ExecutableGFSMAlgebra.this.getCurrentState() instanceof GFinalState)) {
+				if (!(ExecutableGFSMAlgebra.this.getCurrentState() instanceof GFinalState)) { // FIXME: Avoid casts
 					System.out.println("[ERROR] no action available but final state not reached");
 					ExecutableGFSMAlgebra.this.setCurrentState(null);
 				}
 			} else {
-				final List<Transition> res = gState.getOutgoingtransitions().stream()
-						.filter(t -> t.getEvent().equals(action)).filter(t -> $(t).execute()).collect(Collectors.toList());
+				final List<Transition> res =
+					gState.getOutgoingtransitions().stream()
+					.filter(t -> t.getEvent().equals(action) && $(t).execute())
+					.collect(Collectors.toList());
+				int resSize = res.size();
 
-				if (res.size() == 1) {
-					System.out.println("transition: event " + action + " - " + gState.getName() + " -> "
-							+ res.get(0).getTo().getName());
-					this._printCtx();
-					this._processOutExpression(this.getCurrentState());
-					this._printCtx();
-					this.setCurrentState(res.get(0).getTo());
-					this._processInExpression(this.getCurrentState());
-					this._printCtx();
-				} else if (res.size() > 1) {
-					System.out.println("[ERROR] Non deterministic " + res.size()
-							+ " outgoing transitions matches event " + action);
+				if (resSize == 1) {
+					State next = res.get(0).getTo();
+					System.out.println(
+						MessageFormat.format("transition: event {0} - {1} -> {2}",
+						action, gState.getName(), next.getName()));
+					_printCtx();
+					_processOutExpression(getCurrentState());
+					_printCtx();
+					setCurrentState(next);
+					_processInExpression(getCurrentState());
+					_printCtx();
+				} else if (resSize > 1) {
+					System.out.println(
+						MessageFormat.format("[ERROR] Non deterministic {0} outgoing transitions match event {1}",
+						action, resSize, action));
 					ExecutableGFSMAlgebra.this.setCurrentState(null);
 				} else {
 					System.out.println("[ERROR] Deadlock");
 					ExecutableGFSMAlgebra.this.setCurrentState(null);
 				}
 			}
-
 		};
 	}
 
 	public default void _printCtx() {
-		System.out.println("Context : ");
-		for (final Entry<String, Integer> e : this.getCtx().entrySet()) {
+		System.out.println("Context: ");
+		for (final Entry<String, Integer> e : getCtx().entrySet()) {
 			System.out.println(e.getKey() + ": " + e.getValue());
 		}
 	}
 
 	@Override
 	public default ExecutableExp gInitialState(final GInitialState gInitialState) {
-		return this.gState(gInitialState);
+		return gState(gInitialState);
 	}
 
 	@Override
 	public default ExecutableExp gFinalState(final GFinalState gFinalState) {
-		return this.gState(gFinalState);
+		return gState(gFinalState);
 	}
 
 	@Override
 	public default ExecutableExp gFSM(final GFSM gfsm) {
-
 		return () -> {
-			this.setCurrentState(gfsm.getInitialstate());
-			this._processInExpression(this.getCurrentState());
-			while (this.getCurrentState() != null) {
-				this.$(this.getCurrentState()).execute();
-			}
+			setCurrentState(gfsm.getInitialstate());
+			_processInExpression(getCurrentState());
+			while (getCurrentState() != null)
+				$(getCurrentState()).execute();
 		};
 	}
 
 	public default void _processOutExpression(final State currentState) {
-		if (currentState instanceof GState) {
-			this.$(((GState) this.getCurrentState()).getOutExpression()).eval(this.getCtx());
-		}
+		if (currentState instanceof GState) // FIXME: Avoid casts
+			$(((GState) getCurrentState()).getOutExpression()).eval(getCtx());
 	}
 
 	public default void _processInExpression(final State currentState) {
 		if (currentState instanceof GState) {
-
-			final IntOperation inExpression = ((GState) this.getCurrentState()).getInExpression();
-			this.$(inExpression).eval(this.getCtx());
+			IntOperation inExpression = ((GState) getCurrentState()).getInExpression();
+			$(inExpression).eval(getCtx());
 		}
 	}
 }

@@ -43,7 +43,8 @@ public class Program1 {
 	private void execute(final String progName) {
 		final Queue<String> initUserInput = new LinkedList<>();
 		initUserInput.add("t1");
-		System.out.println(this.make(new GraphvizGFSMAlgebra() {
+
+		System.out.println(make(new GraphvizGFSMAlgebra() {
 			@Override
 			public Map<FSM, RepGraphvizExp> getFSMMemo() {
 				return Maps.newHashMap();
@@ -74,37 +75,35 @@ public class Program1 {
 				return Maps.newHashMap();
 			}
 		}, progName).result(new GraphvizRep()));
-		this.make(new ExecutableGFSMAlgebra() {
 
+		make(new ExecutableGFSMAlgebra() {
 			private Map<String, Integer> ctx = new HashMap<>();
 			private State currentState;
 			private Queue<String> userinput = initUserInput;
 
 			@Override
 			public Queue<String> getUserinput() {
-				return this.userinput;
+				return userinput;
 			}
 
 			@Override
 			public State getCurrentState() {
-				return this.currentState;
+				return currentState;
 			}
 
 			@Override
 			public void setCurrentState(final State state) {
 				this.currentState = state;
-
 			}
 
 			@Override
 			public void setCtx(final Map<String, Integer> ctx) {
 				this.ctx = ctx;
-
 			}
 
 			@Override
 			public Map<String, Integer> getCtx() {
-				return this.ctx;
+				return ctx;
 			}
 
 			@Override
@@ -140,21 +139,21 @@ public class Program1 {
 		}, progName).execute();
 	}
 
-	private <A, B, F, C, D, E> F make(final GfsmAlgebra<A, B, F, C, D, E> graphvizGFSMAlgebra,
-			final String progName) {
-		final GFSM model = this.createModel(progName);
+	private <A, B, F, C, D, E> F make(
+		final GfsmAlgebra<A, B, F, C, D, E> graphvizGFSMAlgebra,
+		final String progName
+	) {
+		GFSM model = createModel(progName);
 		return graphvizGFSMAlgebra.$(model);
 	}
 
 	private GFSM createModel(final String progName) {
-		final ResourceSetImpl resSet = new ResourceSetImpl();
+		ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gfsm", new XMIResourceFactoryImpl());
 		EPackage.Registry.INSTANCE.put(GfsmPackage.eNS_URI, GfsmPackage.eINSTANCE);
-		// TODO: Replacing with System.getProperty("user.dir")
-		final URI createURI = URI
-				.createURI("model/" + progName);
-		final Resource resource = resSet.getResource(createURI, true);
-		final EList<EObject> contents = resource.getContents();
+		URI createURI = URI.createURI("model/" + progName);
+		Resource resource = resSet.getResource(createURI, true);
+		EList<EObject> contents = resource.getContents();
 		return (GFSM) contents.get(0);
 	}
 }
