@@ -7,8 +7,8 @@
   <foreignModel>expression.ecore</foreignModel>
   <genPackages prefix="Expression" disposableProviderFactory="true" ecorePackage="expression.ecore#/">
     <genClasses ecoreClass="expression.ecore#//IntBinaryExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//IntBinaryExpression/expression1"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//IntBinaryExpression/expression2"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//IntBinaryExpression/lhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//IntBinaryExpression/rhs"/>
     </genClasses>
     <genClasses ecoreClass="expression.ecore#//IntAdd"/>
     <genClasses ecoreClass="expression.ecore#//IntMult"/>
@@ -35,12 +35,12 @@
     <genClasses ecoreClass="expression.ecore#//BooleanAnd"/>
     <genClasses ecoreClass="expression.ecore#//BooleanGreaterThan"/>
     <genClasses ecoreClass="expression.ecore#//BooleanBinaryExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanBinaryExpression/boolExpression1"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanBinaryExpression/boolExpression2"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanBinaryExpression/lhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanBinaryExpression/rhs"/>
     </genClasses>
     <genClasses ecoreClass="expression.ecore#//BooleanCompareExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanCompareExpression/expression1"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanCompareExpression/expression2"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanCompareExpression/lhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference expression.ecore#//BooleanCompareExpression/rhs"/>
     </genClasses>
     <genClasses ecoreClass="expression.ecore#//IntExpression"/>
   </genPackages>

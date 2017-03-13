@@ -12,8 +12,8 @@ package expression;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link expression.BooleanBinaryExpression#getBoolExpression1 <em>Bool Expression1</em>}</li>
- *   <li>{@link expression.BooleanBinaryExpression#getBoolExpression2 <em>Bool Expression2</em>}</li>
+ *   <li>{@link expression.BooleanBinaryExpression#getLhs <em>Lhs</em>}</li>
+ *   <li>{@link expression.BooleanBinaryExpression#getRhs <em>Rhs</em>}</li>
  * </ul>
  *
  * @see expression.ExpressionPackage#getBooleanBinaryExpression()
@@ -22,55 +22,55 @@ package expression;
  */
 public interface BooleanBinaryExpression extends BooleanExpression {
 	/**
-	 * Returns the value of the '<em><b>Bool Expression1</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Bool Expression1</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Lhs</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Bool Expression1</em>' containment reference.
-	 * @see #setBoolExpression1(BooleanExpression)
-	 * @see expression.ExpressionPackage#getBooleanBinaryExpression_BoolExpression1()
+	 * @return the value of the '<em>Lhs</em>' containment reference.
+	 * @see #setLhs(BooleanExpression)
+	 * @see expression.ExpressionPackage#getBooleanBinaryExpression_Lhs()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	BooleanExpression getBoolExpression1();
+	BooleanExpression getLhs();
 
 	/**
-	 * Sets the value of the '{@link expression.BooleanBinaryExpression#getBoolExpression1 <em>Bool Expression1</em>}' containment reference.
+	 * Sets the value of the '{@link expression.BooleanBinaryExpression#getLhs <em>Lhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Bool Expression1</em>' containment reference.
-	 * @see #getBoolExpression1()
+	 * @param value the new value of the '<em>Lhs</em>' containment reference.
+	 * @see #getLhs()
 	 * @generated
 	 */
-	void setBoolExpression1(BooleanExpression value);
+	void setLhs(BooleanExpression value);
 
 	/**
-	 * Returns the value of the '<em><b>Bool Expression2</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Bool Expression2</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Rhs</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Bool Expression2</em>' containment reference.
-	 * @see #setBoolExpression2(BooleanCompareExpression)
-	 * @see expression.ExpressionPackage#getBooleanBinaryExpression_BoolExpression2()
+	 * @return the value of the '<em>Rhs</em>' containment reference.
+	 * @see #setRhs(BooleanCompareExpression)
+	 * @see expression.ExpressionPackage#getBooleanBinaryExpression_Rhs()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	BooleanCompareExpression getBoolExpression2();
+	BooleanCompareExpression getRhs();
 
 	/**
-	 * Sets the value of the '{@link expression.BooleanBinaryExpression#getBoolExpression2 <em>Bool Expression2</em>}' containment reference.
+	 * Sets the value of the '{@link expression.BooleanBinaryExpression#getRhs <em>Rhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Bool Expression2</em>' containment reference.
-	 * @see #getBoolExpression2()
+	 * @param value the new value of the '<em>Rhs</em>' containment reference.
+	 * @see #getRhs()
 	 * @generated
 	 */
-	void setBoolExpression2(BooleanCompareExpression value);
+	void setRhs(BooleanCompareExpression value);
 
 } // BooleanBinaryExpression

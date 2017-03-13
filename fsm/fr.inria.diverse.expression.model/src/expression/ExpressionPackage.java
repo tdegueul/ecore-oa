@@ -95,22 +95,22 @@ public interface ExpressionPackage extends EPackage {
 	int INT_BINARY_EXPRESSION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_BINARY_EXPRESSION__EXPRESSION1 = INT_EXPRESSION_FEATURE_COUNT + 0;
+	int INT_BINARY_EXPRESSION__LHS = INT_EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_BINARY_EXPRESSION__EXPRESSION2 = INT_EXPRESSION_FEATURE_COUNT + 1;
+	int INT_BINARY_EXPRESSION__RHS = INT_EXPRESSION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Int Binary Expression</em>' class.
@@ -141,22 +141,22 @@ public interface ExpressionPackage extends EPackage {
 	int INT_ADD = 1;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_ADD__EXPRESSION1 = INT_BINARY_EXPRESSION__EXPRESSION1;
+	int INT_ADD__LHS = INT_BINARY_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_ADD__EXPRESSION2 = INT_BINARY_EXPRESSION__EXPRESSION2;
+	int INT_ADD__RHS = INT_BINARY_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Int Add</em>' class.
@@ -187,22 +187,22 @@ public interface ExpressionPackage extends EPackage {
 	int INT_MULT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_MULT__EXPRESSION1 = INT_BINARY_EXPRESSION__EXPRESSION1;
+	int INT_MULT__LHS = INT_BINARY_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INT_MULT__EXPRESSION2 = INT_BINARY_EXPRESSION__EXPRESSION2;
+	int INT_MULT__RHS = INT_BINARY_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Int Mult</em>' class.
@@ -483,22 +483,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_COMPARE_EXPRESSION = 15;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_COMPARE_EXPRESSION__EXPRESSION1 = BOOLEAN_EXPRESSION_FEATURE_COUNT + 0;
+	int BOOLEAN_COMPARE_EXPRESSION__LHS = BOOLEAN_EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_COMPARE_EXPRESSION__EXPRESSION2 = BOOLEAN_EXPRESSION_FEATURE_COUNT + 1;
+	int BOOLEAN_COMPARE_EXPRESSION__RHS = BOOLEAN_EXPRESSION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Compare Expression</em>' class.
@@ -529,22 +529,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_EQUAL = 10;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_EQUAL__EXPRESSION1 = BOOLEAN_COMPARE_EXPRESSION__EXPRESSION1;
+	int BOOLEAN_EQUAL__LHS = BOOLEAN_COMPARE_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_EQUAL__EXPRESSION2 = BOOLEAN_COMPARE_EXPRESSION__EXPRESSION2;
+	int BOOLEAN_EQUAL__RHS = BOOLEAN_COMPARE_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Equal</em>' class.
@@ -575,22 +575,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_BINARY_EXPRESSION = 14;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1 = BOOLEAN_EXPRESSION_FEATURE_COUNT + 0;
+	int BOOLEAN_BINARY_EXPRESSION__LHS = BOOLEAN_EXPRESSION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2 = BOOLEAN_EXPRESSION_FEATURE_COUNT + 1;
+	int BOOLEAN_BINARY_EXPRESSION__RHS = BOOLEAN_EXPRESSION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Binary Expression</em>' class.
@@ -621,22 +621,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_OR = 11;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_OR__BOOL_EXPRESSION1 = BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1;
+	int BOOLEAN_OR__LHS = BOOLEAN_BINARY_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_OR__BOOL_EXPRESSION2 = BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2;
+	int BOOLEAN_OR__RHS = BOOLEAN_BINARY_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Or</em>' class.
@@ -667,22 +667,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_AND = 12;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_AND__BOOL_EXPRESSION1 = BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1;
+	int BOOLEAN_AND__LHS = BOOLEAN_BINARY_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Bool Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_AND__BOOL_EXPRESSION2 = BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2;
+	int BOOLEAN_AND__RHS = BOOLEAN_BINARY_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Boolean And</em>' class.
@@ -713,22 +713,22 @@ public interface ExpressionPackage extends EPackage {
 	int BOOLEAN_GREATER_THAN = 13;
 
 	/**
-	 * The feature id for the '<em><b>Expression1</b></em>' containment reference.
+	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_GREATER_THAN__EXPRESSION1 = BOOLEAN_COMPARE_EXPRESSION__EXPRESSION1;
+	int BOOLEAN_GREATER_THAN__LHS = BOOLEAN_COMPARE_EXPRESSION__LHS;
 
 	/**
-	 * The feature id for the '<em><b>Expression2</b></em>' containment reference.
+	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_GREATER_THAN__EXPRESSION2 = BOOLEAN_COMPARE_EXPRESSION__EXPRESSION2;
+	int BOOLEAN_GREATER_THAN__RHS = BOOLEAN_COMPARE_EXPRESSION__RHS;
 
 	/**
 	 * The number of structural features of the '<em>Boolean Greater Than</em>' class.
@@ -760,26 +760,26 @@ public interface ExpressionPackage extends EPackage {
 	EClass getIntBinaryExpression();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.IntBinaryExpression#getExpression1 <em>Expression1</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.IntBinaryExpression#getLhs <em>Lhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Expression1</em>'.
-	 * @see expression.IntBinaryExpression#getExpression1()
+	 * @return the meta object for the containment reference '<em>Lhs</em>'.
+	 * @see expression.IntBinaryExpression#getLhs()
 	 * @see #getIntBinaryExpression()
 	 * @generated
 	 */
-	EReference getIntBinaryExpression_Expression1();
+	EReference getIntBinaryExpression_Lhs();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.IntBinaryExpression#getExpression2 <em>Expression2</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.IntBinaryExpression#getRhs <em>Rhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Expression2</em>'.
-	 * @see expression.IntBinaryExpression#getExpression2()
+	 * @return the meta object for the containment reference '<em>Rhs</em>'.
+	 * @see expression.IntBinaryExpression#getRhs()
 	 * @see #getIntBinaryExpression()
 	 * @generated
 	 */
-	EReference getIntBinaryExpression_Expression2();
+	EReference getIntBinaryExpression_Rhs();
 
 	/**
 	 * Returns the meta object for class '{@link expression.IntAdd <em>Int Add</em>}'.
@@ -988,26 +988,26 @@ public interface ExpressionPackage extends EPackage {
 	EClass getBooleanBinaryExpression();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.BooleanBinaryExpression#getBoolExpression1 <em>Bool Expression1</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.BooleanBinaryExpression#getLhs <em>Lhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Bool Expression1</em>'.
-	 * @see expression.BooleanBinaryExpression#getBoolExpression1()
+	 * @return the meta object for the containment reference '<em>Lhs</em>'.
+	 * @see expression.BooleanBinaryExpression#getLhs()
 	 * @see #getBooleanBinaryExpression()
 	 * @generated
 	 */
-	EReference getBooleanBinaryExpression_BoolExpression1();
+	EReference getBooleanBinaryExpression_Lhs();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.BooleanBinaryExpression#getBoolExpression2 <em>Bool Expression2</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.BooleanBinaryExpression#getRhs <em>Rhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Bool Expression2</em>'.
-	 * @see expression.BooleanBinaryExpression#getBoolExpression2()
+	 * @return the meta object for the containment reference '<em>Rhs</em>'.
+	 * @see expression.BooleanBinaryExpression#getRhs()
 	 * @see #getBooleanBinaryExpression()
 	 * @generated
 	 */
-	EReference getBooleanBinaryExpression_BoolExpression2();
+	EReference getBooleanBinaryExpression_Rhs();
 
 	/**
 	 * Returns the meta object for class '{@link expression.BooleanCompareExpression <em>Boolean Compare Expression</em>}'.
@@ -1020,26 +1020,26 @@ public interface ExpressionPackage extends EPackage {
 	EClass getBooleanCompareExpression();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.BooleanCompareExpression#getExpression1 <em>Expression1</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.BooleanCompareExpression#getLhs <em>Lhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Expression1</em>'.
-	 * @see expression.BooleanCompareExpression#getExpression1()
+	 * @return the meta object for the containment reference '<em>Lhs</em>'.
+	 * @see expression.BooleanCompareExpression#getLhs()
 	 * @see #getBooleanCompareExpression()
 	 * @generated
 	 */
-	EReference getBooleanCompareExpression_Expression1();
+	EReference getBooleanCompareExpression_Lhs();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link expression.BooleanCompareExpression#getExpression2 <em>Expression2</em>}'.
+	 * Returns the meta object for the containment reference '{@link expression.BooleanCompareExpression#getRhs <em>Rhs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Expression2</em>'.
-	 * @see expression.BooleanCompareExpression#getExpression2()
+	 * @return the meta object for the containment reference '<em>Rhs</em>'.
+	 * @see expression.BooleanCompareExpression#getRhs()
 	 * @see #getBooleanCompareExpression()
 	 * @generated
 	 */
-	EReference getBooleanCompareExpression_Expression2();
+	EReference getBooleanCompareExpression_Rhs();
 
 	/**
 	 * Returns the meta object for class '{@link expression.IntExpression <em>Int Expression</em>}'.
@@ -1085,20 +1085,20 @@ public interface ExpressionPackage extends EPackage {
 		EClass INT_BINARY_EXPRESSION = eINSTANCE.getIntBinaryExpression();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression1</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Lhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INT_BINARY_EXPRESSION__EXPRESSION1 = eINSTANCE.getIntBinaryExpression_Expression1();
+		EReference INT_BINARY_EXPRESSION__LHS = eINSTANCE.getIntBinaryExpression_Lhs();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression2</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Rhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INT_BINARY_EXPRESSION__EXPRESSION2 = eINSTANCE.getIntBinaryExpression_Expression2();
+		EReference INT_BINARY_EXPRESSION__RHS = eINSTANCE.getIntBinaryExpression_Rhs();
 
 		/**
 		 * The meta object literal for the '{@link expression.impl.IntAddImpl <em>Int Add</em>}' class.
@@ -1289,20 +1289,20 @@ public interface ExpressionPackage extends EPackage {
 		EClass BOOLEAN_BINARY_EXPRESSION = eINSTANCE.getBooleanBinaryExpression();
 
 		/**
-		 * The meta object literal for the '<em><b>Bool Expression1</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Lhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1 = eINSTANCE.getBooleanBinaryExpression_BoolExpression1();
+		EReference BOOLEAN_BINARY_EXPRESSION__LHS = eINSTANCE.getBooleanBinaryExpression_Lhs();
 
 		/**
-		 * The meta object literal for the '<em><b>Bool Expression2</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Rhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2 = eINSTANCE.getBooleanBinaryExpression_BoolExpression2();
+		EReference BOOLEAN_BINARY_EXPRESSION__RHS = eINSTANCE.getBooleanBinaryExpression_Rhs();
 
 		/**
 		 * The meta object literal for the '{@link expression.impl.BooleanCompareExpressionImpl <em>Boolean Compare Expression</em>}' class.
@@ -1315,20 +1315,20 @@ public interface ExpressionPackage extends EPackage {
 		EClass BOOLEAN_COMPARE_EXPRESSION = eINSTANCE.getBooleanCompareExpression();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression1</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Lhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BOOLEAN_COMPARE_EXPRESSION__EXPRESSION1 = eINSTANCE.getBooleanCompareExpression_Expression1();
+		EReference BOOLEAN_COMPARE_EXPRESSION__LHS = eINSTANCE.getBooleanCompareExpression_Lhs();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression2</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Rhs</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference BOOLEAN_COMPARE_EXPRESSION__EXPRESSION2 = eINSTANCE.getBooleanCompareExpression_Expression2();
+		EReference BOOLEAN_COMPARE_EXPRESSION__RHS = eINSTANCE.getBooleanCompareExpression_Rhs();
 
 		/**
 		 * The meta object literal for the '{@link expression.impl.IntExpressionImpl <em>Int Expression</em>}' class.

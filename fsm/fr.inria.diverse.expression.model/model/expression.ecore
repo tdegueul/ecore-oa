@@ -3,10 +3,10 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="expression" nsURI="http://inria.fr/expression" nsPrefix="fr.inria.diverse.expression.model">
   <eClassifiers xsi:type="ecore:EClass" name="IntBinaryExpression" abstract="true"
       eSuperTypes="#//IntExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression1" lowerBound="1"
-        eType="#//IntExpression" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression2" lowerBound="1"
-        eType="#//IntExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//IntExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//IntExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntAdd" eSuperTypes="#//IntBinaryExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="IntMult" eSuperTypes="#//IntBinaryExpression"/>
@@ -37,17 +37,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="BooleanGreaterThan" eSuperTypes="#//BooleanCompareExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanBinaryExpression" abstract="true"
       eSuperTypes="#//BooleanExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="boolExpression1" lowerBound="1"
-        eType="#//BooleanExpression" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="boolExpression2" lowerBound="1"
-        eType="#//BooleanCompareExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//BooleanExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//BooleanCompareExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanCompareExpression" abstract="true"
       eSuperTypes="#//BooleanExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression1" lowerBound="1"
-        eType="#//IntExpression" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression2" lowerBound="1"
-        eType="#//IntExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//IntExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//IntExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntExpression" abstract="true"/>
 </ecore:EPackage>

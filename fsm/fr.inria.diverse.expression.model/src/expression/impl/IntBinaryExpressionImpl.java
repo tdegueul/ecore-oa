@@ -22,32 +22,32 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link expression.impl.IntBinaryExpressionImpl#getExpression1 <em>Expression1</em>}</li>
- *   <li>{@link expression.impl.IntBinaryExpressionImpl#getExpression2 <em>Expression2</em>}</li>
+ *   <li>{@link expression.impl.IntBinaryExpressionImpl#getLhs <em>Lhs</em>}</li>
+ *   <li>{@link expression.impl.IntBinaryExpressionImpl#getRhs <em>Rhs</em>}</li>
  * </ul>
  *
  * @generated
  */
 public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implements IntBinaryExpression {
 	/**
-	 * The cached value of the '{@link #getExpression1() <em>Expression1</em>}' containment reference.
+	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getExpression1()
+	 * @see #getLhs()
 	 * @generated
 	 * @ordered
 	 */
-	protected IntExpression expression1;
+	protected IntExpression lhs;
 
 	/**
-	 * The cached value of the '{@link #getExpression2() <em>Expression2</em>}' containment reference.
+	 * The cached value of the '{@link #getRhs() <em>Rhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getExpression2()
+	 * @see #getRhs()
 	 * @generated
 	 * @ordered
 	 */
-	protected IntExpression expression2;
+	protected IntExpression rhs;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -73,8 +73,8 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntExpression getExpression1() {
-		return expression1;
+	public IntExpression getLhs() {
+		return lhs;
 	}
 
 	/**
@@ -82,11 +82,11 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExpression1(IntExpression newExpression1, NotificationChain msgs) {
-		IntExpression oldExpression1 = expression1;
-		expression1 = newExpression1;
+	public NotificationChain basicSetLhs(IntExpression newLhs, NotificationChain msgs) {
+		IntExpression oldLhs = lhs;
+		lhs = newLhs;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1, oldExpression1, newExpression1);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__LHS, oldLhs, newLhs);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -97,18 +97,18 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExpression1(IntExpression newExpression1) {
-		if (newExpression1 != expression1) {
+	public void setLhs(IntExpression newLhs) {
+		if (newLhs != lhs) {
 			NotificationChain msgs = null;
-			if (expression1 != null)
-				msgs = ((InternalEObject)expression1).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1, null, msgs);
-			if (newExpression1 != null)
-				msgs = ((InternalEObject)newExpression1).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1, null, msgs);
-			msgs = basicSetExpression1(newExpression1, msgs);
+			if (lhs != null)
+				msgs = ((InternalEObject)lhs).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__LHS, null, msgs);
+			if (newLhs != null)
+				msgs = ((InternalEObject)newLhs).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__LHS, null, msgs);
+			msgs = basicSetLhs(newLhs, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1, newExpression1, newExpression1));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__LHS, newLhs, newLhs));
 	}
 
 	/**
@@ -116,8 +116,8 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntExpression getExpression2() {
-		return expression2;
+	public IntExpression getRhs() {
+		return rhs;
 	}
 
 	/**
@@ -125,11 +125,11 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExpression2(IntExpression newExpression2, NotificationChain msgs) {
-		IntExpression oldExpression2 = expression2;
-		expression2 = newExpression2;
+	public NotificationChain basicSetRhs(IntExpression newRhs, NotificationChain msgs) {
+		IntExpression oldRhs = rhs;
+		rhs = newRhs;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2, oldExpression2, newExpression2);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__RHS, oldRhs, newRhs);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -140,18 +140,18 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExpression2(IntExpression newExpression2) {
-		if (newExpression2 != expression2) {
+	public void setRhs(IntExpression newRhs) {
+		if (newRhs != rhs) {
 			NotificationChain msgs = null;
-			if (expression2 != null)
-				msgs = ((InternalEObject)expression2).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2, null, msgs);
-			if (newExpression2 != null)
-				msgs = ((InternalEObject)newExpression2).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2, null, msgs);
-			msgs = basicSetExpression2(newExpression2, msgs);
+			if (rhs != null)
+				msgs = ((InternalEObject)rhs).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__RHS, null, msgs);
+			if (newRhs != null)
+				msgs = ((InternalEObject)newRhs).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.INT_BINARY_EXPRESSION__RHS, null, msgs);
+			msgs = basicSetRhs(newRhs, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2, newExpression2, newExpression2));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.INT_BINARY_EXPRESSION__RHS, newRhs, newRhs));
 	}
 
 	/**
@@ -162,10 +162,10 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1:
-				return basicSetExpression1(null, msgs);
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2:
-				return basicSetExpression2(null, msgs);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__LHS:
+				return basicSetLhs(null, msgs);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__RHS:
+				return basicSetRhs(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -178,10 +178,10 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1:
-				return getExpression1();
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2:
-				return getExpression2();
+			case ExpressionPackage.INT_BINARY_EXPRESSION__LHS:
+				return getLhs();
+			case ExpressionPackage.INT_BINARY_EXPRESSION__RHS:
+				return getRhs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -194,11 +194,11 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1:
-				setExpression1((IntExpression)newValue);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__LHS:
+				setLhs((IntExpression)newValue);
 				return;
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2:
-				setExpression2((IntExpression)newValue);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__RHS:
+				setRhs((IntExpression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -212,11 +212,11 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1:
-				setExpression1((IntExpression)null);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__LHS:
+				setLhs((IntExpression)null);
 				return;
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2:
-				setExpression2((IntExpression)null);
+			case ExpressionPackage.INT_BINARY_EXPRESSION__RHS:
+				setRhs((IntExpression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -230,10 +230,10 @@ public abstract class IntBinaryExpressionImpl extends IntExpressionImpl implemen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION1:
-				return expression1 != null;
-			case ExpressionPackage.INT_BINARY_EXPRESSION__EXPRESSION2:
-				return expression2 != null;
+			case ExpressionPackage.INT_BINARY_EXPRESSION__LHS:
+				return lhs != null;
+			case ExpressionPackage.INT_BINARY_EXPRESSION__RHS:
+				return rhs != null;
 		}
 		return super.eIsSet(featureID);
 	}

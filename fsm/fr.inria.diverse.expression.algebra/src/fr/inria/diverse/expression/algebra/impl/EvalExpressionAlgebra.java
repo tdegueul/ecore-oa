@@ -18,7 +18,6 @@ import expression.algebra.ExpressionAlgebra;
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
 import fr.inria.diverse.algebras.expressions.EvalOpExp;
 
-// TODO: Replace Expression1 & Expression2 by lhs & rhs
 public interface EvalExpressionAlgebra extends ExpressionAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>> {
 	@Override
 	public default CtxEvalExp<Integer, Integer> intVarRef(final IntVarRef intVarRef) {
@@ -38,16 +37,16 @@ public interface EvalExpressionAlgebra extends ExpressionAlgebra<CtxEvalExp<Inte
 	@Override
 	public default CtxEvalExp<Integer, Integer> intAdd(final IntAdd intAdd) {
 		return (Map<String, Integer> ctx) ->
-			$(intAdd.getExpression1()).result(ctx)
-			.flatMap(e1 -> $(intAdd.getExpression2()).result(ctx)
+			$(intAdd.getLhs()).result(ctx)
+			.flatMap(e1 -> $(intAdd.getRhs()).result(ctx)
 			.map(e2 -> e1 + e2));
 	}
 
 	@Override
 	public default CtxEvalExp<Integer, Integer> intMult(final IntMult intMult) {
 		return (Map<String, Integer> ctx) ->
-			$(intMult.getExpression1()).result(ctx)
-			.flatMap(e1 -> $(intMult.getExpression2()).result(ctx)
+			$(intMult.getLhs()).result(ctx)
+			.flatMap(e1 -> $(intMult.getRhs()).result(ctx)
 			.map(e2 -> e1 * e2));
 	}
 
@@ -80,32 +79,32 @@ public interface EvalExpressionAlgebra extends ExpressionAlgebra<CtxEvalExp<Inte
 	@Override
 	public default CtxEvalExp<Integer, Boolean> booleanEqual(final BooleanEqual booleanEqual) {
 		return (Map<String, Integer> ctx) ->
-			$(booleanEqual.getExpression1()).result(ctx)
-			.flatMap(e1 -> $(booleanEqual.getExpression2()).result(ctx)
+			$(booleanEqual.getLhs()).result(ctx)
+			.flatMap(e1 -> $(booleanEqual.getRhs()).result(ctx)
 			.map(e2 -> e1.equals(e2)));
 	}
 
 	@Override
 	public default CtxEvalExp<Integer, Boolean> booleanAnd(final BooleanAnd booleanAnd) {
 		return (Map<String, Integer> ctx) ->
-			$(booleanAnd.getBoolExpression1()).result(ctx)
-			.flatMap(e1 -> $(booleanAnd.getBoolExpression2()).result(ctx)
+			$(booleanAnd.getLhs()).result(ctx)
+			.flatMap(e1 -> $(booleanAnd.getRhs()).result(ctx)
 			.map(e2 -> e1 && e2));
 	}
 
 	@Override
 	public default CtxEvalExp<Integer, Boolean> booleanGreaterThan(final BooleanGreaterThan booleanGreaterThan) {
 		return (Map<String, Integer> ctx) ->
-			$(booleanGreaterThan.getExpression1()).result(ctx)
-			.flatMap(e1 -> $(booleanGreaterThan.getExpression2()).result(ctx)
+			$(booleanGreaterThan.getLhs()).result(ctx)
+			.flatMap(e1 -> $(booleanGreaterThan.getRhs()).result(ctx)
 			.map(e2 -> e1 > e2));
 	}
 
 	@Override
 	public default CtxEvalExp<Integer, Boolean> booleanOr(final BooleanOr booleanOr) {
 		return (Map<String, Integer> ctx) ->
-			$(booleanOr.getBoolExpression1()).result(ctx)
-			.flatMap(e1 -> $(booleanOr.getBoolExpression2()).result(ctx)
+			$(booleanOr.getLhs()).result(ctx)
+			.flatMap(e1 -> $(booleanOr.getRhs()).result(ctx)
 			.map(e2 -> e1 || e2));
 	}
 }

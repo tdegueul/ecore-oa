@@ -23,32 +23,32 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link expression.impl.BooleanBinaryExpressionImpl#getBoolExpression1 <em>Bool Expression1</em>}</li>
- *   <li>{@link expression.impl.BooleanBinaryExpressionImpl#getBoolExpression2 <em>Bool Expression2</em>}</li>
+ *   <li>{@link expression.impl.BooleanBinaryExpressionImpl#getLhs <em>Lhs</em>}</li>
+ *   <li>{@link expression.impl.BooleanBinaryExpressionImpl#getRhs <em>Rhs</em>}</li>
  * </ul>
  *
  * @generated
  */
 public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl implements BooleanBinaryExpression {
 	/**
-	 * The cached value of the '{@link #getBoolExpression1() <em>Bool Expression1</em>}' containment reference.
+	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBoolExpression1()
+	 * @see #getLhs()
 	 * @generated
 	 * @ordered
 	 */
-	protected BooleanExpression boolExpression1;
+	protected BooleanExpression lhs;
 
 	/**
-	 * The cached value of the '{@link #getBoolExpression2() <em>Bool Expression2</em>}' containment reference.
+	 * The cached value of the '{@link #getRhs() <em>Rhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBoolExpression2()
+	 * @see #getRhs()
 	 * @generated
 	 * @ordered
 	 */
-	protected BooleanCompareExpression boolExpression2;
+	protected BooleanCompareExpression rhs;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,8 +74,8 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanExpression getBoolExpression1() {
-		return boolExpression1;
+	public BooleanExpression getLhs() {
+		return lhs;
 	}
 
 	/**
@@ -83,11 +83,11 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBoolExpression1(BooleanExpression newBoolExpression1, NotificationChain msgs) {
-		BooleanExpression oldBoolExpression1 = boolExpression1;
-		boolExpression1 = newBoolExpression1;
+	public NotificationChain basicSetLhs(BooleanExpression newLhs, NotificationChain msgs) {
+		BooleanExpression oldLhs = lhs;
+		lhs = newLhs;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1, oldBoolExpression1, newBoolExpression1);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS, oldLhs, newLhs);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -98,18 +98,18 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBoolExpression1(BooleanExpression newBoolExpression1) {
-		if (newBoolExpression1 != boolExpression1) {
+	public void setLhs(BooleanExpression newLhs) {
+		if (newLhs != lhs) {
 			NotificationChain msgs = null;
-			if (boolExpression1 != null)
-				msgs = ((InternalEObject)boolExpression1).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1, null, msgs);
-			if (newBoolExpression1 != null)
-				msgs = ((InternalEObject)newBoolExpression1).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1, null, msgs);
-			msgs = basicSetBoolExpression1(newBoolExpression1, msgs);
+			if (lhs != null)
+				msgs = ((InternalEObject)lhs).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS, null, msgs);
+			if (newLhs != null)
+				msgs = ((InternalEObject)newLhs).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS, null, msgs);
+			msgs = basicSetLhs(newLhs, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1, newBoolExpression1, newBoolExpression1));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS, newLhs, newLhs));
 	}
 
 	/**
@@ -117,8 +117,8 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanCompareExpression getBoolExpression2() {
-		return boolExpression2;
+	public BooleanCompareExpression getRhs() {
+		return rhs;
 	}
 
 	/**
@@ -126,11 +126,11 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBoolExpression2(BooleanCompareExpression newBoolExpression2, NotificationChain msgs) {
-		BooleanCompareExpression oldBoolExpression2 = boolExpression2;
-		boolExpression2 = newBoolExpression2;
+	public NotificationChain basicSetRhs(BooleanCompareExpression newRhs, NotificationChain msgs) {
+		BooleanCompareExpression oldRhs = rhs;
+		rhs = newRhs;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2, oldBoolExpression2, newBoolExpression2);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS, oldRhs, newRhs);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -141,18 +141,18 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBoolExpression2(BooleanCompareExpression newBoolExpression2) {
-		if (newBoolExpression2 != boolExpression2) {
+	public void setRhs(BooleanCompareExpression newRhs) {
+		if (newRhs != rhs) {
 			NotificationChain msgs = null;
-			if (boolExpression2 != null)
-				msgs = ((InternalEObject)boolExpression2).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2, null, msgs);
-			if (newBoolExpression2 != null)
-				msgs = ((InternalEObject)newBoolExpression2).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2, null, msgs);
-			msgs = basicSetBoolExpression2(newBoolExpression2, msgs);
+			if (rhs != null)
+				msgs = ((InternalEObject)rhs).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS, null, msgs);
+			if (newRhs != null)
+				msgs = ((InternalEObject)newRhs).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS, null, msgs);
+			msgs = basicSetRhs(newRhs, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2, newBoolExpression2, newBoolExpression2));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS, newRhs, newRhs));
 	}
 
 	/**
@@ -163,10 +163,10 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1:
-				return basicSetBoolExpression1(null, msgs);
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2:
-				return basicSetBoolExpression2(null, msgs);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS:
+				return basicSetLhs(null, msgs);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS:
+				return basicSetRhs(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -179,10 +179,10 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1:
-				return getBoolExpression1();
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2:
-				return getBoolExpression2();
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS:
+				return getLhs();
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS:
+				return getRhs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -195,11 +195,11 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1:
-				setBoolExpression1((BooleanExpression)newValue);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS:
+				setLhs((BooleanExpression)newValue);
 				return;
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2:
-				setBoolExpression2((BooleanCompareExpression)newValue);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS:
+				setRhs((BooleanCompareExpression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -213,11 +213,11 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1:
-				setBoolExpression1((BooleanExpression)null);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS:
+				setLhs((BooleanExpression)null);
 				return;
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2:
-				setBoolExpression2((BooleanCompareExpression)null);
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS:
+				setRhs((BooleanCompareExpression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -231,10 +231,10 @@ public abstract class BooleanBinaryExpressionImpl extends BooleanExpressionImpl 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1:
-				return boolExpression1 != null;
-			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2:
-				return boolExpression2 != null;
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__LHS:
+				return lhs != null;
+			case ExpressionPackage.BOOLEAN_BINARY_EXPRESSION__RHS:
+				return rhs != null;
 		}
 		return super.eIsSet(featureID);
 	}

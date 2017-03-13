@@ -5,16 +5,16 @@
   </operations>
   <operations name="b">
     <expression xsi:type="fr.inria.diverse.expression.model:IntMult">
-      <expression2 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
-      <expression1 xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="30"/>
+      <rhs xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
+      <lhs xsi:type="fr.inria.diverse.expression.model:ConstExpr" value="30"/>
     </expression>
   </operations>
   <operations name="c">
     <expression xsi:type="fr.inria.diverse.expression.model:IntAdd">
-      <expression2 xsi:type="fr.inria.diverse.expression.model:IntNeg">
+      <rhs xsi:type="fr.inria.diverse.expression.model:IntNeg">
         <expression xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="a"/>
-      </expression2>
-      <expression1 xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="b"/>
+      </rhs>
+      <lhs xsi:type="fr.inria.diverse.expression.model:IntVarRef" name="b"/>
     </expression>
   </operations>
 </fr.inria.diverse.expression.model:IntBlock>

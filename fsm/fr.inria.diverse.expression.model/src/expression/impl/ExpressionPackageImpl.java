@@ -230,7 +230,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIntBinaryExpression_Expression1() {
+	public EReference getIntBinaryExpression_Lhs() {
 		return (EReference)intBinaryExpressionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -239,7 +239,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIntBinaryExpression_Expression2() {
+	public EReference getIntBinaryExpression_Rhs() {
 		return (EReference)intBinaryExpressionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -428,7 +428,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBooleanBinaryExpression_BoolExpression1() {
+	public EReference getBooleanBinaryExpression_Lhs() {
 		return (EReference)booleanBinaryExpressionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -437,7 +437,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBooleanBinaryExpression_BoolExpression2() {
+	public EReference getBooleanBinaryExpression_Rhs() {
 		return (EReference)booleanBinaryExpressionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -455,7 +455,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBooleanCompareExpression_Expression1() {
+	public EReference getBooleanCompareExpression_Lhs() {
 		return (EReference)booleanCompareExpressionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -464,7 +464,7 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBooleanCompareExpression_Expression2() {
+	public EReference getBooleanCompareExpression_Rhs() {
 		return (EReference)booleanCompareExpressionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -506,8 +506,8 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 
 		// Create classes and their features
 		intBinaryExpressionEClass = createEClass(INT_BINARY_EXPRESSION);
-		createEReference(intBinaryExpressionEClass, INT_BINARY_EXPRESSION__EXPRESSION1);
-		createEReference(intBinaryExpressionEClass, INT_BINARY_EXPRESSION__EXPRESSION2);
+		createEReference(intBinaryExpressionEClass, INT_BINARY_EXPRESSION__LHS);
+		createEReference(intBinaryExpressionEClass, INT_BINARY_EXPRESSION__RHS);
 
 		intAddEClass = createEClass(INT_ADD);
 
@@ -542,12 +542,12 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 		booleanGreaterThanEClass = createEClass(BOOLEAN_GREATER_THAN);
 
 		booleanBinaryExpressionEClass = createEClass(BOOLEAN_BINARY_EXPRESSION);
-		createEReference(booleanBinaryExpressionEClass, BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION1);
-		createEReference(booleanBinaryExpressionEClass, BOOLEAN_BINARY_EXPRESSION__BOOL_EXPRESSION2);
+		createEReference(booleanBinaryExpressionEClass, BOOLEAN_BINARY_EXPRESSION__LHS);
+		createEReference(booleanBinaryExpressionEClass, BOOLEAN_BINARY_EXPRESSION__RHS);
 
 		booleanCompareExpressionEClass = createEClass(BOOLEAN_COMPARE_EXPRESSION);
-		createEReference(booleanCompareExpressionEClass, BOOLEAN_COMPARE_EXPRESSION__EXPRESSION1);
-		createEReference(booleanCompareExpressionEClass, BOOLEAN_COMPARE_EXPRESSION__EXPRESSION2);
+		createEReference(booleanCompareExpressionEClass, BOOLEAN_COMPARE_EXPRESSION__LHS);
+		createEReference(booleanCompareExpressionEClass, BOOLEAN_COMPARE_EXPRESSION__RHS);
 
 		intExpressionEClass = createEClass(INT_EXPRESSION);
 	}
@@ -597,8 +597,8 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(intBinaryExpressionEClass, IntBinaryExpression.class, "IntBinaryExpression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIntBinaryExpression_Expression1(), this.getIntExpression(), null, "expression1", null, 1, 1, IntBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIntBinaryExpression_Expression2(), this.getIntExpression(), null, "expression2", null, 1, 1, IntBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntBinaryExpression_Lhs(), this.getIntExpression(), null, "lhs", null, 1, 1, IntBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntBinaryExpression_Rhs(), this.getIntExpression(), null, "rhs", null, 1, 1, IntBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(intAddEClass, IntAdd.class, "IntAdd", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -633,12 +633,12 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
 		initEClass(booleanGreaterThanEClass, BooleanGreaterThan.class, "BooleanGreaterThan", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(booleanBinaryExpressionEClass, BooleanBinaryExpression.class, "BooleanBinaryExpression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getBooleanBinaryExpression_BoolExpression1(), this.getBooleanExpression(), null, "boolExpression1", null, 1, 1, BooleanBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBooleanBinaryExpression_BoolExpression2(), this.getBooleanCompareExpression(), null, "boolExpression2", null, 1, 1, BooleanBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBooleanBinaryExpression_Lhs(), this.getBooleanExpression(), null, "lhs", null, 1, 1, BooleanBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBooleanBinaryExpression_Rhs(), this.getBooleanCompareExpression(), null, "rhs", null, 1, 1, BooleanBinaryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanCompareExpressionEClass, BooleanCompareExpression.class, "BooleanCompareExpression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getBooleanCompareExpression_Expression1(), this.getIntExpression(), null, "expression1", null, 1, 1, BooleanCompareExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getBooleanCompareExpression_Expression2(), this.getIntExpression(), null, "expression2", null, 1, 1, BooleanCompareExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBooleanCompareExpression_Lhs(), this.getIntExpression(), null, "lhs", null, 1, 1, BooleanCompareExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBooleanCompareExpression_Rhs(), this.getIntExpression(), null, "rhs", null, 1, 1, BooleanCompareExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(intExpressionEClass, IntExpression.class, "IntExpression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
