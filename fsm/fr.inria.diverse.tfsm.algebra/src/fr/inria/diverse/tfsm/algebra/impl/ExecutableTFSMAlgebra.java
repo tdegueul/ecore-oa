@@ -87,7 +87,7 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 						getTime(), action, getCurrentState().getName(), next.getName()));
 					trans.getClockresets().forEach(r -> r.getClock().setTick(0));
 					System.out.println("clocks:");
-					for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: EOpposite to avoid cast on eContainer()?
+					for (Clock c : ((TimedFSM) s.getFsm()).getClocks())
 						System.out.println("\t- clock " + c.getName() + " = " + c.getTick());
 					System.out.println();
 					setCurrentState(next);
@@ -98,7 +98,7 @@ public interface ExecutableTFSMAlgebra extends TfsmAlgebra<Boolean, Void, CtxExe
 				System.out.println(MessageFormat.format("ERROR] deadlock! State guard triggered at time {0} on state {1}",
 					getTime(), getCurrentState().getName()));
 				System.out.println("clocks:");
-				for (Clock c : ((TimedFSM) s.eContainer()).getClocks()) // FIXME: EOpposite to avoid cast on eContainer()?
+				for (Clock c : ((TimedFSM) s.getFsm()).getClocks())
 					System.out.println("\t- clock " + c.getName() + " = " + c.getTick());
 				System.out.println();
 				setCurrentState(null);
