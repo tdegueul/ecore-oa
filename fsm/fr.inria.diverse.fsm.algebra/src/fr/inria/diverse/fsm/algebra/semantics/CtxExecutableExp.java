@@ -1,4 +1,4 @@
-package fr.inria.diverse.fsm.algebra.exprs;
+package fr.inria.diverse.fsm.algebra.semantics;
 
 import java.util.Queue;
 

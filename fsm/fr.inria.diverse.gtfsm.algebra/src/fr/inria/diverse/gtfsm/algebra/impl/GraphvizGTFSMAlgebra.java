@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
-import fr.inria.diverse.algebras.expressions.GraphvizExp;
-import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.GraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.RepGraphvizExp;
 import fr.inria.diverse.gfsm.impl.GraphvizGFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;

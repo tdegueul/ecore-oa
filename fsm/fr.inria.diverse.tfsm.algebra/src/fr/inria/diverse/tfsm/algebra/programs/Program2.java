@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import com.google.common.collect.Maps;
 
-import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
-import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
+import fr.inria.diverse.expression.algebra.semantics.RepGraphvizExp;
+import fr.inria.diverse.fsm.algebra.semantics.CtxExecutableExp;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableTransition;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.GraphvizTFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;

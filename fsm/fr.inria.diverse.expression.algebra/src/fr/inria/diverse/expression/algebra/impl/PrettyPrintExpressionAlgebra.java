@@ -15,7 +15,7 @@ import expression.IntNeg;
 import expression.IntVarAssign;
 import expression.IntVarRef;
 import expression.algebra.ExpressionAlgebra;
-import fr.inria.diverse.algebras.expressions.GraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.GraphvizExp;
 
 public interface PrettyPrintExpressionAlgebra extends ExpressionAlgebra<GraphvizExp, GraphvizExp, GraphvizExp> {
 	@Override

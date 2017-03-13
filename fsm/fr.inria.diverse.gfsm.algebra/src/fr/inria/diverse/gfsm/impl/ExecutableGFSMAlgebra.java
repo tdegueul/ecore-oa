@@ -7,12 +7,12 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import expression.IntOperation;
-import fr.inria.diverse.algebras.expressions.CtxEvalExp;
-import fr.inria.diverse.algebras.expressions.EvalOpExp;
 import fr.inria.diverse.expression.algebra.impl.EvalExpressionAlgebra;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
+import fr.inria.diverse.expression.algebra.semantics.CtxEvalExp;
+import fr.inria.diverse.expression.algebra.semantics.EvalOpExp;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableTransition;
 import fsm.State;
 import fsm.Transition;
 import gfsm.GFSM;

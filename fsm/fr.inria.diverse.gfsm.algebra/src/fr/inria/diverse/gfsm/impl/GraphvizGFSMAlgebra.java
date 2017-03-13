@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import com.google.common.collect.ImmutableMap;
 
-import fr.inria.diverse.algebras.expressions.GraphvizExp;
-import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
+import fr.inria.diverse.expression.algebra.semantics.GraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.Transition;

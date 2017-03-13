@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 
 import com.google.common.collect.ImmutableMap;
 
-import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.RepGraphvizExp;
 import fr.inria.diverse.utils.GraphvizRep;
 import fsm.FSM;
 import fsm.FinalState;

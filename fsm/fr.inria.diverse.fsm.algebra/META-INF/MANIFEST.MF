@@ -3,12 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: FsmAlgebra
 Bundle-SymbolicName: fr.inria.diverse.fsm.algebra
 Bundle-Version: 1.0.0.qualifier
-Export-Package: fr.inria.diverse.fsm.algebra.exprs,
- fr.inria.diverse.fsm.algebra.impl,
- fr.inria.diverse.fsm.algebra.programs
+Export-Package: fr.inria.diverse.fsm.algebra.impl,
+ fr.inria.diverse.fsm.algebra.programs,
+ fr.inria.diverse.fsm.algebra.semantics
 Require-Bundle: fr.inria.diverse.fsm.model;bundle-version="0.1.0",
  com.google.guava,
- fr.inria.diverse.algebras.expressions;bundle-version="1.0.0",
- fr.inria.diverse.utils;bundle-version="1.0.0"
+ fr.inria.diverse.utils;bundle-version="1.0.0",
+ fr.inria.diverse.expression.algebra;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

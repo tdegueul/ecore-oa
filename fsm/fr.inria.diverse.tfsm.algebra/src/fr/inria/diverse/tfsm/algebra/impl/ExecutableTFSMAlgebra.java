@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import fr.inria.diverse.fsm.algebra.exprs.CtxExecutableExp;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableExp;
-import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.fsm.algebra.impl.ExecutableFSMAlgebra;
+import fr.inria.diverse.fsm.algebra.semantics.CtxExecutableExp;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableExp;
+import fr.inria.diverse.fsm.algebra.semantics.ExecutableTransition;
 import fsm.State;
 import tfsm.AndClockConstraint;
 import tfsm.Clock;

@@ -15,8 +15,8 @@ import expression.IntNeg;
 import expression.IntVarAssign;
 import expression.IntVarRef;
 import expression.algebra.ExpressionAlgebra;
-import fr.inria.diverse.algebras.expressions.CtxEvalExp;
-import fr.inria.diverse.algebras.expressions.EvalOpExp;
+import fr.inria.diverse.expression.algebra.semantics.CtxEvalExp;
+import fr.inria.diverse.expression.algebra.semantics.EvalOpExp;
 
 public interface EvalExpressionAlgebra extends ExpressionAlgebra<CtxEvalExp<Integer, Boolean>, CtxEvalExp<Integer, Integer>, EvalOpExp<Integer>> {
 	@Override

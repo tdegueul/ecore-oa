@@ -1,4 +1,4 @@
-package fr.inria.diverse.algebras.expressions;
+package fr.inria.diverse.expression.algebra.semantics;
 
 import fr.inria.diverse.utils.GraphvizRep;
 

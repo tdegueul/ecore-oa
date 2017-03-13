@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
+import fr.inria.diverse.expression.algebra.semantics.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
 import tfsm.AndClockConstraint;
