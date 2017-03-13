@@ -76,7 +76,7 @@ public interface ExecutableGTFSMAlgebra extends
 					transition.getClockresets().forEach(c -> c.getClock().setTick(0));
 
 					System.out.println("clocks:");
-					((TimedFSM) gtState.getFsm()).getClocks().forEach(c ->
+					((TimedFSM) gtState.getFsm()).getClocks().forEach(c ->  // FIXME: Avoid casts
 						System.out.println(" - clock " + c.getName() + " = " + c.getTick())
 					);
 					_printCtx();
