@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -26,6 +27,7 @@ import fsm.Transition;
 import tfsm.Clock;
 import tfsm.ClockConstraintOperation;
 import tfsm.ClockReset;
+import tfsm.TfsmPackage;
 import tfsm.algebra.TfsmAlgebra;
 
 public class Program2 {
@@ -181,6 +183,7 @@ public class Program2 {
 	private FSM createModel() {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("tfsm", new XMIResourceFactoryImpl());
+		EPackage.Registry.INSTANCE.put(TfsmPackage.eNS_URI, TfsmPackage.eINSTANCE);
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("model/TFSM1.tfsm");

@@ -8,6 +8,7 @@ import java.util.Queue;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -30,6 +31,7 @@ import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
 import gfsm.GFSM;
+import gfsm.GfsmPackage;
 import gfsm.algebra.GfsmAlgebra;
 
 public class Program1 {
@@ -147,6 +149,7 @@ public class Program1 {
 	private GFSM createModel(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gfsm", new XMIResourceFactoryImpl());
+		EPackage.Registry.INSTANCE.put(GfsmPackage.eNS_URI, GfsmPackage.eINSTANCE);
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("model/" + progName);

@@ -8,6 +8,7 @@ import java.util.Queue;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -47,6 +48,7 @@ import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
 import gtfsm.GTFSM;
+import gtfsm.GtfsmPackage;
 import gtfsm.algebra.GtfsmAlgebra;
 import tfsm.AndClockConstraint;
 import tfsm.Clock;
@@ -384,6 +386,7 @@ public class Program1 {
 	private GTFSM createModel(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gtfsm", new XMIResourceFactoryImpl());
+		EPackage.Registry.INSTANCE.put(GtfsmPackage.eNS_URI, GtfsmPackage.eINSTANCE);
 		final URI createURI = URI.createURI(progName);
 		final Resource resource = resSet.getResource(createURI, true);
 		final EList<EObject> contents = resource.getContents();
