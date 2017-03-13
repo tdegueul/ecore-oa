@@ -6,9 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: fr.inria.diverse.tfsm.ecore;bundle-version="0.1.0";visibility:=reexport,
  fr.inria.diverse.fsm.algebra;bundle-version="1.0.0";visibility:=reexport,
  com.google.guava,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtend.lib,
- org.eclipse.xtend.lib.macro,
  fr.inria.diverse.algebras.expressions;bundle-version="1.0.0";visibility:=reexport,
  fr.inria.diverse.utils;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.1"

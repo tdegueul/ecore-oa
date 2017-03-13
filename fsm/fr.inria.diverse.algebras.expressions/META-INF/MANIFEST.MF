@@ -5,8 +5,5 @@ Bundle-SymbolicName: fr.inria.diverse.algebras.expressions
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.algebras.expressions
 Require-Bundle: com.google.guava,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtend.lib,
- org.eclipse.xtend.lib.macro,
  fr.inria.diverse.utils;bundle-version="1.0.0"
 

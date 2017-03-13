@@ -4,3 +4,4 @@ Bundle-Name: Utils
 Bundle-SymbolicName: fr.inria.diverse.utils
 Bundle-Version: 1.0.0.qualifier
 Export-Package: fr.inria.diverse.utils
+Require-Bundle: com.google.guava;bundle-version="15.0.0"
