@@ -26,7 +26,6 @@ import fsm.Transition;
 import tfsm.Clock;
 import tfsm.ClockConstraintOperation;
 import tfsm.ClockReset;
-import tfsm.TfsmPackage;
 import tfsm.algebra.TfsmAlgebra;
 
 public class Program2 {
@@ -182,7 +181,6 @@ public class Program2 {
 	private FSM createModel() {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("tfsm", new XMIResourceFactoryImpl());
-		final TfsmPackage fsmPackage = TfsmPackage.eINSTANCE;
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("model/TFSM1.tfsm");

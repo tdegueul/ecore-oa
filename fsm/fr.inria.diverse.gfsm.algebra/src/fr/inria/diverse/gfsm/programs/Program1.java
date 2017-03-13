@@ -30,7 +30,6 @@ import fsm.FSM;
 import fsm.State;
 import fsm.Transition;
 import gfsm.GFSM;
-import gfsm.GfsmPackage;
 import gfsm.algebra.GfsmAlgebra;
 
 public class Program1 {
@@ -148,7 +147,6 @@ public class Program1 {
 	private GFSM createModel(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gfsm", new XMIResourceFactoryImpl());
-		final GfsmPackage gFsmPackage = GfsmPackage.eINSTANCE;
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("model/" + progName);

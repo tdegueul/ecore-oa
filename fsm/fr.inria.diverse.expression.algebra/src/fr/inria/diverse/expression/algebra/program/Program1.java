@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import com.google.common.collect.Maps;
 
 import expression.BooleanExpression;
-import expression.ExpressionPackage;
 import expression.IntExpression;
 import expression.IntOperation;
 import fr.inria.diverse.algebras.expressions.CtxEvalExp;
@@ -25,6 +24,10 @@ import fr.inria.diverse.expression.algebra.impl.PrettyPrintExpressionAlgebra;
 public class Program1 {
 
 	private final class PrettyPrintExpressionAlgebraImplementation implements PrettyPrintExpressionAlgebra {
+		public PrettyPrintExpressionAlgebraImplementation() {
+			
+		}
+
 		@Override
 		public Map<BooleanExpression, GraphvizExp> getBooleanExpressionMemo() {
 			return Maps.newHashMap();
@@ -129,7 +132,6 @@ public class Program1 {
 	private Object createModel(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("expression", new XMIResourceFactoryImpl());
-		final ExpressionPackage fsmPackage = ExpressionPackage.eINSTANCE;
 		// TODO: Replacing with System.getProperty("user.dir")
 		final URI createURI = URI
 				.createURI("model/" + progName);

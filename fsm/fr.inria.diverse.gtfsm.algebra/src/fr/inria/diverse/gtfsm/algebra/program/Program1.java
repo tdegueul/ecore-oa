@@ -46,9 +46,7 @@ import gfsm.GFinalState;
 import gfsm.GInitialState;
 import gfsm.GState;
 import gfsm.GTransition;
-import gfsm.GfsmPackage;
 import gtfsm.GTFSM;
-import gtfsm.GtfsmPackage;
 import gtfsm.algebra.GtfsmAlgebra;
 import tfsm.AndClockConstraint;
 import tfsm.Clock;
@@ -73,7 +71,7 @@ public class Program1 {
 		private Map<Integer, String> timedActions;
 		private Integer time = 0;
 
-		private ExecutableGtfsmAlgebraImplementation(final Map<Integer, String> initTimedActions) {
+		ExecutableGtfsmAlgebraImplementation(final Map<Integer, String> initTimedActions) {
 			this.timedActions = initTimedActions;
 		}
 
@@ -386,7 +384,6 @@ public class Program1 {
 	private GTFSM createModel(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gtfsm", new XMIResourceFactoryImpl());
-		final GtfsmPackage gtFsmPackage = GtfsmPackage.eINSTANCE;
 		final URI createURI = URI.createURI(progName);
 		final Resource resource = resSet.getResource(createURI, true);
 		final EList<EObject> contents = resource.getContents();
@@ -397,7 +394,6 @@ public class Program1 {
 	private GFSM createModel2(final String progName) {
 		final ResourceSetImpl resSet = new ResourceSetImpl();
 		resSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("gfsm", new XMIResourceFactoryImpl());
-		final GfsmPackage gtFsmPackage = GfsmPackage.eINSTANCE;
 		final URI createURI = URI.createURI(progName);
 		final Resource resource = resSet.getResource(createURI, true);
 		final EList<EObject> contents = resource.getContents();

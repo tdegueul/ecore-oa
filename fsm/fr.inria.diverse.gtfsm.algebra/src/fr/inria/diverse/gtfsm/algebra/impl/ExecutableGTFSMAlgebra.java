@@ -1,7 +1,6 @@
 package fr.inria.diverse.gtfsm.algebra.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +14,6 @@ import fr.inria.diverse.fsm.algebra.exprs.ExecutableTransition;
 import fr.inria.diverse.gfsm.impl.ExecutableGFSMAlgebra;
 import fr.inria.diverse.tfsm.algebra.impl.ExecutableTFSMAlgebra;
 import fsm.Transition;
-import gfsm.GTransition;
 import gtfsm.GTFSM;
 import gtfsm.GTFinalState;
 import gtfsm.GTInitialState;

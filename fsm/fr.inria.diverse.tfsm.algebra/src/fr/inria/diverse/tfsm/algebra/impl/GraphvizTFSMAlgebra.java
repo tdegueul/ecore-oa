@@ -1,15 +1,12 @@
 package fr.inria.diverse.tfsm.algebra.impl;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
 
 import fr.inria.diverse.algebras.expressions.RepGraphvizExp;
 import fr.inria.diverse.fsm.algebra.impl.GraphvizFSMAlgebra;
 import fr.inria.diverse.utils.GraphvizRep;
-import fsm.State;
 import tfsm.AndClockConstraint;
 import tfsm.Clock;
 import tfsm.ClockReset;
