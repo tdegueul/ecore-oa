@@ -5,7 +5,6 @@ import exp.Exp;
 import exp.ExpFactory;
 import exp.Lit;
 import fr.inria.diverse.exp.algebras.ExpAlg;
-import fr.inria.diverse.exp.algebras.MulAlg;
 import fr.inria.diverse.exp.impls.EvalExp;
 import fr.inria.diverse.exp.impls.EvalMul;
 import fr.inria.diverse.exp.impls.PrintExp;
@@ -22,21 +21,34 @@ public class Main {
 		Exp m2 = makeMulModel();
 
 		// Print/Eval m1 with ExpAlg
-		IPrint p1 = makeExpAlg(m1, new PrintExp(){});
-		IEval  e1 = makeExpAlg(m1, new EvalExp() {});
+		IPrint p1 = makeAlg(m1, new PrintExp(){});
+		IEval  e1 = makeAlg(m1, new EvalExp() {});
 		System.out.println(p1.print() + " = " + e1.eval());
 		
 		// Print/Eval m2 with MulAlg
-		IPrint p2 = makeMulAlg(m2, new PrintMul(){});
-		IEval  e2 = makeMulAlg(m2, new EvalMul() {});
+		IPrint p2 = makeAlg(m2, new PrintMul(){});
+		IEval  e2 = makeAlg(m2, new EvalMul() {});
 		System.out.println(p2.print() + " = " + e2.eval());
+
+		// So far so good.
+		// Now, trying to apply MulAlg on a basic Exp
+		IPrint p3 = makeAlg(m1, new PrintMul(){});
+		IEval  e3 = makeAlg(m1, new EvalMul() {});
+		System.out.println(p3.print() + " = " + e3.eval());
+		
+		// Well, still good.
+		// Now, the other way around: ExpAlg on Mul
+		IPrint p4 = makeAlg(m2, new PrintExp(){});
+		IEval  e4 = makeAlg(m2, new EvalExp() {});
+		// Argh.
+		try {
+			System.out.println(p4.print() + " = " + e4.eval());
+		} catch (RuntimeException e) {
+			System.err.println("Well, ExpAlg cannot handle Mul: " + e.getMessage());
+		}
 	}
 
-	private static <E> E makeExpAlg(Exp m, ExpAlg<E> alg) {
-		return alg.$(m);
-	}
-
-	private static <E> E makeMulAlg(Exp m, MulAlg<E> alg) {
+	private static <E> E makeAlg(Exp m, ExpAlg<E> alg) {
 		return alg.$(m);
 	}
 
